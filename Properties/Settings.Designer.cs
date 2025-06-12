@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KintoneDeSql {
+namespace KintoneDeSql.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -74,24 +74,24 @@ namespace KintoneDeSql {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string KitoneLoginPassword {
+        public string KintoneLoginPassword {
             get {
-                return ((string)(this["KitoneLoginPassword"]));
+                return ((string)(this["KintoneLoginPassword"]));
             }
             set {
-                this["KitoneLoginPassword"] = value;
+                this["KintoneLoginPassword"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string KitoneApiToken {
+        public string KintoneApiToken {
             get {
-                return ((string)(this["KitoneApiToken"]));
+                return ((string)(this["KintoneApiToken"]));
             }
             set {
-                this["KitoneApiToken"] = value;
+                this["KintoneApiToken"] = value;
             }
         }
         
@@ -128,6 +128,30 @@ namespace KintoneDeSql {
             }
             set {
                 this["ProxyPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsExtact {
+            get {
+                return ((bool)(this["IsExtact"]));
+            }
+            set {
+                this["IsExtact"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PrimaryCode {
+            get {
+                return ((bool)(this["PrimaryCode"]));
+            }
+            set {
+                this["PrimaryCode"] = value;
             }
         }
     }

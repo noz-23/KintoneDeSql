@@ -1,5 +1,5 @@
 ﻿/*
- * Reprise Report Log Analyzer
+ * Kintone De Sql
  * Copyright (c) 2025 noz-23
  *  https://github.com/noz-23/
  * 
@@ -8,8 +8,7 @@
  */
 using KintoneDeSql.Files;
 using KintoneDeSql.Managers;
-using System.Configuration;
-using System.Data;
+using KintoneDeSql.Responses.Records;
 using System.Windows;
 
 namespace KintoneDeSql;
@@ -22,6 +21,10 @@ public partial class App : Application
     private void _startup(object sender_, StartupEventArgs e_)
     {
         LogFile.Instance.Create();
+        SQLiteManager.Instance.Create();
+
+        FieldValueRegist.Instance.Create();
         KintoneManager.Instance.Create();
+        SettingManager.Instance.Create();
     }
 }

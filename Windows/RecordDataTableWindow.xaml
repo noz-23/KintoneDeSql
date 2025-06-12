@@ -1,0 +1,93 @@
+﻿<Window xmlns:Apps="clr-namespace:KintoneDeSql.Controls.Apps" 
+    x:Name="_userWindow"
+    x:Class="KintoneDeSql.Windows.RecordDataTableWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:KintoneDeSql.Windows"
+    xmlns:control="clr-namespace:KintoneDeSql.Controls"
+    mc:Ignorable="d"
+    Title="DataWindow" Height="600" Width="800"
+    Loaded="_loaded"
+    >
+    <Grid>
+        <TabControl 
+            TabStripPlacement="Left"
+            >
+            <TabItem
+                Header="Record"
+                >
+                <DataGrid
+                    x:Name="_dataGridRecord"
+                    AutoGeneratingColumn="_autoGeneratingColumn"
+                    >
+                </DataGrid>
+            </TabItem>
+            <TabItem
+                Header="Comment"
+                >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button 
+                        Grid.Column="0" Grid.Row="0"
+                        Content="Get"
+                        Click="_commentInsertClick"
+                    />
+                    <TextBlock
+                        Grid.Column="1" Grid.Row="0"
+                        Text="{Binding CommentDateTime,ElementName=_userWindow,StringFormat={}{0:yyyy/MM/dd HH:mm:ss},Mode=OneWay}"
+                        />
+                    <DataGrid
+                        Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" 
+                        x:Name="_dataGridComment"
+                        AutoGeneratingColumn="_autoGeneratingColumn"
+                    />
+
+                </Grid>
+            </TabItem>
+            <TabItem
+                Header="View"
+                >
+                <Grid>
+                    <Apps:AppViewControl />
+                </Grid>
+            </TabItem>
+            <TabItem
+                Header="FormLayout"
+                >
+                <Grid>
+                    <Apps:AppFormLayout />
+                </Grid>
+            </TabItem>
+            <TabItem
+               Header="Report"
+               >
+                <Grid>
+                    <Apps:AppReportControl />
+                </Grid>
+            </TabItem>
+            <TabItem
+               Header="Acl"
+               >
+               <Grid>
+                   <Apps:AppAclControl />
+                </Grid>
+            </TabItem>
+            <TabItem
+               Header="Action"
+               >
+                <Grid>
+                    <Apps:AppActionControl />
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

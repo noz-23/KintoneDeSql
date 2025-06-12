@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="KintoneDeSql" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="KintoneDeSql.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="KintoneDomain" Type="System.String" Scope="User">
@@ -14,10 +14,10 @@
     <Setting Name="KintoneLoginId" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="KitoneLoginPassword" Type="System.String" Scope="User">
+    <Setting Name="KintoneLoginPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="KitoneApiToken" Type="System.String" Scope="User">
+    <Setting Name="KintoneApiToken" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ProxyAddress" Type="System.String" Scope="User">
@@ -28,6 +28,12 @@
     </Setting>
     <Setting Name="ProxyPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="IsExtact" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="PrimaryCode" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

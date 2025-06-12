@@ -1,5 +1,5 @@
 ﻿/*
- * Reprise Report Log Analyzer
+ * Kintone De Sql
  * Copyright (c) 2025 noz-23
  *  https://github.com/noz-23/
  * 
@@ -28,22 +28,29 @@ internal sealed class LogFile
     /// </summary>
     private LogFile()
     {
-        if (File.Exists(_logFileName) == true)
-        {
-            File.Delete(_logFileName);
-        }
     }
+
+    private const string _FILE_NAME = @".\log.txt";
 
     /// <summary>
     /// ログファイル名
     /// </summary>
-    private string _logFileName = Directory.GetCurrentDirectory() + @"\log.txt";
+    //private string _logFileName = Directory.GetCurrentDirectory() + @"\log.txt";
+    private string _logFileName = _FILE_NAME;
 
     /// <summary>
     /// 作成処理
     /// </summary>
-    public void Create()
+    public void Create(string logFileName_= _FILE_NAME)
     {
+        _logFileName = logFileName_;
+        //
+        if (File.Exists(_logFileName) == true)
+        {
+            File.Delete(_logFileName);
+        }
+
+
         var stream = new StreamWriter(_logFileName);
         stream.AutoFlush = true;
 
@@ -59,7 +66,7 @@ internal sealed class LogFile
     /// <param name="member_">関数</param>
     public void WriteLine(string message_, [CallerFilePath] string soruce_ = "", [CallerLineNumber] int line_ = -1, [CallerMemberName] string member_ = "")
     {
-        Trace.WriteLine($"{DateTime.Now.ToString(@"yyyy/MM/dd hh:mm:ss", CultureInfo.InvariantCulture)} [{Path.GetFileName(soruce_)}({line_})][{member_}]\n{message_}\n");
+        Trace.WriteLine($"{DateTime.Now.ToString(@"yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)} [{Path.GetFileName(soruce_)}({line_})][{member_}]\n{message_}\n");
         Trace.Flush();
     }
 }
