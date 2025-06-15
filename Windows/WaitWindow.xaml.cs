@@ -7,20 +7,35 @@
  * 
  */
 using System.Windows;
-using System.Windows.Controls;
 
 namespace KintoneDeSql.Windows;
 
 /// <summary>
 /// WaitWindow.xaml の相互作用ロジック
+/// 待ち表示ウィンドウ
 /// </summary>
 public partial class WaitWindow : Window
 {
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
     public WaitWindow()
     {
         InitializeComponent();
     }
+
+    /// <summary>
+    /// 実処理
+    /// </summary>
+    /// <returns></returns>
     public delegate Task<int> RunCallBack();
+
+    /// <summary>
+    /// プログレスバー処理
+    /// </summary>
+    /// <param name="count_"></param>
+    /// <param name="max_"></param>
+    /// <param name="str_"></param>
     public delegate void ProgressCountCallBack(int count_, int max_=1, string str_ = "");
 
     public int Count { get; set; } = 0;

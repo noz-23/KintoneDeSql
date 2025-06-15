@@ -25,11 +25,19 @@ namespace KintoneDeSql.Windows;
 /// </summary>
 public partial class MainWindow : Window
 {
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
     public MainWindow()
     {
         InitializeComponent();
     }
 
+    /// <summary>
+    /// kintone設定
+    /// </summary>
+    /// <param name="sender_"></param>
+    /// <param name="e_"></param>
     private void _kintoneSettingClick(object sender_, RoutedEventArgs e_)
     {
         var win = new KintoneSettingWindow();
@@ -42,7 +50,11 @@ public partial class MainWindow : Window
         _textBlock.Text = $"Access To {Settings.Default.KintoneDomain}.cybozu.com";
 
     }
-
+    /// <summary>
+    /// データベース設定
+    /// </summary>
+    /// <param name="sender_"></param>
+    /// <param name="e_"></param>
     private void _databaseSettingClick(object sender_, RoutedEventArgs e_)
     {
         var win = new DatabaseSettingWindow();
@@ -50,27 +62,6 @@ public partial class MainWindow : Window
 
         _textBlock.Text = $"Access To {Settings.Default.KintoneDomain}.cybozu.com";
     }
-    
-    /// <summary>
-    /// 読み込み処理
-    /// </summary>
-    /// <param name="sender_"></param>
-    /// <param name="e_"></param>
-    private void _loaded(object sender_, RoutedEventArgs e_)
-    {
-        init();
-        LogFile.Instance.WriteLine($"Domein[{Settings.Default.KintoneDomain}.cybozu.com]");
-
-        KintoneManager.Instance.Domain(Settings.Default.KintoneDomain);
-        KintoneManager.Instance.AccessAccount(Settings.Default.KintoneAccessId, Settings.Default.KintoneAccessPassword);
-        KintoneManager.Instance.LoginAccount(Settings.Default.KintoneLoginId, Settings.Default.KintoneLoginPassword);
-
-        SettingManager.Instance.LoadView();
-
-        _textBlock.Text = $"Access To {Settings.Default.KintoneDomain}.cybozu.com";
-
-    }
-
     /// <summary>
     /// 保存処理
     /// </summary>
@@ -90,6 +81,7 @@ public partial class MainWindow : Window
     {
         SQLiteManager.Instance.CreateTable(typeof(AppTableView).TableName(false), typeof(AppTableView).ListCreateHeader(true));
         SQLiteManager.Instance.CreateTable(typeof(SubTableView).TableName(false), typeof(SubTableView).ListCreateHeader(true));
+        SQLiteManager.Instance.CreateTable(typeof(TimeView).TableName(false), typeof(TimeView).ListCreateHeader(true));
         //
 
         var _assembly = Assembly.GetExecutingAssembly();
@@ -98,7 +90,7 @@ public partial class MainWindow : Window
                                     .Distinct();
         foreach (var table in listTable)
         {
-            var name = table.GetMethod(nameof(ICreateTable.TableName), BindingFlags.Static | BindingFlags.Public|BindingFlags.FlattenHierarchy)?.Invoke(null, new object[] { false });
+            var name = table.GetMethod(nameof(ICreateTable.TableName), BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy)?.Invoke(null, new object[] { false });
             var list = table.GetMethod(nameof(ICreateTable.ListCreateHeader), BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy)?.Invoke(null, new object[] { true });
             //
             if (name == null || list == null)
@@ -106,7 +98,26 @@ public partial class MainWindow : Window
                 continue;
             }
             LogFile.Instance.WriteLine($"Name[{name}]");
-            SQLiteManager.Instance.CreateTable(name as string ??string.Empty, list as List<string> ?? new ());
+            SQLiteManager.Instance.CreateTable(name as string ?? string.Empty, list as List<string> ?? new());
         }
+    }
+
+    /// <summary>
+    /// 読み込み処理
+    /// </summary>
+    /// <param name="sender_"></param>
+    /// <param name="e_"></param>
+    private void _loaded(object sender_, RoutedEventArgs e_)
+    {
+        init();
+        LogFile.Instance.WriteLine($"Domein[{Settings.Default.KintoneDomain}.cybozu.com]");
+
+        KintoneManager.Instance.Domain(Settings.Default.KintoneDomain);
+        KintoneManager.Instance.AccessAccount(Settings.Default.KintoneAccessId, Settings.Default.KintoneAccessPassword);
+        KintoneManager.Instance.LoginAccount(Settings.Default.KintoneLoginId, Settings.Default.KintoneLoginPassword);
+
+        SettingManager.Instance.LoadView();
+
+        _textBlock.Text = $"Access To {Settings.Default.KintoneDomain}.cybozu.com";
     }
 }

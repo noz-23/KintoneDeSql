@@ -131,5 +131,32 @@ namespace KintoneDeSql.Properties {
                 return ResourceManager.GetString("CULUMN_APP_SUB_FIELD_NAME", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   request に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string JSON_SCHEMA_REQUEST {
+            get {
+                return ResourceManager.GetString("JSON_SCHEMA_REQUEST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   response に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string JSON_SCHEMA_RESPONSE {
+            get {
+                return ResourceManager.GetString("JSON_SCHEMA_RESPONSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   schemas に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string JSON_SCHEMA_SCHEMAS {
+            get {
+                return ResourceManager.GetString("JSON_SCHEMA_SCHEMAS", resourceCulture);
+            }
+        }
     }
 }

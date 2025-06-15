@@ -8,7 +8,7 @@
  */
 using System.Windows.Controls;
 
-namespace KintoneDeSql.Controls;
+namespace KintoneDeSql.Controls.Cybozu;
 
 /// <summary>
 /// UserControl.xaml の相互作用ロジック

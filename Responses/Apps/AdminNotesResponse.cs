@@ -45,12 +45,8 @@ internal class AdminNotesResponse:BaseToData,ISqlTable
 
     #region ISqlTable
     public static string TableName(bool withCamma_) => typeof(AdminNotesResponse).TableName(withCamma_);
-
-    public static List<string> ListCreateHeader(bool withCamma_)=>typeof(AdminNotesResponse).ListCreateHeader(withCamma_);
-
-    public static List<string> ListInsertHeader(bool withCamma_) => typeof(AdminNotesResponse).ListInsertHeader(withCamma_);
-
-    public List<List<string>> ListInsertValue(bool withCamma_) => new List<List<string>>() { this.ListValue(withCamma_)};
-
+    public static IEnumerable<string> ListCreateHeader(bool withCamma_)=>typeof(AdminNotesResponse).ListCreateHeader(withCamma_);
+    public static IEnumerable<string> ListInsertHeader(bool withCamma_) => typeof(AdminNotesResponse).ListInsertHeader(withCamma_);
+    public IEnumerable<IEnumerable<string>> ListInsertValue(bool withCamma_) => new List<IEnumerable<string>>() { this.ListValue(withCamma_).ToList()};
     #endregion
 }

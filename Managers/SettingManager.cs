@@ -40,13 +40,13 @@ internal class SettingManager : BaseSingleton<SettingManager>,INotifyPropertyCha
     /// <summary>
     /// ビューデータの読み込み
     /// </summary>
-    public async void LoadView()
+    public void LoadView()
     {
         ListAppTableView.Clear();
-        ListAppTableView.AddRange(await SQLiteManager.Instance.SelectTable<AppTableView>(false));
+        ListAppTableView.AddRange(SQLiteManager.Instance.SelectTable<AppTableView>(false));
 
         ListSubTableView.Clear();
-        ListSubTableView.AddRange(await SQLiteManager.Instance.SelectTable<SubTableView>(false));
+        ListSubTableView.AddRange(SQLiteManager.Instance.SelectTable<SubTableView>(false));
 
     }
 

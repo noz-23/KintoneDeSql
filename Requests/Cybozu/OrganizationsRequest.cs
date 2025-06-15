@@ -8,7 +8,7 @@
  */
 using KintoneDeSql.Data;
 using KintoneDeSql.Managers;
-using KintoneDeSql.Responses.Cybozu;
+using KintoneDeSql.Responses.Cybozu.Organizations;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -20,38 +20,20 @@ namespace KintoneDeSql.Requests.Cybozu;
 internal class OrganizationsRequest : BaseSingleton<OrganizationsRequest>
 {
     private const string _COMMAND = "organizations.json";
-    public async Task<ListOrganizationResponse> Get()
+    public async Task<OrganizationResponse?> Get(int offset_, int size_ = KintoneManager.CYBOZU_LIMIT)
     {
-        var rtn = new ListOrganizationResponse();
-
-        var offset = 0;
-        var count = 0;
-        var size = 100;// Cybozu APIの最大値
-
-        do
-        {
-            var query = string.Empty;
-            var paramater = JsonSerializer.Serialize(new { size = size, offset = offset });
-            var response = await KintoneManager.Instance.CybozuGet<ListOrganizationResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
-            if (response == null)
-            {
-                break;
-            }
-
-            rtn.ListOrganization.AddRange(response.ListOrganization);
-
-            count = response.ListOrganization.Count;
-            offset += count;
-        } while (count == size);
-
-        return rtn;
-
+        var query = string.Empty;
+        var paramater = JsonSerializer.Serialize(new { size = size_, offset = offset_ });
+        return await KintoneManager.Instance.CybozuGet<OrganizationResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
     }
 
-    public async Task<ListOrganizationResponse> Insert()
+    public async Task<OrganizationResponse?> Insert(int offset_, int size_ = KintoneManager.CYBOZU_LIMIT)
     {
-        var response = await Get();
-        SQLiteManager.Instance.InsertTable(ListOrganizationResponse.TableName(false), ListOrganizationResponse.ListInsertHeader(true), response.ListInsertValue(true));
+        var response = await Get(offset_, size_);
+        if(response != null)
+        {
+            SQLiteManager.Instance.InsertTable(OrganizationResponse.TableName(false), OrganizationResponse.ListInsertHeader(true), response.ListInsertValue(true));
+        }
         return response;
     }
 }

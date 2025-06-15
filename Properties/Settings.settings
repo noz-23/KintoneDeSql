@@ -29,11 +29,44 @@
     <Setting Name="ProxyPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="IsExtact" Type="System.Boolean" Scope="User">
+    <Setting Name="IsCreatorExtract" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="PrimaryCode" Type="System.Boolean" Scope="User">
+    <Setting Name="IsModifierExtract" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="CreatorPrimary" Type="System.String" Scope="User">
+      <Value Profile="(Default)">code</Value>
+    </Setting>
+    <Setting Name="ModifierPrimary" Type="System.String" Scope="User">
+      <Value Profile="(Default)">code</Value>
+    </Setting>
+    <Setting Name="IsEntityExtract" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EntityPrimary" Type="System.String" Scope="User">
+      <Value Profile="(Default)">code</Value>
+    </Setting>
+    <Setting Name="AttachedAppPrimary" Type="System.String" Scope="User">
+      <Value Profile="(Default)">code</Value>
+    </Setting>
+    <Setting Name="IsMentionExtract" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="MentionPrimary" Type="System.String" Scope="User">
+      <Value Profile="(Default)">code</Value>
+    </Setting>
+    <Setting Name="FilePrimary" Type="System.String" Scope="User">
+      <Value Profile="(Default)">name</Value>
+    </Setting>
+    <Setting Name="UserPrimary" Type="System.String" Scope="User">
+      <Value Profile="(Default)">code</Value>
+    </Setting>
+    <Setting Name="GroupPrimary" Type="System.String" Scope="User">
+      <Value Profile="(Default)">code</Value>
+    </Setting>
+    <Setting Name="OrganizationPrimary" Type="System.String" Scope="User">
+      <Value Profile="(Default)">code</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -26,7 +26,7 @@ internal class AppTableView: BaseView
     public AppTableView()
     {
     }
-    public AppTableView(AppResponse app_) :this()
+    public AppTableView(AppGetValue app_) :this()
     {
         AppId = app_?.AppId ?? string.Empty;
         Name = app_?.Name ?? string.Empty;
@@ -93,53 +93,4 @@ internal class AppTableView: BaseView
         set => _SetValue(ref _recordDateTime, value);
     }
     private DateTime? _recordDateTime = null;
-
-    [ColumnEx("commentDateTime", Order = 31, TypeName = "TEXT")]
-    public DateTime? CommentDateTime
-    {
-        get => _commentDateTime;
-        set => _SetValue(ref _commentDateTime, value);
-    }
-    private DateTime? _commentDateTime = null;
-
-    [ColumnEx("appViewDateTime", Order = 32, TypeName = "TEXT")]
-    public DateTime? AppViewDateTime
-    {
-        get => _appViewDateTime;
-        set => _SetValue(ref _appViewDateTime, value);
-    }
-    private DateTime? _appViewDateTime = null;
-
-    [ColumnEx("appFormLayoutDateTime", Order = 33, TypeName = "TEXT")]
-    public DateTime? AppFormLayoutDateTime
-    {
-        get => _appFormLayoutDateTime;
-        set => _SetValue(ref _appFormLayoutDateTime, value);
-    }
-    private DateTime? _appFormLayoutDateTime = null;
-
-
-    [ColumnEx("reportDateTime", Order = 34, TypeName = "TEXT")]
-    public DateTime? ReportDateTime
-    {
-        get => _reportDateTime;
-        set => _SetValue(ref _reportDateTime, value);
-    }
-    private DateTime? _reportDateTime = null;
-
-    [ColumnEx("appAclDateTime", Order = 34, TypeName = "TEXT")]
-    public DateTime? AppAclDateTime
-    {
-        get => _appAclDateTime;
-        set => _SetValue(ref _appAclDateTime, value);
-    }
-    private DateTime? _appAclDateTime = null;
-
-    [ColumnEx("appActionDateTime", Order = 34, TypeName = "TEXT")]
-    public DateTime? AppActionDateTime
-    {
-        get => _appActionDateTime;
-        set => _SetValue(ref _appActionDateTime, value);
-    }
-    private DateTime? _appActionDateTime = null;
 }

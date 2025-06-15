@@ -7,17 +7,11 @@
  * 
  */
 using KintoneDeSql.Data;
-using KintoneDeSql.Files;
 using KintoneDeSql.Managers;
-using KintoneDeSql.Requests.Apps;
-using KintoneDeSql.Responses.Cybozu;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using KintoneDeSql.Responses.Apps;
+using KintoneDeSql.Responses.Cybozu.Groups;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace KintoneDeSql.Requests.Cybozu;
 
@@ -27,37 +21,20 @@ namespace KintoneDeSql.Requests.Cybozu;
 internal class GroupsRequest : BaseSingleton<GroupsRequest>
 {
     private const string _COMMAND = "groups.json";
-    public async Task<ListGroupResponse> Get()
+    public async Task<GroupResponse?> Get(int offset_, int size_ = KintoneManager.CYBOZU_LIMIT)
     {
-        var rtn = new ListGroupResponse();
-
-        var offset = 0;
-        var count = 0;
-        var size = KintoneManager.CYBOZU_LIMIT;// Cybozu APIの最大値
-
-        do
-        {
-            var query = string.Empty;
-            var paramater = JsonSerializer.Serialize(new { size = size, offset = offset });
-            var response = await KintoneManager.Instance.CybozuGet<ListGroupResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
-            if (response == null)
-            {
-                break;
-            }
-
-            rtn.ListGroup.AddRange(response.ListGroup);
-
-            count = response.ListGroup.Count;
-            offset += count;
-        } while (count == size);
-
-        return rtn;
+        var query = string.Empty;
+        var paramater = JsonSerializer.Serialize(new { size = size_, offset = offset_ });
+        return await KintoneManager.Instance.CybozuGet<GroupResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
     }
 
-    public async Task<ListGroupResponse> Insert()
+    public async Task<GroupResponse?> Insert(int offset_, int size_ = KintoneManager.CYBOZU_LIMIT)
     {
-        var response = await Get();
-        SQLiteManager.Instance.InsertTable(ListGroupResponse.TableName(false), ListGroupResponse.ListInsertHeader(true), response.ListInsertValue(true));
+        var response = await Get(offset_, size_);
+        if (response != null)
+        {
+            SQLiteManager.Instance.InsertTable(GroupResponse.TableName(false), GroupResponse.ListInsertHeader(true), response.ListInsertValue(true));
+        }
         return response;
     }
 }

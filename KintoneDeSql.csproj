@@ -12,11 +12,48 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controls\Apps\AppAclControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\AppActionControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\AppCustomizeControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\AppFormLayoutControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\AppNotificationsGeneralControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\AppNotificationsPerRecordControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\AppNotificationsReminderControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\AppPluginControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\AppReportControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\AppSettingControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\AppStatusControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\AppViewControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\FieldAclControl.xaml.cs" />
+    <Compile Remove="Controls\Apps\RecordAclControl.xaml.cs" />
+    <Compile Remove="Controls\Records\RecordAclEvaluateControl.cs" />
     <Compile Remove="Responses\DictionaryConverter.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Responses\Commons\StringValue.cs" />
+    <Page Remove="Controls\Apps\AppAclControl.xaml" />
+    <Page Remove="Controls\Apps\AppActionControl.xaml" />
+    <Page Remove="Controls\Apps\AppCustomizeControl.xaml" />
+    <Page Remove="Controls\Apps\AppFormLayoutControl.xaml" />
+    <Page Remove="Controls\Apps\AppNotificationsGeneralControl.xaml" />
+    <Page Remove="Controls\Apps\AppNotificationsPerRecordControl.xaml" />
+    <Page Remove="Controls\Apps\AppNotificationsReminderControl.xaml" />
+    <Page Remove="Controls\Apps\AppPluginControl.xaml" />
+    <Page Remove="Controls\Apps\AppReportControl.xaml" />
+    <Page Remove="Controls\Apps\AppSettingControl.xaml" />
+    <Page Remove="Controls\Apps\AppStatusControl.xaml" />
+    <Page Remove="Controls\Apps\AppViewControl.xaml" />
+    <Page Remove="Controls\Apps\FieldAclControl.xaml" />
+    <Page Remove="Controls\Apps\RecordAclControl.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Requests\Apps\Notifications\AppNotificationsPerRecordRequest.cs" />
+    <None Include="Responses\Apps\Views\AppViewResponse.cs" />
+    <None Include="Responses\Apps\Notifications\AppNotificationsReminderResponse.cs" />
+    <None Include="Responses\Apps\Views\ReportResponse.cs" />
+    <None Include="Responses\Commons\StringFieldValue.cs" />
+    <None Include="Responses\Records\CommentResponse.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,16 +62,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\Apps\AppActionControl.xaml.cs">
+    <Compile Update="Controls\Apps\BaseAppControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\Apps\AppViewControl.xaml.cs">
+    <Compile Update="Controls\Apps\Settings\AppStatusControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\Apps\AppFormLayoutControl.xaml.cs">
+    <Compile Update="Controls\Apps\Settings\AppActionControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\Apps\AppReportControl.xaml.cs">
+    <Compile Update="Controls\Apps\Views\ReportControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\BaseControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\Plugins\PluginRequiredControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\Plugins\PluginControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Properties\Resource.Designer.cs">

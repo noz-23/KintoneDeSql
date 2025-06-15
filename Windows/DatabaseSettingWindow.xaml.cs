@@ -8,20 +8,8 @@
  */
 using KintoneDeSql.Files;
 using KintoneDeSql.Properties;
-using System;
-using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace KintoneDeSql.Windows;
 
@@ -30,27 +18,70 @@ namespace KintoneDeSql.Windows;
 /// </summary>
 public partial class DatabaseSettingWindow : Window
 {
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
     public DatabaseSettingWindow()
     {
         InitializeComponent();
     }
 
+    /// <summary>
+    /// 読み込み処理
+    /// </summary>
+    /// <param name="sender_"></param>
+    /// <param name="e_"></param>
     private void _loaded(object sender_, RoutedEventArgs e_)
     {
         LogFile.Instance.WriteLine(@"Load");
         //
+        _creatorCheckBox.IsChecked = Settings.Default.IsCreatorExtract;
+        _setCheckedRadio(_creatorStackPanel.Children, Settings.Default.CreatorPrimary);
+        //
+        _modifierCheckBox.IsChecked = Settings.Default.IsModifierExtract;
+        _setCheckedRadio(_modifierStackPanel.Children, Settings.Default.ModifierPrimary);
+        //
+        _entityCheckBox.IsChecked = Settings.Default.IsEntityExtract;
+        _setCheckedRadio(_entityStackPanel.Children, Settings.Default.EntityPrimary);
+        //
+        _setCheckedRadio(_attachedAppStackPanel.Children, Settings.Default.AttachedAppPrimary);
+        //
+        _setCheckedRadio(_fileStackPanel.Children, Settings.Default.FilePrimary);
+        //
     }
 
+    /// <summary>
+    /// OKボタン押下
+    /// </summary>
+    /// <param name="sender_"></param>
+    /// <param name="e_"></param>
     private void _okClick(object sender_, RoutedEventArgs e_)
     {
         LogFile.Instance.WriteLine(@"Save");
         //
+        Settings.Default.IsCreatorExtract = _creatorCheckBox.IsChecked ??true;
+        Settings.Default.CreatorPrimary = _getCheckedRadio(_creatorStackPanel.Children);
+        //
+        Settings.Default.IsModifierExtract = _modifierCheckBox.IsChecked ?? true;
+        Settings.Default.ModifierPrimary = _getCheckedRadio(_modifierStackPanel.Children);
+        //
+        Settings.Default.IsEntityExtract = _entityCheckBox.IsChecked ?? true;
+        Settings.Default.EntityPrimary = _getCheckedRadio(_entityStackPanel.Children);
+        //
+        Settings.Default.AttachedAppPrimary = _getCheckedRadio(_attachedAppStackPanel.Children);
+        //
+        Settings.Default.FilePrimary = _getCheckedRadio(_fileStackPanel.Children);
         //
         Settings.Default.Save();
 
         Close();
     }
 
+    /// <summary>
+    /// Cancelボタン押下
+    /// </summary>
+    /// <param name="sender_"></param>
+    /// <param name="e_"></param>
     private void _cancelClick(object sender_, RoutedEventArgs e_)
     {
         LogFile.Instance.WriteLine(@"Cancel");
@@ -58,4 +89,40 @@ public partial class DatabaseSettingWindow : Window
         Close();
     }
 
+
+    /// <summary>
+    /// ラジオボタンのチェック状態設定
+    /// </summary>
+    /// <param name="children_"></param>
+    /// <param name="primary_"></param>
+    private void _setCheckedRadio(UIElementCollection children_, string primary_)
+    {
+        foreach (var child in children_)
+        {
+            if (child is RadioButton radio)
+            {
+                radio.IsChecked = (radio.Tag.ToString() == primary_);
+            }
+        }
+    }
+
+    /// <summary>
+    /// ラジオボタンのチェック状態取得
+    /// </summary>
+    /// <param name="children_"></param>
+    /// <returns></returns>
+    private string _getCheckedRadio(UIElementCollection children_)
+    {
+        foreach (var child in children_)
+        {
+            if (child is RadioButton radio)
+            {
+                if (radio.IsChecked == true)
+                {
+                    return radio.Tag?.ToString() ?? string.Empty;
+                }
+            }
+        }
+        return string.Empty;
+    }
 }

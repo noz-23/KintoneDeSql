@@ -1,11 +1,12 @@
-﻿<UserControl
+﻿<UserControl xmlns:Apps="clr-namespace:KintoneDeSql.Controls.Apps" 
     x:Class="KintoneDeSql.Controls.AppsControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:KintoneDeSql.Controls"
-    xmlns:manager="clr-namespace:KintoneDeSql.Managers"
+    xmlns:Managers="clr-namespace:KintoneDeSql.Managers"
+    xmlns:Records="clr-namespace:KintoneDeSql.Controls.Records"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800"
     Loaded="_loaded"
@@ -16,7 +17,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Button
@@ -29,177 +30,191 @@
             TabStripPlacement="Left"
             >
             <TabItem
-                Header="AppTables"                
+                Header="Tables"                
                 >
-                <DataGrid
-                    x:Name="_dataGridAppTable"
-                    AutoGenerateColumns="False"
-                    SelectionMode="Single"
-                    CanUserAddRows="True"
-                    ItemsSource="{Binding ListAppTableView,Source={x:Static manager:SettingManager.Instance}, Mode=OneWay}"   
-                    AutoGeneratingColumn="_autoGeneratingColumn"                    
-                    >
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Header="TableName"
-                            Binding="{Binding TableName, Mode=TwoWay}" 
-                            >
-                            <DataGridColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="Background" Value="Aquamarine"/>
-                                </Style>
-                            </DataGridColumn.HeaderStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn
-                            Header="Api Id"
-                            Binding="{Binding AppId, Mode=TwoWay}" 
-                            >
-                            <DataGridColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="Background" Value="Aquamarine"/>
-                                </Style>
-                            </DataGridColumn.HeaderStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn
-                            Header="Name"
-                            IsReadOnly="True"
-                            Binding="{Binding Name, Mode=OneWay}" 
-                        />
-                        <DataGridTextColumn
-                            Header="Revision"
-                            IsReadOnly="True"
-                            Binding="{Binding Revision, Mode=OneWay}" 
-                        />
-                        <DataGridTemplateColumn
-                            Header="Records">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button
-                                            Content="Insert" 
-                                            Click="_insertAppTableClick"
-                                        />
-                                        <Button
-                                            Content="Select" 
-                                            Click="_selectAppTableClick"
-                                        />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn
-                            Header="Count"
-                            IsReadOnly="True"
-                            Binding="{Binding Count, Mode=OneWay}" 
-                        />
-                        <DataGridTextColumn
-                            Header="Insert Time"
-                            IsReadOnly="True"
-                            Binding="{Binding RecordDateTime,StringFormat={}{0:yyyy/MM/dd HH:mm:ss},Mode=OneWay}" 
-                        />
-                        <DataGridTextColumn
-                            Header="[App Key]"
-                            Binding="{Binding ApiKey, Mode=TwoWay}" 
+                <Grid>
+                    <TabControl 
+                        TabStripPlacement="Left"
                         >
-                            <DataGridColumn.HeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="Background" Value="Aquamarine"/>
-                                </Style>
-                            </DataGridColumn.HeaderStyle>
-                        </DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
-            <TabItem
-                Header="SubTables"              
-                >
-                <DataGrid
-                    x:Name="_dataGridSubTable"
-                    SelectionMode="Single"
-                    CanUserAddRows="False"
-                    AutoGenerateColumns="False"
-                    ItemsSource="{Binding ListSubTableView,Source={x:Static manager:SettingManager.Instance}, Mode=OneWay}"   
-                    AutoGeneratingColumn="_autoGeneratingColumn"                    
-                    >
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Header="TableName"
-                            Binding="{Binding TableName, Mode=OneWay}" 
-                        />
-                        <DataGridTextColumn
-                            Header="Api ID"
-                            Binding="{Binding AppId, Mode=OneWay}" 
-                            IsReadOnly="True"
-                        />
-                        <DataGridTextColumn
-                            Header="Name"
-                            Binding="{Binding Name, Mode=OneWay}" 
-                        />
-                        <DataGridTemplateColumn
-                            Header="Records">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button
-                                            Content="Select" 
-                                            Click="_selectSubTableClick"
+                        <TabItem
+                            Header="AppTables"                
+                            >
+                            <DataGrid
+                                x:Name="_dataGridAppTable"
+                                AutoGenerateColumns="False"
+                                SelectionMode="Single"
+                                CanUserAddRows="True"
+                                ItemsSource="{Binding ListAppTableView,Source={x:Static Managers:SettingManager.Instance}, Mode=OneWay}"   
+                                AutoGeneratingColumn="_autoGeneratingColumn"
+                                >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                         Header="TableName"
+                                         Binding="{Binding TableName, Mode=TwoWay}" 
+                                         >
+                                         <DataGridColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader">
+                                                <Setter Property="Background" Value="Aquamarine"/>
+                                            </Style>
+                                        </DataGridColumn.HeaderStyle>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn
+                                        Header="Api Id"
+                                        Binding="{Binding AppId, Mode=TwoWay}" 
+                                        >
+                                        <DataGridColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader">
+                                                <Setter Property="Background" Value="Aquamarine"/>
+                                            </Style>
+                                        </DataGridColumn.HeaderStyle>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn
+                                        Header="Name"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Name, Mode=OneWay}" 
                                         />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                                    <DataGridTextColumn
+                                        Header="Revision"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Revision, Mode=OneWay}" 
+                                        />
+                                    <DataGridTemplateColumn
+                                        Header="Records"
+                                        >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button
+                                                        Content="Insert" 
+                                                        Click="_insertAppTableClick"
+                                                        />
+                                                    <Button
+                                                        Content="Select" 
+                                                        Click="_selectAppTableClick"
+                                                        />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn
+                                        Header="Count"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Count, Mode=OneWay}" 
+                                        />
+                                    <DataGridTextColumn
+                                        Header="Insert Time"
+                                        IsReadOnly="True"
+                                        Binding="{Binding RecordDateTime,StringFormat={}{0:yyyy/MM/dd HH:mm:ss},Mode=OneWay}" 
+                                        />
+                                    <DataGridTextColumn
+                                        Header="[App Key]"
+                                        Binding="{Binding ApiKey, Mode=TwoWay}" 
+                                        >
+                                        <DataGridColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader">
+                                                <Setter Property="Background" Value="Aquamarine"/>
+                                            </Style>
+                                        </DataGridColumn.HeaderStyle>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                        <TabItem
+                            Header="SubTables"              
+                            >
+                            <DataGrid
+                                x:Name="_dataGridSubTable"
+                                SelectionMode="Single"
+                                CanUserAddRows="False"
+                                AutoGenerateColumns="False"
+                                ItemsSource="{Binding ListSubTableView,Source={x:Static Managers:SettingManager.Instance}, Mode=OneWay}"   
+                                AutoGeneratingColumn="_autoGeneratingColumn"                    
+                                >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Header="TableName"
+                                        Binding="{Binding TableName, Mode=OneWay}" 
+                                        />
+                                    <DataGridTextColumn
+                                        Header="Api ID"
+                                        Binding="{Binding AppId, Mode=OneWay}" 
+                                        IsReadOnly="True"
+                                        />
+                                    <DataGridTextColumn
+                                        Header="Name"
+                                        Binding="{Binding Name, Mode=OneWay}" 
+                                        />
+                                    <DataGridTemplateColumn
+                                        Header="Records"
+                                        >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button
+                                                        Content="Select" 
+                                                        Click="_selectSubTableClick"
+                                                        />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
-            <TabItem
-                Header="Fields"
-                >
-                <Grid >
-                    <local:FieldsControl />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                        <TabItem
+                            Header="Fields"
+                            >
+                            <Grid >
+                                <Records:FieldsControl />
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
                 </Grid>
             </TabItem>
             <TabItem
                 Header="Apps"
                 >
-                <DataGrid
-                    x:Name="_dataGridApps"
-                    SelectionMode="Single"
-                    CanUserAddRows="False"
-                    AutoGeneratingColumn="_autoGeneratingColumn"                    
-                    >
-                </DataGrid>
+                <local:BaseControl 
+                    x:Name="_appControl"
+                    />
             </TabItem>
             <TabItem
-                Header="AppFormFields"
+                Header="Setting"               
                 >
-                <DataGrid
-                    x:Name="_dataGridAppFormFields"
-                    SelectionMode="Single"
-                    CanUserAddRows="False"
-                    AutoGeneratingColumn="_autoGeneratingColumn"                    
-                    >
-                </DataGrid>
-            </TabItem>
-            <TabItem
-                Header="AdminNotes"
-                >
-                <DataGrid
-                    x:Name="_dataGridAdminNotes"
-                    SelectionMode="Single"
-                    CanUserAddRows="False"
-                    AutoGeneratingColumn="_autoGeneratingColumn"                    
-                    >
-                </DataGrid>
+                <Grid>
+                    <TabControl 
+                        TabStripPlacement="Left"
+                        >
+                        <TabItem
+                            Header="Setting"               
+                            >
+                            <local:BaseControl
+                                x:Name="_settingControl"
+                                />
+                        </TabItem>
+                        <TabItem
+                            Header="AdminNotes"
+                            >
+                            <local:BaseControl
+                                x:Name="_adminNoteControl"
+                                />
+                        </TabItem>
+                        <TabItem
+                            Header="Deploy"               
+                            >
+                            <local:BaseControl
+                                x:Name="_deployControl"
+                                />
+                        </TabItem>
+                    </TabControl>
+                </Grid>
             </TabItem>
             <TabItem
                 Header="Statics"               
                 >
-                <DataGrid
-                    x:Name="_dataGridStatics"
-                    SelectionMode="Single"
-                    CanUserAddRows="True"
-                    AutoGeneratingColumn="_autoGeneratingColumn"                    
+                <local:BaseControl
+                    x:Name="_staticControl"
                     />
             </TabItem>
         </TabControl>

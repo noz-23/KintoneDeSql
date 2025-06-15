@@ -1,11 +1,12 @@
 ﻿<UserControl 
-    x:Class="KintoneDeSql.Controls.CybozuControl"
+    x:Class="KintoneDeSql.Controls.Cybozu.CybozuControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:KintoneDeSql.Controls"
+    xmlns:local="clr-namespace:KintoneDeSql.Controls.Cybozu"
     xmlns:manager="clr-namespace:KintoneDeSql.Managers"
+    xmlns:control="clr-namespace:KintoneDeSql.Controls"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800"
     >
@@ -18,21 +19,21 @@
                 Header="Users"                
                 >
                 <Grid >
-                    <local:CybozuUsersControl />
+                    <local:UserListControl />
                 </Grid>
             </TabItem>
             <TabItem
                 Header="Organizations"
                 >
                 <Grid >
-                    <local:CybozuOrganizationsControl />
+                    <local:OrganizationListControl />
                 </Grid>
             </TabItem>
             <TabItem
                 Header="Groups"
                 >
                 <Grid >
-                    <local:CybozuGroupsControl />
+                    <local:GroupListControl />
                 </Grid>
             </TabItem>
         </TabControl>

@@ -19,9 +19,9 @@ namespace KintoneDeSql.Requests.Spaces;
 internal class SpacesStatisticsRequest : BaseSingleton<SpacesStatisticsRequest>
 {
     private const string _COMMAND = "spaces/statistics.json";
-    public async Task<ListSpacesStatisticResponse> Get()
+    public async Task<SpaceStatisticResponse> Get()
     {
-        var rtn = new ListSpacesStatisticResponse();
+        var rtn = new SpaceStatisticResponse();
 
         var offset = 0;
         var count = 0;
@@ -31,7 +31,7 @@ internal class SpacesStatisticsRequest : BaseSingleton<SpacesStatisticsRequest>
         {
             var query = $"query=limit {limit} offset {offset}";
             var paramater = string.Empty;
-            var response = await KintoneManager.Instance.KintoneGet<ListSpacesStatisticResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
+            var response = await KintoneManager.Instance.KintoneGet<SpaceStatisticResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
             if (response == null)
             {
                 break;
@@ -48,12 +48,12 @@ internal class SpacesStatisticsRequest : BaseSingleton<SpacesStatisticsRequest>
 
         return rtn;
     }
-    public async Task<ListSpacesStatisticResponse> Insert()
+    public async Task<SpaceStatisticResponse> Insert()
     {
         var response = await Get();
         //if (response != null)
         //{
-            SQLiteManager.Instance.InsertTable(ListSpacesStatisticResponse.TableName(false), ListSpacesStatisticResponse.ListInsertHeader(true), response.ListInsertValue(true));
+            SQLiteManager.Instance.InsertTable(SpaceStatisticResponse.TableName(false), SpaceStatisticResponse.ListInsertHeader(true), response.ListInsertValue(true));
         //}
         //
         return response;

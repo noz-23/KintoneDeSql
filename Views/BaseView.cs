@@ -1,16 +1,20 @@
-﻿using KintoneDeSql.Data;
-using System;
-using System.Collections.Generic;
+﻿/*
+ * Reprise Report Log Analyzer
+ * Copyright (c) 2025 noz-23
+ *  https://github.com/noz-23/
+ * 
+ * Licensed under the MIT License 
+ * 
+ */
+using KintoneDeSql.Data;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KintoneDeSql.Views;
 
 internal class BaseView: BaseToData,INotifyPropertyChanged
 {
+    #region INotifyPropertyChanged
     /// <summary>
     /// 更新通知
     /// </summary>
@@ -20,6 +24,7 @@ internal class BaseView: BaseToData,INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName_));
     }
+    #endregion
 
     /// <summary>
     /// プロパティの値を設定する

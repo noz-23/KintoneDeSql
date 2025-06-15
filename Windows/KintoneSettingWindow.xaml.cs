@@ -8,20 +8,7 @@
  */
 using KintoneDeSql.Files;
 using KintoneDeSql.Properties;
-using System;
-using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace KintoneDeSql.Windows;
 
@@ -30,11 +17,20 @@ namespace KintoneDeSql.Windows;
 /// </summary>
 public partial class KintoneSettingWindow : Window
 {
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
     public KintoneSettingWindow()
     {
         LogFile.Instance.WriteLine(@"START");
         InitializeComponent();
     }
+
+    /// <summary>
+    /// 読み込み処理
+    /// </summary>
+    /// <param name="sender_"></param>
+    /// <param name="e_"></param>
     private void _loaded(object sender_, RoutedEventArgs e_)
     {
         LogFile.Instance.WriteLine(@"Load");
@@ -50,6 +46,11 @@ public partial class KintoneSettingWindow : Window
         _proxyPassword.Text = Settings.Default.ProxyPassword;
     }
 
+    /// <summary>
+    /// OKボタン押下
+    /// </summary>
+    /// <param name="sender_"></param>
+    /// <param name="e_"></param>
     private void _okClick(object sender_, RoutedEventArgs e_)
     {
         LogFile.Instance.WriteLine(@"Save");
@@ -68,7 +69,11 @@ public partial class KintoneSettingWindow : Window
 
         Close();
     }
-
+    /// <summary>
+    /// Cancelボタン押下
+    /// </summary>
+    /// <param name="sender_"></param>
+    /// <param name="e_"></param>
     private void _cancelClick(object sender_, RoutedEventArgs e_)
     {
         LogFile.Instance.WriteLine(@"Cancel");

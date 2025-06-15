@@ -11,12 +11,11 @@ using KintoneDeSql.Managers;
 using KintoneDeSql.Requests.Apis;
 using KintoneDeSql.Responses.Apis;
 using KintoneDeSql.Windows;
-using System.Data;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace KintoneDeSql.Controls;
+namespace KintoneDeSql.Controls.Apis;
 
 /// <summary>
 /// ApisControl.xaml の相互作用ロジック
@@ -31,6 +30,11 @@ public partial class ApisControl : UserControl
     public ApisControl()
     {
         InitializeComponent();
+        //
+        _controlApi.ControlTableName = ApiGetResponse.TableName(false);
+        _controlSchema.ControlTableName = ApiSchemaResponse.TableName(false);
+        _controlProperty.ControlTableName = ApiSchemaResponseProperty.TableName(false);
+        _controlRequired.ControlTableName = ApiSchemaResponseRequired.TableName(false);
     }
 
     /// <summary>
@@ -43,20 +47,9 @@ public partial class ApisControl : UserControl
     /// </summary>
     /// <param name="sender_"></param>
     /// <param name="e_"></param>
-    private async void _loaded(object sender_, RoutedEventArgs e_)
+    private void _loaded(object sender_, RoutedEventArgs e_)
     {
-        await _loadDatabase();
-    }
-
-    /// <summary>
-    /// カラム名のアンダースコア表示対応
-    /// </summary>
-    /// <param name="sender_"></param>
-    /// <param name="e_"></param>
-    private void _autoGeneratingColumn(object sender_, DataGridAutoGeneratingColumnEventArgs e_)
-    {
-        string header = e_.Column.Header?.ToString()??string.Empty;
-        e_.Column.Header = header.Replace("_", "__");
+        _loadDatabase();
     }
 
     /// <summary>
@@ -64,69 +57,63 @@ public partial class ApisControl : UserControl
     /// </summary>
     /// <param name="sender_"></param>
     /// <param name="e_"></param>
-    private async void _getClick(object sender_, RoutedEventArgs e_)
+    private void _getClick(object sender_, RoutedEventArgs e_)
     {
-        if (_dataGridApi.ItemsSource is DataView view)
-        {
-            if (view.Count == 0)
-            {
-                var win = new WaitWindow();
-                _progresssBarCount = win.ProgressCount;
-                //
-                win.Run = async () =>
-                {
-                    var response = await ApisRequest.Instance.Insert();
-                    LogFile.Instance.WriteLine($"[{response}]");
-
-                    return await _getSchema( response);
-                };
-                //
-                win.ShowDialog();
-                _progresssBarCount = null;
-            }
-        }
-
-        await _loadDatabase();
-    }
-
-    /// <summary>
-    /// データベースの読み込み
-    /// </summary>
-    /// <returns></returns>
-    private async Task _loadDatabase()
-    {
-        _dataGridApi.ItemsSource = null;
-        _dataGridApi.ItemsSource = (await SQLiteManager.Instance.SelectTable(ListApiResponse.TableName(false)))?.DefaultView;
+        LogFile.Instance.WriteLine($"Get");
         //
-        _dataGridSchema.ItemsSource = null;
-        _dataGridSchema.ItemsSource = (await SQLiteManager.Instance.SelectTable(ApiSchemaResponse.TableName(false)))?.DefaultView;
+        var win = new WaitWindow();
+        _progresssBarCount = win.ProgressCount;
+        //
+        win.Run = async () =>
+        {
+            var response = await ApisGetRequest.Instance.Insert();
+            return await _getSchema(response);
+        };
+        //
+        win.ShowDialog();
+        _progresssBarCount = null;
+        //
+        _loadDatabase();
     }
 
     /// <summary>
     /// Api Schema 情報の取得処理
     /// </summary>
-    /// <param name="dataTable_"></param>
+    /// <param name="response_"></param>
     /// <returns></returns>
-    private async Task<int> _getSchema(ListApiResponse? list_)
+    private async Task<int> _getSchema(ApiGetResponse? response_)
     {
-        if (list_ == null)
-        {
-            return 0;
-        }
+        LogFile.Instance.WriteLine($"Apis [{response_?.ListApi.Count}]");
         //
         int count = 0;
-        _progresssBarCount?.Invoke(count, list_.ListApi.Count, "API Schema");
-        //
-        foreach (var api in list_.ListApi)
+        if (response_ != null)
         {
-            var response = await KintoneManager.Instance.KintoneGet<ApiSchemaResponse?>(HttpMethod.Get, api.Value.Link);
-            if (response == null)
+            _progresssBarCount?.Invoke(count, response_.ListApi.Count, "API Schema");
+            //
+            foreach (var api in response_.ListApi)
             {
-                continue;
+                var response = await KintoneManager.Instance.KintoneGet<ApiSchemaResponse?>(HttpMethod.Get, api.Value.Link);
+                if (response != null)
+                {
+                    SQLiteManager.Instance.InsertTable(ApiSchemaResponse.TableName(false), ApiSchemaResponse.ListInsertHeader(true), response.ListInsertValue(true));
+                    SQLiteManager.Instance.InsertTable(ApiSchemaResponseRequired.TableName(false), ApiSchemaResponseRequired.ListInsertHeader(true), response.ListInsertValueRequired(true));
+                    SQLiteManager.Instance.InsertTable(ApiSchemaResponseProperty.TableName(false), ApiSchemaResponseProperty.ListInsertHeader(true), response.ListInsertValueProperty(true));
+                }
+                //
+                _progresssBarCount?.Invoke(++count);
             }
-            SQLiteManager.Instance.InsertTable(ApiSchemaResponse.TableName(false), ApiSchemaResponse.ListInsertHeader(true), response.ListInsertValue(true));
-            _progresssBarCount?.Invoke(++count);
         }
         return count;
+    }
+
+    /// <summary>
+    /// 再読み込み
+    /// </summary>
+    private void _loadDatabase()
+    {
+        _controlApi.Load();
+        _controlSchema.Load();
+        _controlProperty.Load();
+        _controlRequired.Load();
     }
 }

@@ -1,0 +1,79 @@
+﻿<UserControl
+    x:Class="KintoneDeSql.Controls.Spaces.SpaceControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:KintoneDeSql.Controls.Spaces"
+    xmlns:Controls="clr-namespace:KintoneDeSql.Controls"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="800"
+    Loaded="_loaded"
+    >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button
+            Grid.Column="0" Grid.Row="0"
+            Content="Get"    
+            Click="_getClick"
+            />
+        <TextBlock
+            Grid.Column="1" Grid.Row="0"
+            Text="Space Id[max]" HorizontalAlignment="Right"
+            />
+        <TextBox
+            x:Name="_textBox"
+            Grid.Column="2" Grid.Row="0" Text="10"
+            TextAlignment="Right"
+            />
+        <TabControl 
+            x:Name="_tabControl"
+            Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" 
+            TabStripPlacement="Left"
+            >
+            <TabItem
+                Header="Space"
+                >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Controls:BaseControl 
+                        x:Name="_spaceControl"
+                        Grid.Row="0"
+                        />
+                    <Controls:BaseControl 
+                        x:Name="_attachedAppControl"
+                        Grid.Row="1"
+                        />
+                </Grid>
+            </TabItem>
+            <TabItem
+                Header="Member"               
+                >
+                <Grid>
+                    <Controls:BaseControl 
+                       x:Name="_memberControl"/>
+                </Grid>
+            </TabItem>
+            <TabItem
+                Header="Statics"               
+                >
+                <Grid>
+                    <Controls:BaseControl 
+                       x:Name="_staticControl"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

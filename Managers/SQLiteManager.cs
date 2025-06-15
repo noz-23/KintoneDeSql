@@ -10,9 +10,11 @@ using Dapper;
 using KintoneDeSql.Data;
 using KintoneDeSql.Extensions;
 using KintoneDeSql.Files;
+using KintoneDeSql.Views;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
+using System.Xml.Linq;
 
 namespace KintoneDeSql.Managers;
 
@@ -24,17 +26,13 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     public void Create(string path_ = _FILE_NAME)
     {
         _path = path_;
-        //if (File.Exists(_path) == true)
-        //{
-        //    File.Delete(_path);
-        //}
+        //
         File.Delete(_FILE_NAME);
         File.Delete(_APP_FILE_NAME);
         File.Delete(_SUB_FILE_NAME);
         File.Delete(_FIELD_FILE_NAME);
         File.Delete(_CYBOZU_FILE_NAME);
         File.Delete(_SPACE_FILE_NAME);
-
         //
         LogFile.Instance.WriteLine("START");
         SqlMapper.AddTypeHandler(DateTimeHandler.Default);
@@ -45,21 +43,30 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     /// <summary>
     /// アタッチするデータベース名
     /// </summary>
+    public const string MAIN_DATABASE = "(main)";
     public const string APP_DATABASE = "app";
     public const string SUB_DATABASE = "sub";
     public const string FIELD_DATABASE = "field";
-    public const string CYBOZU_DATABASE = "cybozu";
     public const string SPACE_DATABASE = "space";
+    public const string CYBOZU_DATABASE = "cybozu";
+
+    public const string MAIN_MASTER = "sqlite_master";
+    public const string APP_MASTER = $"{APP_DATABASE}.{MAIN_MASTER}";
+    public const string SUB_MASTER = $"{SUB_DATABASE}.{MAIN_MASTER}";
+    public const string FIELD_MASTER = $"{FIELD_DATABASE}.{MAIN_MASTER}";
+    public const string SPACE_MASTER = $"{SPACE_DATABASE}.{MAIN_MASTER}";
+    public const string CYBOZU_MASTER = $"{CYBOZU_DATABASE}.{MAIN_MASTER}";
 
     /// <summary>
     /// アタッチするデータベースファイル名
     /// </summary>
     private const string _FILE_NAME = @".\KintoneDeSql.db";
-    private const string _APP_FILE_NAME = @".\KintoneDeSqlApp.db";
-    private const string _SUB_FILE_NAME = @".\KintoneDeSqlSub.db";
-    private const string _FIELD_FILE_NAME = @".\KintoneDeSqlField.db";
-    private const string _CYBOZU_FILE_NAME = @".\KintoneDeSqlCybozu.db";
-    private const string _SPACE_FILE_NAME = @".\KintoneDeSqlSpace.db";
+    private const string _APP_FILE_NAME = $".\\KintoneDeSql_{APP_DATABASE}.db";
+    private const string _SUB_FILE_NAME = $".\\KintoneDeSql_{SUB_DATABASE}.db";
+    private const string _FIELD_FILE_NAME = $".\\KintoneDeSql_{FIELD_DATABASE}.db";
+    private const string _SPACE_FILE_NAME = $".\\KintoneDeSql_{SPACE_DATABASE}.db";
+    private const string _CYBOZU_FILE_NAME = $".\\KintoneDeSql_{CYBOZU_DATABASE}.db";
+
 
     /// <summary>
     /// メインのファイル名
@@ -70,7 +77,7 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     /// コネクション
     /// </summary>
 
-    private SQLiteConnection? _connection;
+    private SQLiteConnection? _connection=null;
 
     /// <summary>
     /// クローズ処理
@@ -102,15 +109,17 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
         };
 
         _connection = new SQLiteConnection(config.ToString());
-        _connection.Open();
-        //
-        // アタッチ処理
-        _connection.Execute($"ATTACH '{_APP_FILE_NAME}' as {APP_DATABASE}");
-        _connection.Execute($"ATTACH '{_SUB_FILE_NAME}' as {SUB_DATABASE}");
-        _connection.Execute($"ATTACH '{_FIELD_FILE_NAME}' as {FIELD_DATABASE}");
-        _connection.Execute($"ATTACH '{_CYBOZU_FILE_NAME}' as {CYBOZU_DATABASE}");
-        _connection.Execute($"ATTACH '{_SPACE_FILE_NAME}' as {SPACE_DATABASE}");
-
+        if (_connection != null)
+        {
+            _connection.Open();
+            //
+            // アタッチ処理
+            _connection.Execute($"ATTACH '{_APP_FILE_NAME}' as {APP_DATABASE}");
+            _connection.Execute($"ATTACH '{_SUB_FILE_NAME}' as {SUB_DATABASE}");
+            _connection.Execute($"ATTACH '{_FIELD_FILE_NAME}' as {FIELD_DATABASE}");
+            _connection.Execute($"ATTACH '{_CYBOZU_FILE_NAME}' as {CYBOZU_DATABASE}");
+            _connection.Execute($"ATTACH '{_SPACE_FILE_NAME}' as {SPACE_DATABASE}");
+        }
     }
 
 
@@ -125,9 +134,9 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     /// <summary>
     /// テーブル作成
     /// </summary>
-    /// <param name="tableName"></param>
+    /// <param name="tableName_"></param>
     /// <param name="listColumn_"></param>
-    public void CreateTable(string tableName_, List<string> listColumn_)
+    public void CreateTable(string tableName_, IEnumerable<string> listColumn_)
     {
         if (string.IsNullOrEmpty(tableName_) == true)
         {
@@ -146,12 +155,10 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
         }
     }
 
-    //public void DropTable(ITableName table_)=> DropTable(ITableName.TableName(true));
-
     /// <summary>
     /// テーブル削除
     /// </summary>
-    /// <param name="table_"></param>
+    /// <param name="tableName_"></param>
     public void DropTable(string tableName_)
     {
         if (string.IsNullOrEmpty(tableName_) == true)
@@ -177,14 +184,13 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     /// <typeparam name="T"></typeparam>
     /// <param name="withCammna_"></param>
     /// <returns></returns>
-    public async Task<List<T>> SelectTable<T>(bool withCammna_)
+    public IEnumerable<T> SelectTable<T>(bool withCammna_, string where_ = "")
     {
-        var query = $"SELECT * FROM {typeof(T).TableName(withCammna_)}";
-        LogFile.Instance.WriteLine($"[{query}]");
+        var query = $"SELECT * FROM {typeof(T).TableName(withCammna_)} {where_}";
         try
         {
-            var list = await _connection?.QueryAsync<T>(query);
-            return list?.ToList() ?? new List<T>();
+            var list = _connection?.Query<T>(query);
+            return list ?? new List<T>();
         }
         catch (Exception ex_)
         {
@@ -194,16 +200,18 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
         return new List<T>();
     }
 
-    public async Task<DataTable> SelectTable(string tableName_,string where_="")
+    public DataTable SelectTable(string tableName_,string where_="")
     {
         var rtn =new DataTable();
 
         var query = $"SELECT * FROM {tableName_} {where_}";
-        LogFile.Instance.WriteLine($"[{query}]");
         try
         {
-            var data = await _connection?.ExecuteReaderAsync(query);
-            rtn.Load(data);
+            var data = _connection?.ExecuteReader(query);
+            if (data != null)
+            {
+                rtn.Load(data);
+            }
         }
         catch (Exception ex_)
         {
@@ -225,7 +233,11 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
 
         try
         {
-            rtn.Load(_connection?.ExecuteReader(query_));
+            var data = _connection?.ExecuteReader(query_);
+            if (data != null)
+            {
+                rtn.Load(data);
+            }
         }
         catch (Exception ex_)
         {
@@ -236,17 +248,42 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     }
 
     /// <summary>
+    /// テーブル存在確認
+    /// </summary>
+    /// <param name="tableName_"></param>
+    /// <returns></returns>
+    public bool ExsistsTable(string tableName_)
+    {
+        var query = $"SELECT name FROM {MAIN_MASTER} WHERE type='table' AND name='{tableName_}';";
+        LogFile.Instance.WriteLine($"[{query}]");
+        try
+        {
+            var data = _connection?.Query(query);
+            if (data != null && data.Any() == true)
+            {
+                return true;
+            }
+        }
+        catch (Exception ex_)
+        {
+            LogFile.Instance.WriteLine($"{ex_.Message}\n{query}");
+        }
+        return false;
+    }
+
+    /// <summary>
     /// データ挿入
     /// </summary>
     /// <param name="tableName_"></param>
     /// <param name="listColumn_"></param>
     /// <param name="listValue_"></param>
-    public void InsertTable(string tableName_, List<string> listColumn_, IEnumerable<IEnumerable<string>>listValue_)
+    public void InsertTable(string tableName_, IEnumerable<string> listColumn_, IEnumerable<IEnumerable<string>>listValue_)
     {
         if (listValue_.Any() == false)
         {
             return;
         }
+
         //
         using (var tran = _connection?.BeginTransaction())
         {
@@ -288,5 +325,50 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
         {
             LogFile.Instance.WriteLine($"{ex_.Message}\n{query}");
         }
+    }
+
+
+    public IList<string> ListTableName(string master_= MAIN_MASTER)
+    {
+        string dbName = master_.Substring(0, master_.IndexOf('.')+1);
+
+        var query =$"SELECT '{dbName}'||name FROM {master_} WHERE type='table';";
+
+        LogFile.Instance.WriteLine($"[{query}]");
+        try
+        {
+            var data = _connection?.Query<string>(query);
+            var rtn = data?.ToList();
+            if (rtn == null)
+            { 
+                return new List<string>();
+            }
+            rtn.Sort();
+            return rtn;
+        }
+        catch (Exception ex_)
+        {
+            LogFile.Instance.WriteLine($"{ex_.Message}\n{query}");
+        }
+        return new List<string>();
+    }
+
+    public IList<string> ListColumn(string tableName_)
+    {
+        string dbName = tableName_.Substring(0, tableName_.IndexOf('.') + 1);
+        // SELECT name FROM pragma_table_info の場合、同一のテーブル名を判断できない
+        var query = $"PRAGMA {dbName}table_info ({tableName_.Substring(tableName_.IndexOf('.') + 1)});";
+
+        LogFile.Instance.WriteLine($"[{query}]");
+        try
+        {
+            var list = _connection?.Query<SqlTableView>(query);
+            return list?.Select(view_=>view_.Name).ToList() ?? new List<string>();
+        }
+        catch (Exception ex_)
+        {
+            LogFile.Instance.WriteLine($"{ex_.Message}\n{query}");
+        }
+        return new List<string>();
     }
 }

@@ -1,12 +1,16 @@
-﻿<Window 
+﻿<Window xmlns:Plugins="clr-namespace:KintoneDeSql.Controls.Plugins"  
     x:Class="KintoneDeSql.Windows.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:KintoneDeSql.Windows"
-    xmlns:manager="clr-namespace:KintoneDeSql.Managers"
+    xmlns:Apis="clr-namespace:KintoneDeSql.Controls.Apis"  
+    xmlns:Managers="clr-namespace:KintoneDeSql.Managers"
     xmlns:Controls="clr-namespace:KintoneDeSql.Controls"  
+    xmlns:Execute="clr-namespace:KintoneDeSql.Controls.Execute"  
+    xmlns:Cybozu="clr-namespace:KintoneDeSql.Controls.Cybozu"  
+    xmlns:Spaces="clr-namespace:KintoneDeSql.Controls.Spaces"  
     mc:Ignorable="d"
     Title="MainWindow" 
     Height="600" Width="800"
@@ -18,8 +22,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel
@@ -52,32 +56,54 @@
                 Header="Excute"
                 >
                 <Grid >
-                    <Controls:ExecuteControl />
+                    <Execute:ExecuteControl />
                 </Grid>
             </TabItem>
             <TabItem
                 Header="Cybozu">
                 <Grid >
-                    <Controls:CybozuControl />
+                    <Cybozu:CybozuControl />
                 </Grid>
             </TabItem>
             <TabItem
                 Header="Space"
-                
                 >
                 <Grid >
-                    <Controls:SpaceControl />
+                    <Spaces:SpaceControl />
                 </Grid>
             </TabItem>
             <TabItem 
-                Header="Apis"
-                
+                Header="Plugins"
                 >
                 <Grid >
-                    <Controls:ApisControl />
+                    <TabControl
+                        TabStripPlacement="Left"
+                        >
+                        <TabItem 
+                            Header="Plugins"
+                            >
+                            <Grid >
+                                <Plugins:PluginsControl />
+                            </Grid>
+                        </TabItem>
+                        <TabItem 
+                            Header="Required"
+                            >
+                            <Grid >
+                                <Plugins:PluginRequiredControl />
+                            </Grid>
+                        </TabItem>
+
+                    </TabControl>
                 </Grid>
             </TabItem>
-
+            <TabItem 
+                Header="Apis"                
+                >
+                <Grid >
+                    <Apis:ApisControl />
+                </Grid>
+            </TabItem>
         </TabControl>
         <!---
         -->

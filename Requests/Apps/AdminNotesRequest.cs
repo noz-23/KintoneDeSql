@@ -25,7 +25,7 @@ internal class AdminNotesRequest : BaseSingleton<AdminNotesRequest>
         var query = string.Empty;
         var paramater = JsonSerializer.Serialize(new { app = appId_ });
         var response = await KintoneManager.Instance.KintoneGet<AdminNotesResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
-
+        //
         if (response != null)
         {
             response.AppId = appId_;

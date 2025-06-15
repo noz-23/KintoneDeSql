@@ -1,0 +1,209 @@
+﻿<Window
+    x:Name="_userWindow"
+    x:Class="KintoneDeSql.Windows.RecordDataTableWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:KintoneDeSql.Windows"
+    xmlns:Apps="clr-namespace:KintoneDeSql.Controls.Apps" 
+    xmlns:Controls="clr-namespace:KintoneDeSql.Controls"
+    xmlns:Records="clr-namespace:KintoneDeSql.Controls.Records"
+    xmlns:Notifications="clr-namespace:KintoneDeSql.Controls.Apps.Notifications"
+    xmlns:Forms="clr-namespace:KintoneDeSql.Controls.Apps.Forms"
+    xmlns:Settings="clr-namespace:KintoneDeSql.Controls.Apps.Settings"
+    xmlns:Permissions="clr-namespace:KintoneDeSql.Controls.Apps.Permissions"
+    xmlns:Views="clr-namespace:KintoneDeSql.Controls.Apps.Views"
+    mc:Ignorable="d"
+    Title="DataWindow" Height="600" Width="800"
+    Loaded="_loaded"
+    >
+    <Grid>
+        <TabControl 
+            TabStripPlacement="Left"
+            >
+            <TabItem
+                Header="Record"
+                >
+                <TabControl 
+                    TabStripPlacement="Left"
+                    >
+                    <TabItem
+                        Header="Record"
+                        >
+                        <Grid>
+                            <Controls:SqlDataGrid 
+                                x:Name="_dataGrid"
+                                />
+                        </Grid>
+                    </TabItem>
+                    <TabItem
+                        Header="Comment"
+                        >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Records:CommentControl
+                                Grid.Row="0"
+                                x:Name="_commentControl"
+                                />
+                            <Controls:BaseControl
+                                Grid.Row="1"
+                                x:Name="_mentionControl"
+                                />
+                        </Grid>
+                    </TabItem>
+                    <TabItem
+                        Header="Acl Evaluate"
+                        >
+                        <Grid>
+                            <Records:RecordAclEvaluateControl 
+                                x:Name="_recordAclEvaluateControl"
+                                />
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem
+                Header="View"
+                >
+                <Grid>
+                    <TabControl 
+                        TabStripPlacement="Left"
+                        >
+                        <TabItem
+                            Header="View"
+                            >
+                            <Grid>
+                                <Views:AppViewControl />
+                            </Grid>
+                        </TabItem>
+                        <TabItem
+                            Header="Report"
+                            >
+                            <Grid>
+                                <Views:ReportControl />
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem
+                Header="Setting"
+                >
+                <Grid>
+                    <TabControl 
+                        TabStripPlacement="Left"
+                        >
+                        <TabItem
+                            Header="FormField"
+                            >
+                            <Grid>
+                                <Forms:AppFormFieldControl />
+                            </Grid>
+                        </TabItem>
+                        <TabItem
+                            Header="FormLayout"
+                            >
+                            <Grid>
+                                <Forms:AppFormLayoutControl />
+                            </Grid>
+                        </TabItem>
+                        <TabItem
+                            Header="Action"
+                            >
+                            <Grid>
+                                <Settings:AppActionControl />
+                            </Grid>
+                        </TabItem>
+                        <TabItem
+                            Header="Status"
+                            >
+                            <Grid>
+                                <Settings:AppStatusControl />
+                            </Grid>
+                        </TabItem>
+                        <TabItem
+                            Header="Customize"
+                            >
+                            <Grid>
+                                <Settings:AppCustomizeControl />
+                            </Grid>
+                        </TabItem>
+                        <TabItem
+                            Header="Plugin"
+                            >
+                            <Grid>
+                                <Settings:AppPluginControl />
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem
+               Header="Acl"
+               >
+                <Grid>
+                    <TabControl 
+                        TabStripPlacement="Left"
+                        >
+                        <TabItem
+                            Header="App"
+                            >
+                            <Grid>
+                                <Permissions:AppAclControl />
+                            </Grid>
+                        </TabItem>
+                        <TabItem
+                            Header="Record"
+                            >
+                            <Grid>
+                                <Permissions:RecordAclControl />
+                            </Grid>
+                        </TabItem>
+                        <TabItem
+                            Header="Field"
+                            >
+                            <Grid>
+                                <Permissions:FieldAclControl />
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem
+               Header="Notification"
+               >
+                <Grid>
+                    <TabControl 
+                        TabStripPlacement="Left"
+                        >
+                        <TabItem
+                            Header="General"
+                            >
+                            <Grid>
+                                <Notifications:AppNotificationsGeneralControl />
+                            </Grid>
+                        </TabItem>
+                        <TabItem
+                            Header="PerRecord"
+                            >
+                            <Grid>
+                                <Notifications:AppNotificationsPerRecordControl />
+                            </Grid>
+                        </TabItem>
+                        <TabItem
+                            Header="Reminder"
+                            >
+                            <Grid>
+                                <Notifications:AppNotificationsReminderControl />
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

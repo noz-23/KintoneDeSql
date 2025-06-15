@@ -17,6 +17,6 @@ internal static class ObservableCollectionExtension
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="src_"></param>
-    /// <param name="collection_"></param>
-    internal static void AddRange<T>(this ObservableCollection<T> src_, ICollection<T> collection_)=> collection_?.ToList().ForEach(item => src_.Add(item));
+    /// <param name="list_"></param>
+    internal static void AddRange<T>(this ObservableCollection<T> src_, IEnumerable<T> list_) => list_?.ToList().ForEach(item => src_.Add(item));
 }

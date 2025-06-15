@@ -6,107 +6,132 @@
  * Licensed under the MIT License 
  * 
  */
+using KintoneDeSql.Extensions;
 using KintoneDeSql.Files;
 using KintoneDeSql.Managers;
 using KintoneDeSql.Properties;
 using KintoneDeSql.Requests.Apps;
 using KintoneDeSql.Responses.Apps;
-using KintoneDeSql.Responses.Records;
 using KintoneDeSql.Views;
 using KintoneDeSql.Windows;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace KintoneDeSql.Controls.Apps;
 
 /// <summary>
 /// AppAclControl.xaml の相互作用ロジック
 /// </summary>
-public partial class AppAclControl : UserControl, INotifyPropertyChanged
+public partial class AppAclControl : BaseAppControl
 {
-    public AppAclControl()
+    public AppAclControl():base()
     {
-        InitializeComponent();
+        //InitializeComponent();
     }
 
-    private AppTableView _appView =new ();
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-    private void _notifyPropertyChanged([CallerMemberName] string propertyName_ = "")
+    public override string ControlTableName
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName_));
+        get => ListAppAclResponse.TableName(false);
     }
-    public DateTime? ControlDateTime
+    public override async Task ControlInsert(string appId_)
     {
-        get => _appView.AppAclDateTime;
-        set
-        {
-            _appView.AppAclDateTime = value;
-            _notifyPropertyChanged();
-        }
-    }
-    private async void _loaded(object sender_, RoutedEventArgs e_)
-    {
-        if (Window.GetWindow(this) is RecordDataTableWindow win)
-        {
-            _appView =win.AppView;
-        }
-        await _loadDatabase();
-        _notifyPropertyChanged(nameof(ControlDateTime));
-    }
-    private void _autoGeneratingColumn(object sender_, DataGridAutoGeneratingColumnEventArgs e_)
-    {
-        string header = e_.Column.Header?.ToString() ?? string.Empty;
-        e_.Column.Header = header.Replace("_", "__");
+        var response =await AppAclRequest.Instance.Insert(appId_);
     }
 
-    private async void _getClick(object sender_, RoutedEventArgs e_)
-    {
-        if (_dataGrid.ItemsSource is DataView view)
-        {
-            if (view.Count == 0)
-            {
-                var win = new WaitWindow();
-                var progresssBarCount = win.ProgressCount;
+    //private AppTableView _appView =new ();
 
-                win.Run = async () =>
-                {
-                    progresssBarCount?.Invoke(0, 1, "Acl");
-                    var response = await AppAclRequest.Instance.Insert(_appView.AppId);
+    //public event PropertyChangedEventHandler? PropertyChanged;
+    //private void _notifyPropertyChanged([CallerMemberName] string propertyName_ = "")
+    //{
+    //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName_));
+    //}
+    //public DateTime? ControlDateTime
+    //{
+    //    get => _getTime();
+    //    set
+    //    {
+    //        //_appView.AppAclDateTime = value;
+    //        _setTime(value);
+    //        _notifyPropertyChanged();
+    //    }
+    //}
+    //private async void _loaded(object sender_, RoutedEventArgs e_)
+    //{
+    //    if (Window.GetWindow(this) is RecordDataTableWindow win)
+    //    {
+    //        _appView =win.AppView;
+    //    }
+    //    await _loadDatabase();
+    //    _notifyPropertyChanged(nameof(ControlDateTime));
+    //}
+    //private void _autoGeneratingColumn(object sender_, DataGridAutoGeneratingColumnEventArgs e_)
+    //{
+    //    string header = e_.Column.Header?.ToString() ?? string.Empty;
+    //    e_.Column.Header = header.Replace("_", "__");
+    //}
 
-                    progresssBarCount?.Invoke(1);
-                    return 1;
-                };
-                win.ShowDialog();
+    //private async void _getClick(object sender_, RoutedEventArgs e_)
+    //{
+    //    if (_dataGrid.ItemsSource is DataView view)
+    //    {
+    //        if (view.Count == 0)
+    //        {
+    //            var win = new WaitWindow();
+    //            var progresssBarCount = win.ProgressCount;
 
-                ControlDateTime = DateTime.Now;
-                LogFile.Instance.WriteLine($"{ControlDateTime}");
-            }
-        }
-        //}
-        await _loadDatabase();
-    }
+    //            win.Run = async () =>
+    //            {
+    //                progresssBarCount?.Invoke(0, 1, "Acl");
+    //                var response = await AppAclRequest.Instance.Insert(_appView.AppId);
 
-    private async Task _loadDatabase()
-    {
-        _dataGrid.ItemsSource = null;
-        _dataGrid.ItemsSource = (await SQLiteManager.Instance.SelectTable(ListAppAclResponse.TableName(false), $"WHERE {Resource.COLUMN_APP_ID}='{_appView.AppId}'")).DefaultView;
+    //                progresssBarCount?.Invoke(1);
+    //                return 1;
+    //            };
+    //            win.ShowDialog();
 
-    }
+    //            ControlDateTime = DateTime.Now;
+    //            LogFile.Instance.WriteLine($"{ControlDateTime}");
+    //        }
+    //    }
+    //    //}
+    //    await _loadDatabase();
+    //}
+
+    //private async Task _loadDatabase()
+    //{
+    //    _dataGrid.ItemsSource = null;
+    //    _dataGrid.ItemsSource = (await SQLiteManager.Instance.SelectTable(ListAppAclResponse.TableName(false), $"WHERE {Resource.COLUMN_APP_ID}='{_appView.AppId}'")).DefaultView;
+
+    //}
+
+    //private DateTime? _getTime()
+    //{
+    //    var list =SQLiteManager.Instance.SelectTable<TimeView>(false).Result;
+
+    //    if (list.Any() ==true)
+    //    {
+    //        return list.FirstOrDefault()?.Time;
+    //    }
+
+    //    return null;
+    //}
+    //private void _setTime(DateTime? time_)
+    //{
+    //    if (time_ == null)
+    //    {
+    //        return;
+    //    }
+
+    //    var view = new TimeView()
+    //    {
+    //        Name = ListAppAclResponse.TableName(false),
+    //        Id = _appView.AppId,
+    //        Time = time_
+    //    };
+    //    SQLiteManager.Instance.InsertTable(typeof(TimeView).TableName(false), typeof(TimeView).ListInsertHeader(true), new List<List<string>>() { view.ListValue(true)});
+    //}
 
 }

@@ -8,7 +8,6 @@
  */
 namespace KintoneDeSql.Interface;
 
-
 /// <summary>
 /// テーブル名
 /// </summary>
@@ -22,7 +21,7 @@ internal interface ITableName
 /// </summary>
 internal interface ICreateTable: ITableName
 {    
-    static List<string> ListCreateHeader(bool withCamma_) => new();
+    static IEnumerable<string> ListCreateHeader(bool withCamma_) => new List<string>();
 }
 
 /// <summary>
@@ -30,8 +29,8 @@ internal interface ICreateTable: ITableName
 /// </summary>
 internal interface IInsertTable: ITableName
 {
-    static List<string> ListInsertHeader(bool withCamma_) => new();
-    List<List<string>> ListInsertValue(bool withCamma_);
+    static IEnumerable<string> ListInsertHeader(bool withCamma_) => new List<string>();
+    IEnumerable<IEnumerable<string>> ListInsertValue(bool withCamma_);
 }
 
 internal interface ISqlTable : ICreateTable, IInsertTable

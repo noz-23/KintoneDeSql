@@ -12,7 +12,7 @@ namespace KintoneDeSql.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.13.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -134,24 +134,156 @@ namespace KintoneDeSql.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IsExtact {
+        public bool IsCreatorExtract {
             get {
-                return ((bool)(this["IsExtact"]));
+                return ((bool)(this["IsCreatorExtract"]));
             }
             set {
-                this["IsExtact"] = value;
+                this["IsCreatorExtract"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool PrimaryCode {
+        public bool IsModifierExtract {
             get {
-                return ((bool)(this["PrimaryCode"]));
+                return ((bool)(this["IsModifierExtract"]));
             }
             set {
-                this["PrimaryCode"] = value;
+                this["IsModifierExtract"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("code")]
+        public string CreatorPrimary {
+            get {
+                return ((string)(this["CreatorPrimary"]));
+            }
+            set {
+                this["CreatorPrimary"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("code")]
+        public string ModifierPrimary {
+            get {
+                return ((string)(this["ModifierPrimary"]));
+            }
+            set {
+                this["ModifierPrimary"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsEntityExtract {
+            get {
+                return ((bool)(this["IsEntityExtract"]));
+            }
+            set {
+                this["IsEntityExtract"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("code")]
+        public string EntityPrimary {
+            get {
+                return ((string)(this["EntityPrimary"]));
+            }
+            set {
+                this["EntityPrimary"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("code")]
+        public string AttachedAppPrimary {
+            get {
+                return ((string)(this["AttachedAppPrimary"]));
+            }
+            set {
+                this["AttachedAppPrimary"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsMentionExtract {
+            get {
+                return ((bool)(this["IsMentionExtract"]));
+            }
+            set {
+                this["IsMentionExtract"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("code")]
+        public string MentionPrimary {
+            get {
+                return ((string)(this["MentionPrimary"]));
+            }
+            set {
+                this["MentionPrimary"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("name")]
+        public string FilePrimary {
+            get {
+                return ((string)(this["FilePrimary"]));
+            }
+            set {
+                this["FilePrimary"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("code")]
+        public string UserPrimary {
+            get {
+                return ((string)(this["UserPrimary"]));
+            }
+            set {
+                this["UserPrimary"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("code")]
+        public string GroupPrimary {
+            get {
+                return ((string)(this["GroupPrimary"]));
+            }
+            set {
+                this["GroupPrimary"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("code")]
+        public string OrganizationPrimary {
+            get {
+                return ((string)(this["OrganizationPrimary"]));
+            }
+            set {
+                this["OrganizationPrimary"] = value;
             }
         }
     }

@@ -6,31 +6,129 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:KintoneDeSql.Windows"
     mc:Ignorable="d"
-    Title="DatabaseSetting" Height="600" Width="800"
+    Title="DatabaseSetting" Height="400" Width="800"
     Loaded="_loaded"
     >
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"
+            Text="All Databases will be 'deleted' upon change"/>
+        <GroupBox
+            Header="Creator"
+            Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
+            >
+            <StackPanel
+                Name="_creatorStackPanel"
+                Orientation="Horizontal" 
+                >
+                <CheckBox
+                    Name="_creatorCheckBox"
+                    Width="80"
+                    Content="Extract"/>
+                <TextBlock Text="Primary  " Width="80" TextAlignment="Right" />
+                <RadioButton Tag="none" Content="none  " GroupName="_creatorRadioButton"/>
+                <RadioButton Tag="code" Content="code  " GroupName="_creatorRadioButton"/>
+                <RadioButton Tag="name" Content="name  " GroupName="_creatorRadioButton"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox
+            Header="Modifier"
+            Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3"
+            >
+            <StackPanel
+                Name="_modifierStackPanel"
+                Orientation="Horizontal" 
+                >
+                <CheckBox
+                    Name="_modifierCheckBox"
+                    Content="Extract"
+                    Width="80"
+                    />
+                <TextBlock Text="Primary  " Width="80" TextAlignment="Right" />
+                <RadioButton Tag="none" Content="none  " GroupName="_modifierRadioButton" />
+                <RadioButton Tag="code" Content="code  " GroupName="_modifierRadioButton"/>
+                <RadioButton Tag="name" Content="name  " GroupName="_modifierRadioButton"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox
+            Header="Entity"
+            Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3"
+            >
+            <StackPanel
+                Name="_entityStackPanel"
+                Orientation="Horizontal" 
+                >
+                <CheckBox
+                    Name="_entityCheckBox"
+                    Content="Extract"
+                    Width="80"
+                    />
+                <TextBlock Text="Primary  " Width="80" TextAlignment="Right" />
+                <RadioButton Tag="none" Content="none  " GroupName="_entityRadioButton" />
+                <RadioButton Tag="code" Content="code  " GroupName="_entityRadioButton"/>
+                <RadioButton Tag="type" Content="type  " GroupName="_entityRadioButton"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox
+            Header="Attached App"
+            Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"
+            >
+            <StackPanel
+                Name="_attachedAppStackPanel"
+                Orientation="Horizontal" 
+                ><Label 
+                    Width="80"
+                    />
+                <TextBlock Text="Primary  " Width="80" TextAlignment="Right" />
+                <RadioButton Tag="none" Content="none  " GroupName="_attachedAppRadioButton" />
+                <RadioButton Tag="code" Content="code  " GroupName="_attachedAppRadioButton"/>
+                <RadioButton Tag="type" Content="type  " GroupName="_attachedAppRadioButton"/>
+                <RadioButton Tag="appId" Content="appId " GroupName="_attachedAppRadioButton"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox
+            Header="File"
+            Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3"
+            >
+            <StackPanel
+                Name="_fileStackPanel"
+                Orientation="Horizontal" 
+                >
+                <Label 
+                    Width="80"
+                    />
+                <TextBlock Text="Primary  " Width="80" TextAlignment="Right" />
+                <RadioButton Tag="none" Content="none  " GroupName="_fileRadioButton" />
+                <RadioButton Tag="fileKey" Content="fileKey" GroupName="_fileRadioButton"/>
+            </StackPanel>
+        </GroupBox>
         <Button
+            Grid.Column="0" Grid.Row="10"
+            HorizontalAlignment="Left"
             Width="100"
-            Grid.Column="0" Grid.Row="3"
-             
             Content="Ok"
             Click="_okClick"
             />
         <Button
-            Width="100"
-            Grid.Column="2" Grid.Row="3"
+            Grid.Column="2" Grid.Row="10"
             HorizontalAlignment="Right"
+            Width="100"
             Content="Cancel"
             Click="_cancelClick"
             />

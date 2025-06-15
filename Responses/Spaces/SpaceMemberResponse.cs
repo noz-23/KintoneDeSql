@@ -6,42 +6,57 @@
  * Licensed under the MIT License 
  * 
  */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KintoneDeSql.Attributes;
+using KintoneDeSql.Data;
+using KintoneDeSql.Extensions;
+using KintoneDeSql.Interface;
+using KintoneDeSql.Managers;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace KintoneDeSql.Responses.Spaces;
 
 /// <summary>
 /// https://cybozu.dev/ja/kintone/docs/rest-api/spaces/get-space-members/
 /// </summary>
-internal class SpaceMemberResponse
+[Table($"{SQLiteManager.SPACE_DATABASE}.spaceMember")]
+internal class SpaceMemberResponse : BaseToData, ISqlTable
 {
-//members	配列	スペースのメンバーの情報
-//下記ユーザーはレスポンスに含まれません。
-//ゲストユーザー
-//kintoneを利用していないユーザー
-//使用停止中のユーザー
-//削除したユーザー
-//members[].entity	オブジェクト	スペースのメンバーの情報
-//members[].entity.type	文字列	スペースのメンバーの種類
-//次のいずれかの値が返ります。
-//USER：ユーザー
-//GROUP：グループ
-//ORGANIZATION：組織
-//members[].entity.code	文字列	スペースのメンバーのコード
-//members[].isAdmin	真偽値	スペースのメンバーがスペース管理者かどうか
-//true：スペース管理者
-//false：スペース管理者ではない
-//members[].isImplicit	真偽値	ユーザーとして追加されているかどうか
-//true：ユーザーとして追加されていない （メンバーのグループ／組織に所属するユーザー）
-//false：ユーザーとして追加されている
-//メンバーの組織に所属しているユーザーでも、ユーザーとして登録されていれば 「false」が返ります。
-//entity.typeが「USER」以外の場合は、このプロパティが存在しません。
-//members[].includeSubs	真偽値	下位組織を含むかどうか
-//true：下位組織を含む
-//false：下位組織を含まない
-//entity.typeが「USER」以外の場合は、このプロパティが存在しません。
+    //members	配列	スペースのメンバーの情報
+    [JsonPropertyName("members")]
+    public List<SpaceMemberValue> ListSpaceMember { get; set; } = new();
+
+    #region NoJson
+    /// <summary>
+    /// 上位ののスペース ID
+    /// </summary>
+    [ColumnEx("id", Order = 1, TypeName = "TEXT")]
+    public string Id { get; set; } = string.Empty;
+    //
+    #endregion
+
+    #region ISqlTable
+    public static string TableName(bool withCamma_) => typeof(SpaceMemberResponse).TableName(withCamma_);
+    public static IEnumerable<string> ListCreateHeader(bool withCamma_) => MemberInfoExtension.ListCreateHeader(_listColumn(), withCamma_);
+    public static IEnumerable<string> ListInsertHeader(bool withCamma_) => MemberInfoExtension.ListInsertHeader(_listColumn(), withCamma_);
+    private static IEnumerable<ColumnData> _listColumn()
+    {
+        var rtn = typeof(SpaceMemberResponse).ListColumn();
+        rtn.AddRange(typeof(SpaceMemberValue).ListColumn());
+        return rtn;
+    }
+    public IEnumerable<IEnumerable<string>> ListInsertValue(bool withCamma_)
+    {
+        var rtn = new List<IList<string>>();
+
+        foreach (var member in ListSpaceMember)
+        {
+            var list =base.ListValue(withCamma_);
+            list.AddRange(member.ListValue(withCamma_));
+            rtn.Add(list);
+        }
+
+        return rtn;
+    }
+    #endregion
 }

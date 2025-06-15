@@ -1,0 +1,69 @@
+﻿<UserControl
+    x:Class="KintoneDeSql.Controls.Cybozu.UserListControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:KintoneDeSql.Controls.Cybozu"
+    xmlns:control="clr-namespace:KintoneDeSql.Controls"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="800"
+    Loaded="_loaded"
+    >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button
+            Grid.Column="0" Grid.Row="0"
+            Content="Get"    
+            Click="_getClick"
+            />
+        <TabControl 
+            Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" 
+            TabStripPlacement="Left"
+            >
+            <TabItem
+                Header="Users"
+                >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <control:BaseControl 
+                        x:Name="_controlUser"
+                        Grid.Row="0"
+                        />
+                    <control:BaseControl 
+                        x:Name="_controlCustomItem"
+                        Grid.Row="1"
+                        />
+                </Grid>
+            </TabItem>
+            <TabItem
+                Header="Services"
+                >
+                <control:BaseControl 
+                    x:Name="_controlServices"/>
+            </TabItem>
+            <TabItem
+                Header="OrganizationTitle" 
+                >
+                <control:BaseControl 
+                    x:Name="_controlOrganizationTitle"/>
+            </TabItem>
+            <TabItem
+                Header="Group"
+                >
+                <control:BaseControl 
+                    x:Name="_controlGroup"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

@@ -10,6 +10,7 @@ using KintoneDeSql.Data;
 using KintoneDeSql.Managers;
 using KintoneDeSql.Responses.Spaces;
 using System.Net.Http;
+using System.Text.Json;
 
 namespace KintoneDeSql.Requests.Spaces;
 
@@ -21,8 +22,10 @@ internal class SpacesRequest : BaseSingleton<SpacesRequest>
     private const string _COMMAND = "space.json";
     public async Task<SpaceResponse?> Get(string id_)
     {
-        var query = $"id={id_}";
-        return await KintoneManager.Instance.KintoneGet<SpaceResponse?>(HttpMethod.Get, _COMMAND, query);
+        //var query = $"id={id_}";
+        var query = string.Empty;
+        var paramater = JsonSerializer.Serialize(new { id = id_ });
+        return await KintoneManager.Instance.KintoneGet<SpaceResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
     }
     public async Task<SpaceResponse?> Insert(string id_)
     {
@@ -30,7 +33,7 @@ internal class SpacesRequest : BaseSingleton<SpacesRequest>
         if (response != null)
         {
             SQLiteManager.Instance.InsertTable(SpaceResponse.TableName(false), SpaceResponse.ListInsertHeader(true), response.ListInsertValue(true));
-            SQLiteManager.Instance.InsertTable(ListAttachedAppResponse.TableName(false), ListAttachedAppResponse.ListInsertHeader(true), response.ListAttachedApp.ListInsertValue(true));
+            SQLiteManager.Instance.InsertTable(SpaceResponseAttachedApps.TableName(false), SpaceResponseAttachedApps.ListInsertHeader(true), response.ListInsertValueAttachedApp(true));
         }
         return response;
     }

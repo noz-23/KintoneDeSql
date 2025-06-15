@@ -8,7 +8,7 @@
  */
 using KintoneDeSql.Data;
 using KintoneDeSql.Managers;
-using KintoneDeSql.Responses.Cybozu;
+using KintoneDeSql.Responses.Cybozu.Users;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -20,28 +20,23 @@ namespace KintoneDeSql.Requests.Cybozu;
 internal class OrganizationTitlesRequest : BaseSingleton<OrganizationTitlesRequest>
 {
     private const string _COMMAND = "user/organizations.json";
-    public async Task<ListOrganizationTitleResponse?> Get(string code_)
+    public async Task<OrganizationTitleResponse?> Get(string code_)
     {
-        //var query = $"code={code_}";
-        //var paramater = string.Empty;
         var query = string.Empty;
         var paramater = JsonSerializer.Serialize(new { code = code_ });
-        var response = await KintoneManager.Instance.CybozuGet<ListOrganizationTitleResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
-        // 値入れ
+        var response = await KintoneManager.Instance.CybozuGet<OrganizationTitleResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
         if (response != null)
         {
             response.Code = code_;
         }
-        //
         return response;
     }
-
-    public async Task<ListOrganizationTitleResponse?> Insert(string code_)
+    public async Task<OrganizationTitleResponse?> Insert(string code_)
     {
         var response = await Get(code_);
         if (response != null)
         {
-            SQLiteManager.Instance.InsertTable(ListOrganizationTitleResponse.TableName(false), ListOrganizationTitleResponse.ListInsertHeader(true), response.ListInsertValue(true));
+            SQLiteManager.Instance.InsertTable(OrganizationTitleResponse.TableName(false), OrganizationTitleResponse.ListInsertHeader(true), response.ListInsertValue(true));
         }
         return response;
     }

@@ -21,8 +21,8 @@ public partial class App : Application
     private void _startup(object sender_, StartupEventArgs e_)
     {
         LogFile.Instance.Create();
+        //
         SQLiteManager.Instance.Create();
-
         FieldValueRegist.Instance.Create();
         KintoneManager.Instance.Create();
         SettingManager.Instance.Create();

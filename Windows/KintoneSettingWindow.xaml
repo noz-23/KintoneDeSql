@@ -16,17 +16,17 @@
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock
             Grid.Column="0" Grid.Row="0"
@@ -106,16 +106,16 @@
             Grid.Column="1" Grid.Row="8"
             />
         <Button
-            Width="100"
             Grid.Column="0" Grid.Row="10"
-             Margin="0,0,0,0"
+            HorizontalAlignment="Left"
+            Width="100"
             Content="Ok"
-            Click="_okClick"
+            Click="_okClick" Grid.RowSpan="2"
             />
         <Button
-            Width="100"
             Grid.Column="3" Grid.Row="10"
-            HorizontalAlignment="Right" Margin="0,0,0,0"
+            HorizontalAlignment="Right"
+            Width="100"
             Content="Cancel"
             Click="_cancelClick"
             />

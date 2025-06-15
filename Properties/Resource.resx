@@ -141,4 +141,13 @@
   <data name="CULUMN_APP_SUB_FIELD_NAME" xml:space="preserve">
     <value>subFieldName</value>
   </data>
+  <data name="JSON_SCHEMA_REQUEST" xml:space="preserve">
+    <value>request</value>
+  </data>
+  <data name="JSON_SCHEMA_RESPONSE" xml:space="preserve">
+    <value>response</value>
+  </data>
+  <data name="JSON_SCHEMA_SCHEMAS" xml:space="preserve">
+    <value>schemas</value>
+  </data>
 </root>

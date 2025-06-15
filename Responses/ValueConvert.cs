@@ -13,6 +13,9 @@ using System.Text.Unicode;
 
 namespace KintoneDeSql.Responses;
 
+/// <summary>
+/// JSONの文字列をそのまま文字列変換コンバータ
+/// </summary>
 internal class ValueConvert : JsonConverter<string>
 {
     /// <summary>

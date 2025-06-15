@@ -6,40 +6,41 @@
  * Licensed under the MIT License 
  * 
  */
-using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
-using KintoneDeSql.Responses.Commons;
-using System.Text.Json.Serialization;
+using KintoneDeSql.Extensions;
+using KintoneDeSql.Interface;
+using KintoneDeSql.Managers;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KintoneDeSql.Responses.Records;
 
 /// <summary>
 /// https://cybozu.dev/ja/kintone/docs/rest-api/records/get-comments/
 /// </summary>
-internal class CommentResponse : BaseToData
+[Table($"{SQLiteManager.SUB_DATABASE}.comments")]
+internal class CommentResponse : CommentResponseMention,ISqlTable
 {
-    //comments[].id	文字列	コメントID
-    [JsonPropertyName("id")]
-    [ColumnEx("id", Order = 10, TypeName = "TEXT", IsUnique = true)]
-    public string Id { get; set; } = string.Empty;
-
-    //comments[].text	文字列	コメントの文字列
-    [JsonPropertyName("text")]
-    [ColumnEx("text", Order = 11, TypeName = "TEXT")]
-    public string Text { get; set; } = string.Empty;
-
-    //comments[].createdAt	文字列	投稿日時
-    [JsonPropertyName("createdAt")]
-    [ColumnEx("createdAt", Order = 12, TypeName = "TEXT")]
-    public string CreatedAt { get; set; } = string.Empty;
-
-    //comments[].creator	オブジェクト	投稿者の情報
-    [JsonPropertyName("creator")]
-    [ColumnEx("creator", Order = 20, IsExtract = true)]
-    public ItemValue? Creator { get; set; } = new();
-
-    //comments[].mentions	配列	宛先情報
-
-    [JsonPropertyName("mentions")]
-    public List<EntryValue> Mentions { get; set; } = new();
+    #region ISqlTable
+    public static new string TableName(bool withCamma_) => typeof(CommentResponse).TableName(withCamma_);
+    public static new IEnumerable<string> ListCreateHeader(bool withCamma_) => MemberInfoExtension.ListCreateHeader(_listColumn(), withCamma_);
+    public static new IEnumerable<string> ListInsertHeader(bool withCamma_) => MemberInfoExtension.ListInsertHeader(_listColumn(), withCamma_);
+    private static IEnumerable<ColumnData> _listColumn()
+    {
+        const int _SORT = 100;
+        var rtn = typeof(CommentResponse).ListColumn();
+        rtn.AddRange(typeof(CommentValue).ListColumn(string.Empty, _SORT));
+        return rtn;
+    }
+    public override IEnumerable<IEnumerable<string>> ListInsertValue(bool withCamma_)
+    {
+        var rtn = new List<IEnumerable<string>>();
+        foreach (var comment in ListComment)
+        {
+            var list = this.ListValue(withCamma_);
+            list.AddRange(comment.ListValue(withCamma_));
+            rtn.Add(list);
+        }
+        return rtn;
+    }
+    #endregion
 }

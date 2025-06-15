@@ -8,6 +8,8 @@
  */
 using KintoneDeSql.Attributes;
 using KintoneDeSql.Extensions;
+using KintoneDeSql.Properties;
+using KintoneDeSql.Responses.Records;
 
 namespace KintoneDeSql.Data;
 
@@ -17,20 +19,30 @@ namespace KintoneDeSql.Data;
 internal class BaseToData
 {
     /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    public BaseToData()
+    {
+    }
+
+    /// <summary>
     /// ColumExの値取得
     /// </summary>
     /// <param name="withCamma_"></param>
     /// <returns></returns>
-    public virtual List<string> ListValue(bool withCamma_)
+
+    public virtual IList<string> ListValue(bool withCamma_)=> ListValue(withCamma_, this.GetType());
+
+    public virtual IList<string> ListValue(bool withCamma_, Type type_)
     {
         var rtn = new List<string>();
-        var listPropetyInfo = this.GetType().ListColumnExProperty();
+        var listPropetyInfo = type_.ListColumnExProperty();
 
         if ((listPropetyInfo?.Any() ?? false) == false)
         {
             return rtn;
         }
-
+        //
         foreach (var prop in listPropetyInfo)
         {
             var column = prop.GetAttribute<ColumnExAttribute>();
@@ -40,6 +52,19 @@ internal class BaseToData
             }
             if (column.IsExtract == true)
             {
+                if (Settings.Default.IsCreatorExtract == false && prop.PropertyType == typeof(CreatorValue))
+                {
+                    var crt = prop.GetValue(this)?.ToString() ?? string.Empty;
+                    rtn.Add((withCamma_ == true) ? $"'{crt}'" : crt);
+                    continue;
+                }
+                if (Settings.Default.IsModifierExtract == false && prop.PropertyType == typeof(ModifierValue))
+                {
+                    var mod = prop.GetValue(this)?.ToString() ?? string.Empty;
+                    rtn.Add((withCamma_ == true) ? $"'{mod}'" : mod);
+                    continue;
+                }
+
                 // 展開設定がある場合は展開
                 var valData = prop.GetValue(this);
                 if (valData == null)

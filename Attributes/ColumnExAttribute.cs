@@ -15,26 +15,31 @@ namespace KintoneDeSql.Attributes;
 /// </summary>
 internal class ColumnExAttribute : ColumnAttribute
 {
+
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="name"></param>
     public ColumnExAttribute() : base()
     {
     }
-
-    public ColumnExAttribute(string name) : base(name)
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    /// <param name="name_">カラム名</param>
+    public ColumnExAttribute(string name_) : base(name_)
     {
     }
 
     /// <summary>
     /// PrimaryKey か
     /// </summary>
-    public bool IsPrimary{get;set;} =false;
+    public bool IsPrimary { get; set; } = false;
+
     /// <summary>
     /// Unique か
     /// </summary>
     public bool IsUnique { get; set; } = false;
+
     /// <summary>
     /// クラスを展開するか
     /// </summary>
