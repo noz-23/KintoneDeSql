@@ -23,4 +23,9 @@ internal class DisplayFieldValue : BaseToData
     [JsonPropertyName("size")]
     [ColumnEx("size", Order = 11, TypeName = "TEXT")]
     public string Size { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return Size.ToString();
+    }
 }

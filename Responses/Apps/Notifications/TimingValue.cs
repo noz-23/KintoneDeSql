@@ -36,4 +36,9 @@ internal class TimingValue : BaseToData
     [JsonPropertyName("time")]
     [ColumnEx("time", Order = 13, TypeName = "TEXT")]
     public string Time { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return Code.ToString();
+    }
 }

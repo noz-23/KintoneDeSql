@@ -10,6 +10,7 @@ using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
 using KintoneDeSql.Responses.Apps.Permissions;
 using System.Text.Json.Serialization;
+using System.Xml.Linq;
 
 namespace KintoneDeSql.Responses.Apps.Settings;
 
@@ -30,4 +31,8 @@ internal class AssigneeValue : BaseToData
     [JsonPropertyName("entities")]
     public List<NotificationValue> ListEntity { get; set; } = new();
 
+    public override string ToString()
+    {
+        return Type.ToString();
+    }
 }

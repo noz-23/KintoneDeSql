@@ -25,4 +25,8 @@ internal class AppStatusValue : AppStatusValueBase
     [JsonPropertyName("index")]
     [ColumnEx("index", Order = 11, TypeName = "TEXT")]
     public string Index { get; set; } = string.Empty;
+    public override string ToString()
+    {
+        return Name.ToString();
+    }
 }

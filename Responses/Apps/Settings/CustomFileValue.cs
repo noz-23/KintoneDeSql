@@ -42,7 +42,7 @@ internal class CustomFileValue : BaseToData
     //mobile.css[].url	文字列	ファイルのURL
     [JsonPropertyName("url")]
     [ColumnEx("url", Order = 101, TypeName = "TEXT", IsUnique = true)]
-    public string url { get; set; } = string.Empty;
+    public string Url { get; set; } = string.Empty;
 
     //desktop.js[].file	オブジェクト	添付されたファイルの情報
     //desktop.js[].file.contentType	文字列	MIMEタイプ
@@ -76,4 +76,8 @@ internal class CustomFileValue : BaseToData
     [ColumnEx("fileType", Order = 500, TypeName = "TEXT")]
     public virtual string FileType { get; set; } = string.Empty;
     #endregion
+    public override string ToString()
+    {
+        return $"{File.ToString()}{Url.ToString()}";
+    }
 }

@@ -65,5 +65,8 @@ internal class AppNotificationValue:BaseToData
     [ColumnEx("entity", Order = 50, TypeName = "TEXT", IsExtract = true)]
     public EntityValue Entity { get; set; } = new();
 
-
+    public override string ToString()
+    {
+        return Entity.ToString();
+    }
 }

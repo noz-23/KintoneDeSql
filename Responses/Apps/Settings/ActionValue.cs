@@ -36,4 +36,9 @@ internal class ActionValue : BaseToData
     [JsonPropertyName("filterCond")]
     [ColumnEx("filterCond", Order = 4, TypeName = "TEXT")]
     public string FilterCond { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return $"{Name.ToString()} : {From.ToString()} -> {To.ToString()}";
+    }
 }

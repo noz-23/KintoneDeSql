@@ -32,6 +32,8 @@ public partial class AppFormFieldControl : UserControl
         _fieldControl.ControlTableName = AppFormFieldResponse.TableName(false);
         _entityControl.ControlTableName = AppFormFieldResponseEntity.TableName(false);
         _optionControl.ControlTableName = AppFormFieldResponseOption.TableName(false);
+        _displayFieldControl.ControlTableName = AppFormFieldResponseDisplayField.TableName(false);
+        _fieldMappingControl.ControlTableName = AppFormFieldResponseFieldMapping.TableName(false);
     }
 
     /// <summary>
@@ -53,6 +55,8 @@ public partial class AppFormFieldControl : UserControl
             _fieldControl.ControlWhere = $"WHERE {Resource.COLUMN_APP_ID}='{_appId}'";
             _entityControl.ControlWhere = $"WHERE {Resource.COLUMN_APP_ID}='{_appId}'";
             _optionControl.ControlWhere = $"WHERE {Resource.COLUMN_APP_ID}='{_appId}'";
+            _displayFieldControl.ControlWhere = $"WHERE {Resource.COLUMN_APP_ID}='{_appId}'";
+            _fieldMappingControl.ControlWhere = $"WHERE {Resource.COLUMN_APP_ID}='{_appId}'";
         }
     }
 }

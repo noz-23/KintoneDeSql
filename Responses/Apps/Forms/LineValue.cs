@@ -9,6 +9,7 @@
 using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
 using KintoneDeSql.Responses.Commons;
+using Microsoft.SqlServer.Server;
 using System.Text.Json.Serialization;
 
 namespace KintoneDeSql.Responses.Apps.Forms;
@@ -48,4 +49,8 @@ internal class LineValue : BaseToData
     public string Column { get; set; } = string.Empty;
     #endregion
 
+    public override string ToString()
+    {
+        return $"{Code.ToString()}:{Size.ToString()}";
+    }
 }

@@ -9,6 +9,7 @@
 using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
 using System.Text.Json.Serialization;
+using System.Xml.Linq;
 
 namespace KintoneDeSql.Responses.Apps.Settings;
 
@@ -26,5 +27,10 @@ internal class AppDeployValue:BaseToData
     [JsonPropertyName("status")]
     [ColumnEx("status", Order = 11, TypeName = "TEXT")]
     public string Status { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return $"{App.ToString()} : {Status.ToString()}";
+    }
 }
 

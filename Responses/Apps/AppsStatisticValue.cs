@@ -8,6 +8,7 @@
  */
 using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
+using KintoneDeSql.Interface;
 using KintoneDeSql.Responses.Commons;
 using KintoneDeSql.Responses.Records;
 using System.Text.Json.Serialization;
@@ -22,7 +23,7 @@ internal class AppsStatisticValue : BaseToData
     //apps[].id	数値または文字列	アプリID
     [JsonPropertyName("id")]
     [ColumnEx("id", Order = 1, TypeName = "TEXT", IsPrimary = true)]
-    public string Id { get; set; } = string.Empty;
+    public string AppId { get; set; } = string.Empty;
 
     //apps[].name	文字列	アプリ名
     [JsonPropertyName("name")]
@@ -99,4 +100,8 @@ internal class AppsStatisticValue : BaseToData
     [JsonPropertyName("modifiedAt")]
     [ColumnEx("modifiedAt", Order = 200, TypeName = "TEXT")]
     public string ModifiedAt { get; set; } = string.Empty;
+    public override string ToString()
+    {
+        return AppId.ToString();
+    }
 }

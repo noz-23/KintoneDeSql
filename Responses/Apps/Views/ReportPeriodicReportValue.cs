@@ -25,4 +25,8 @@ internal class ReportPeriodicReportValue : BaseToData
     [JsonPropertyName("period")]
     [ColumnEx("period", Order = 401, TypeName = "TEXT", IsExtract = true)]
     public ReportPeriodicReportPeriodValue Period { get; set; } = new();
+    public override string ToString()
+    {
+        return Active.ToString();
+    }
 }

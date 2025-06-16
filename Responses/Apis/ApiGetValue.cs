@@ -29,4 +29,9 @@ internal class ApiGetValue : BaseToData
     [ColumnEx("key", Order = 1, TypeName = "TEXT",IsUnique =true)]
     public string ApiKey { get; set; } = string.Empty;  // 実利用はなし
     #endregion
+
+    public override string ToString()
+    {
+        return Link.ToString();
+    }
 }

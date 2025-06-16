@@ -9,6 +9,7 @@
 using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
 using System.Text.Json.Serialization;
+using System.Windows.Input;
 
 namespace KintoneDeSql.Responses.Apps.Settings;
 
@@ -26,4 +27,9 @@ internal class TitleFieldValue : BaseToData
     [JsonPropertyName("code")]
     [ColumnEx("code", Order = 2, TypeName = "TEXT")]
     public string Code { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return Code.ToString();
+    }
 }

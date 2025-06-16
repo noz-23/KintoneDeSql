@@ -144,4 +144,9 @@ internal class AppFormFieldValue : AppFormFieldListValue
     [JsonPropertyName("lookup")]
     [ColumnEx("lookupt", Order = 42, TypeName = "TEXT", IsExtract = true)]
     public LookupValue Lookup { get; set; } = new();
+
+    public override string ToString()
+    {
+        return Code.ToString();
+    }
 }

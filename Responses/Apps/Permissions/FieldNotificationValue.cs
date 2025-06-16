@@ -9,6 +9,7 @@
 using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
 using System.Text.Json.Serialization;
+using static Dapper.SqlMapper;
 
 namespace KintoneDeSql.Responses.Apps.Permissions;
 
@@ -25,4 +26,9 @@ internal class FieldNotificationValue : BaseToData
     //rights[].entities	配列	アクセス権の設定対象の一覧
     [JsonPropertyName("entities")]
     public List<FieldNotificationValueBase> ListEntity { get; set; } = new();
+
+    public override string ToString()
+    {
+        return Code.ToString();
+    }
 }

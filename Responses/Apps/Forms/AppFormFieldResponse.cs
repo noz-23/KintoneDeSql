@@ -19,7 +19,6 @@ namespace KintoneDeSql.Responses.Apps.Forms;
 [Table($"{SQLiteManager.SUB_DATABASE}.appFormFields")]
 internal class AppFormFieldResponse: AppFormFieldResponseDisplayField, ISqlTable
 {
-    //
     #region ISqlTable
     public static new string TableName(bool withCamma_) => typeof(AppFormFieldResponse).TableName(withCamma_);
     public static new IEnumerable<string> ListCreateHeader(bool withCamma_) => MemberInfoExtension.ListCreateHeader(_listColumn(), withCamma_);

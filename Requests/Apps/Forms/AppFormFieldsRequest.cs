@@ -48,7 +48,8 @@ internal class AppFormFieldsRequest: BaseSingleton<AppFormFieldsRequest>
             SQLiteManager.Instance.InsertTable(AppFormFieldResponse.TableName(false), AppFormFieldResponse.ListInsertHeader(true), response_.ListInsertValue(true));
             SQLiteManager.Instance.InsertTable(AppFormFieldResponseEntity.TableName(false), AppFormFieldResponseEntity.ListInsertHeader(true), response_.ListInsertValueEntity(true));
             SQLiteManager.Instance.InsertTable(AppFormFieldResponseOption.TableName(false), AppFormFieldResponseOption.ListInsertHeader(true), response_.ListInsertValueOption(true));
+            SQLiteManager.Instance.InsertTable(AppFormFieldResponseDisplayField.TableName(false), AppFormFieldResponseDisplayField.ListInsertHeader(true), response_.ListInsertValueDisplayField(true));
+            SQLiteManager.Instance.InsertTable(AppFormFieldResponseFieldMapping.TableName(false), AppFormFieldResponseFieldMapping.ListInsertHeader(true), response_.ListInsertValueFieldMapping(true));
         }
-
     }
 }

@@ -55,4 +55,8 @@ internal class AppFormLayoutValue : BaseToData
     public string SubRow { get; set; } = string.Empty;
     #endregion
 
+    public override string ToString()
+    {
+        return Code.ToString();
+    }
 }

@@ -7,8 +7,8 @@
  * 
  */
 using KintoneDeSql.Attributes;
-using KintoneDeSql.Data;
 using System.Text.Json.Serialization;
+using System.Windows.Controls;
 
 namespace KintoneDeSql.Responses.Apps.Views;
 
@@ -47,4 +47,10 @@ internal class ReportValue : ReportValueBase
     [JsonPropertyName("periodicReport")]
     [ColumnEx("periodicReport", Order = 50, TypeName = "TEXT", IsExtract = true)]
     public ReportPeriodicReportValue PeriodicReport { get; set; } = new();
+
+    public override string ToString()
+    {
+        return Name.ToString();
+    }
+
 }

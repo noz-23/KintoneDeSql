@@ -8,6 +8,7 @@
  */
 using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
+using System;
 using System.Text.Json.Serialization;
 
 namespace KintoneDeSql.Responses.Apps.Views;
@@ -27,4 +28,8 @@ internal class ReportSortValue : BaseToData
     [ColumnEx("order", Order = 2, TypeName = "TEXT")]
     public string Order { get; set; } = string.Empty;
 
+    public override string ToString()
+    {
+        return $"{By.ToString()} {Order.ToString()}";
+    }
 }

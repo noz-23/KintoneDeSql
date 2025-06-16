@@ -26,4 +26,8 @@ internal class ReportGroupValue : BaseToData
     [JsonPropertyName("per")]
     [ColumnEx("per", Order = 2, TypeName = "TEXT")]
     public string Per { get; set; } = string.Empty;
+    public override string ToString()
+    {
+        return Code.ToString();
+    }
 }

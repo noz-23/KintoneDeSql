@@ -35,6 +35,20 @@
                         x:Name="_optionControl" />
                 </Grid>
             </TabItem>
+            <TabItem
+                Header="DisplayField">
+                <Grid >
+                    <Controls:BaseControl
+                        x:Name="_displayFieldControl" />
+                </Grid>
+            </TabItem>
+            <TabItem
+                Header="FieldMapping">
+                <Grid >
+                    <Controls:BaseControl
+                        x:Name="_fieldMappingControl" />
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>

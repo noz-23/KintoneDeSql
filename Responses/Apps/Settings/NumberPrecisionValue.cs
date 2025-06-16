@@ -31,4 +31,10 @@ internal class NumberPrecisionValue : BaseToData
     [JsonPropertyName("roundingMode")]
     [ColumnEx("roundingMode", Order = 303, TypeName = "TEXT")]
     public string RoundingMode { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return $"{Digits.ToString()},{DecimalPlaces.ToString()},{RoundingMode.ToString()}";
+    }
+
 }

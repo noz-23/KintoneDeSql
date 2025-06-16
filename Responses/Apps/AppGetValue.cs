@@ -68,5 +68,9 @@ internal class AppGetValue : BaseToData
     [ColumnEx("modifier", Order = 201, TypeName = "TEXT", IsExtract = true)]
     public ModifierValue Modifier { get; set; } = new();
 
+    public override string ToString()
+    {
+        return AppId.ToString();
+    }
 }
 

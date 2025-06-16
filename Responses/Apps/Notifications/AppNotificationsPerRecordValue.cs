@@ -10,6 +10,7 @@ using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
 using KintoneDeSql.Responses.Apps.Permissions;
 using System.Text.Json.Serialization;
+using static Dapper.SqlMapper;
 
 namespace KintoneDeSql.Responses.Apps.Notifications;
 
@@ -31,4 +32,9 @@ internal class AppNotificationsPerRecordValue: BaseToData
     //notifications[].targets	配列	通知先の対象の一覧
     [JsonPropertyName("targets")]
     public List<NotificationValue> ListTarget { get; set; } = new();
+
+    public override string ToString()
+    {
+        return Title.ToString();
+    }
 }

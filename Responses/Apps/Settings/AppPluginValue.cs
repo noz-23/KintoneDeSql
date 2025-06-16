@@ -31,4 +31,8 @@ internal class AppPluginValue : BaseToData
     [JsonPropertyName("enabled")]
     [ColumnEx("enabled", Order = 12, TypeName = "NUMERIC")]
     public bool Enabled { get; set; } = false;
+    public override string ToString()
+    {
+        return Id.ToString();
+    }
 }

@@ -40,5 +40,8 @@ internal class AppNotificationsReminderValue : BaseToData
     //notifications[].targets[].entity.type	文字列	通知先の対象の種類
     //notifications[].targets[].entity.code	文字列	通知先の対象のコード
     //notifications[].targets[].includeSubs	真偽値	設定を下位組織に継承するかどうか
-
+    public override string ToString()
+    {
+        return Title.ToString();
+    }
 }

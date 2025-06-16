@@ -45,4 +45,8 @@ internal class AppActionValue : AppActionValueBase
     [JsonPropertyName("mappings")]
     public List<MappingValue> ListMapping { get; set; } = new();
 
+    public override string ToString()
+    {
+        return $"{Name.ToString()} : {DestApp.ToString()}";
+    }
 }

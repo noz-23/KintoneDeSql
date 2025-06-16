@@ -31,4 +31,9 @@ internal class AppCodeValue : BaseToData
     [JsonPropertyName("code")]
     [ColumnEx("code", Order = 11, TypeName = "TEXT")]
     public string Code { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return App.ToString();
+    }
 }

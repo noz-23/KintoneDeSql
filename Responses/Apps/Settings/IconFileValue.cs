@@ -9,6 +9,7 @@
 using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
 using KintoneDeSql.Responses.Commons;
+using System.Security.Policy;
 using System.Text.Json.Serialization;
 
 namespace KintoneDeSql.Responses.Apps.Settings;
@@ -36,4 +37,9 @@ internal class IconFileValue : BaseToData
     [JsonPropertyName("file")]
     [ColumnEx("file", Order = 3, TypeName = "TEXT", IsExtract = true)]
     public Commons.FileFieldValue File { get; set; } = new();
+
+    public override string ToString()
+    {
+        return Key.ToString();
+    }
 }

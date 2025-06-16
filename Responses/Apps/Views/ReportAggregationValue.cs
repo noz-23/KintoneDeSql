@@ -9,6 +9,7 @@
 using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
 using System.Text.Json.Serialization;
+using System.Xml.Linq;
 
 namespace KintoneDeSql.Responses.Apps.Views;
 
@@ -26,4 +27,8 @@ internal class ReportAggregationValue : BaseToData
     [JsonPropertyName("type")]
     [ColumnEx("type", Order = 2, TypeName = "TEXT")]
     public string Type { get; set; } = string.Empty;
+    public override string ToString()
+    {
+        return Code.ToString();
+    }
 }

@@ -8,6 +8,7 @@
  */
 using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
+using System.Security.Policy;
 using System.Text.Json.Serialization;
 
 namespace KintoneDeSql.Responses.Apps.Settings;
@@ -43,4 +44,8 @@ internal class JsCssFileValue : BaseToData
     [ColumnEx("fileType", Order = 50, TypeName = "TEXT")]
     public virtual string FileType { get; set; } = string.Empty;
     #endregion
+    public override string ToString()
+    {
+        return FileType.ToString();
+    }
 }

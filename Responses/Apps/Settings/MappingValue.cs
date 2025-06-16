@@ -8,6 +8,7 @@
  */
 using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
+using Microsoft.VisualBasic.FileIO;
 using System.Text.Json.Serialization;
 
 namespace KintoneDeSql.Responses.Apps.Settings;
@@ -31,4 +32,8 @@ internal class MappingValue : BaseToData
     [JsonPropertyName("destField")]
     [ColumnEx("destField", Order = 3, TypeName = "TEXT")]
     public string DestField { get; set; } = string.Empty;
+    public override string ToString()
+    {
+        return $"{SrcType.ToString()} -> {DestField.ToString()}";
+    }
 }

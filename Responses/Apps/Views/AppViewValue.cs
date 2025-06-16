@@ -7,6 +7,7 @@
  * 
  */
 using KintoneDeSql.Attributes;
+using KintoneDeSql.Interface;
 using System.Text.Json.Serialization;
 
 namespace KintoneDeSql.Responses.Apps.Views;
@@ -70,4 +71,8 @@ internal class AppViewValue : AppViewValueBase
     [JsonPropertyName("index")]
     [ColumnEx("index", Order = 28, TypeName = "TEXT")]
     public string Index { get; set; } = string.Empty;
+    public override string ToString()
+    {
+        return Name.ToString();
+    }
 }

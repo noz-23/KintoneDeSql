@@ -23,4 +23,9 @@ internal class ApiSchemaValue : ApiSchemaValueRequired
     [JsonPropertyName("format")]
     [ColumnEx("format", Order = 31, TypeName = "TEXT")]
     public string Format { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return Format.ToString();
+    }
 }
