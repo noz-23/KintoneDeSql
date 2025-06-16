@@ -21,4 +21,9 @@ internal class PermissionsValue : BaseToData
     [JsonPropertyName("createApp")]
     [ColumnEx("createApp", Order = 1, TypeName = "TEXT")]
     public string CreateApp { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return CreateApp.ToString();
+    }
 }

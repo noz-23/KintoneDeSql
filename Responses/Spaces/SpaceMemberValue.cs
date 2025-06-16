@@ -39,4 +39,8 @@ internal class SpaceMemberValue:BaseToData
     [JsonPropertyName("includeSubs")]
     [ColumnEx("includeSubs", Order = 102, TypeName = "NUMERIC")]
     public bool IncludeSubs { get; set; } = false;
+    public override string ToString()
+    {
+        return Entity.ToString();
+    }
 }

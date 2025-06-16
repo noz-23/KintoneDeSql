@@ -9,6 +9,7 @@
 using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
 using System.Text.Json.Serialization;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace KintoneDeSql.Responses.Records;
 
@@ -31,4 +32,9 @@ internal class FieldAlcValue : BaseToData
     [ColumnEx("key", Order = 2, TypeName = "TEXT")]
     public string FieldKey { get; set; } = string.Empty;
     #endregion
+
+    public override string ToString()
+    {
+        return FieldKey.ToString();
+    }
 }

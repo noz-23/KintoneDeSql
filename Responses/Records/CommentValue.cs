@@ -7,6 +7,7 @@
  * 
  */
 using KintoneDeSql.Attributes;
+using Microsoft.SqlServer.Server;
 using System.Text.Json.Serialization;
 
 namespace KintoneDeSql.Responses.Records;
@@ -35,4 +36,9 @@ internal class CommentValue : CommentValueBase
     [JsonPropertyName("mentions")]
     [ColumnEx("mentions", Order = 500, TypeName = "TEXT")]
     public MentionValueList ListMention { get; set; } = new();
+
+    public override string ToString()
+    {
+        return Text.ToString();
+    }
 }

@@ -10,6 +10,7 @@ using KintoneDeSql.Attributes;
 using KintoneDeSql.Data;
 using KintoneDeSql.Responses.Records;
 using System.Text.Json.Serialization;
+using static Dapper.SqlMapper;
 
 namespace KintoneDeSql.Responses.Spaces;
 
@@ -72,4 +73,8 @@ internal class SpaceStatisticValue : BaseToData
     [JsonPropertyName("modifiedAt")]
     [ColumnEx("modifiedAt", Order = 200, TypeName = "TEXT")]
     public string ModifiedAt { get; set; } = string.Empty;
+    public override string ToString()
+    {
+        return Id.ToString();
+    }
 }
