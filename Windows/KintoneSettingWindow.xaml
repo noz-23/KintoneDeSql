@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:KintoneDeSql.Windows"
     mc:Ignorable="d"
-    Title="KintoneSetting" Height="300" Width="600"
+    Title="KintoneSetting" Height="250" Width="500"
     Loaded="_loaded"
     >
     <Grid>

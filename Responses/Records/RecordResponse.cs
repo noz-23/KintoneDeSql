@@ -88,7 +88,6 @@ internal class RecordResponse :BaseToData,IInsertTable
         }
         return rtn;
     }
-
     public IEnumerable<IEnumerable<string>> ListInsertValue(bool withCamma_)
     {
         var rtn = new List<IList<string>>();
@@ -114,13 +113,13 @@ internal class RecordResponse :BaseToData,IInsertTable
     }
 
     #endregion
-
     public IEnumerable<BaseFieldValue> ListSubTable()
     {
         var rtn = new List<BaseFieldValue>();
         foreach (var record in ListRecord)
         {
             var recordFieldId = record[Resource.COLUMN_MAIN_TABLE_ID];
+            var recordRevision = record[Resource.COLUMN_MAIN_REVISION].Value.ToString();
             var recordId = recordFieldId?.Value?.ToString() ?? string.Empty;
             //
             foreach (var mainFieldName in record.Keys)
@@ -132,6 +131,7 @@ internal class RecordResponse :BaseToData,IInsertTable
                     // 複数選択系は別のテーブルにも保存する
                     mainFieldValue.AppId = AppId;
                     mainFieldValue.RecordId = recordId;
+                    mainFieldValue.Revision = recordRevision;
                     mainFieldValue.MainFieldName = mainFieldName;
                     rtn.Add(mainFieldValue);
                 }
@@ -141,6 +141,7 @@ internal class RecordResponse :BaseToData,IInsertTable
                     // サブテーブル系は別のテーブルに保存
                     mainFieldValue.AppId = AppId;
                     mainFieldValue.RecordId = recordId;
+                    mainFieldValue.Revision = recordRevision;
                     mainFieldValue.MainFieldName = mainFieldName;
                     rtn.Add(mainFieldValue);
 
@@ -165,6 +166,7 @@ internal class RecordResponse :BaseToData,IInsertTable
                                         // 複数選択系は別のテーブルにも保存する
                                         subFieldValue.AppId = AppId;
                                         subFieldValue.RecordId = recordId;
+                                        subFieldValue.Revision = recordRevision;
                                         subFieldValue.MainFieldName = mainFieldName;
                                         subFieldValue.SubFieldName = subFieldName;
                                         subFieldValue.SubTableId = tableId;

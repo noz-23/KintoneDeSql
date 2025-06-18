@@ -70,6 +70,8 @@ internal class StringFieldList: BaseFieldValue
         var columnName = (withCamma_ == true) ? $"'{_TEXT_COLUMN_NAME}'" : $"{_TEXT_COLUMN_NAME}";
 
         rtn.Add($"{columnName} TEXT");
+        //
+        rtn.Add($"UNIQUE({string.Join(",", ListSubDefaultInsertHeader(withCamma_))})");
         return rtn;
     }
     public override IList<string> ListSubInsertHeader(bool withCamma_)

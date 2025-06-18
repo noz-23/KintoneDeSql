@@ -58,7 +58,7 @@ public partial class PluginRequiredControl : UserControl//, INotifyPropertyChang
             const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
             do
             {
-                var response = await PluginRequiredRequest.Instance.Insert(offset, _LIMIT);
+                var response = await PluginRequiredRequest.Instance.Insert(offset, _LIMIT, false);
                 if (response == null)
                 {
                     break;

@@ -15,7 +15,7 @@ namespace KintoneDeSql.Responses.Plugin;
 /// <summary>
 /// https://cybozu.dev/ja/kintone/docs/rest-api/plugins/get-required-plugins/
 /// </summary>
-internal class PluginRequiredValue: PluginAppValue
+internal class PluginRequiredValue: IdNameValue
 {
     //plugins[].id	文字列	プラグインID
     //plugins[].name	文字列	プラグインの名前

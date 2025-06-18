@@ -11,12 +11,6 @@ using KintoneDeSql.Data;
 using System.Text.Json.Serialization;
 
 namespace KintoneDeSql.Responses.Commons;
-internal class PluginAppValue : IdNameValue
-{
-    [JsonPropertyName("id")]
-    [ColumnEx("id", Order = 1, TypeName = "TEXT", IsUnique = true)]
-    public override string Id { get; set; } = string.Empty;
-}
 //internal class SpaceValue : IdNameValue
 //{
 //    [JsonPropertyName("id")]

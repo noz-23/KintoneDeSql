@@ -21,7 +21,7 @@ internal class AppNotificationsReminderControl : BaseAppControl
     /// </summary>
     public AppNotificationsReminderControl() : base()
     {
-        ControlMainTableName = AppNotificationsReminderResponseList.TableName(false);
+        ControlMainTableName = AppNotificationsReminderResponse.TableName(false);
     }
 
     /// <summary>
@@ -29,13 +29,13 @@ internal class AppNotificationsReminderControl : BaseAppControl
     /// </summary>
     /// <param name="appId_">AppId</param>
     /// <returns>挿入数</returns>
-    public override async Task<int> ControlInsert(string appId_)
+    public override async Task<int> ControlInsert(string appId_, string apiKey_)
     {
         const int _max = 1;
         var count = 0;
         //
         _ProgressCount?.Invoke(count, _max, ControlMainTableName);
-         var response = await AppNotificationsReminderRequest.Instance.Insert(appId_);
+         var response = await AppNotificationsReminderRequest.Instance.Insert(appId_, apiKey_);
         _ProgressCount?.Invoke(++count);
         //
         return count;

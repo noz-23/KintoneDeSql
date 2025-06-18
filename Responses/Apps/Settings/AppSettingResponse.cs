@@ -20,7 +20,7 @@ namespace KintoneDeSql.Responses.Apps.Settings;
 /// https://cybozu.dev/ja/kintone/docs/rest-api/apps/settings/get-general-settings/
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.appSetting")]
-internal class AppSettingResponse : BaseToData, ISqlTable
+internal class AppSettingResponse : BaseToData, ISqlTable, IAppTableId
 {
     //revision	文字列	アプリの設定のリビジョン番号
     [JsonPropertyName("revision")]

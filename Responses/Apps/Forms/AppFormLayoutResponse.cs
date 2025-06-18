@@ -22,7 +22,7 @@ namespace KintoneDeSql.Responses.Apps.Forms;
 /// </summary>
 
 [Table($"{SQLiteManager.SUB_DATABASE}.appFromLayouts")]
-internal class AppFormLayoutResponse: BaseToData, ISqlTable
+internal class AppFormLayoutResponse: BaseToData, ISqlTable,IAppTableId
 {
     /// <summary>
     /// appFromLayouts 保存

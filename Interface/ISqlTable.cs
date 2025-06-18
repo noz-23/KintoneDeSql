@@ -36,4 +36,3 @@ internal interface IInsertTable: ITableName
 internal interface ISqlTable : ICreateTable, IInsertTable
 {
 }
-

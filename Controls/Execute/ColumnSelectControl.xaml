@@ -21,6 +21,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -37,6 +38,7 @@
             Content="Paste"
             Click="_pasteClick"
             />
+        <!-- -->
         <TextBlock 
             Grid.Column="0" Grid.Row="1"
             Text="{x:Static Managers:SQLiteManager.MAIN_DATABASE}"
@@ -47,16 +49,29 @@
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             MouseDoubleClick="_mouseDoubleClick"
             />
+        <!-- -->
         <TextBlock 
-            Grid.Column="2" Grid.Row="1"
+            Grid.Column="1" Grid.Row="1"
             Text="{x:Static Managers:SQLiteManager.FIELD_DATABASE}"
             />
         <ListBox 
             x:Name="_fieldListBox"
+            Grid.Column="1" Grid.Row="2"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            MouseDoubleClick="_mouseDoubleClick"
+            />
+        <!-- -->
+        <TextBlock 
+            Grid.Column="2" Grid.Row="1"
+            Text="{x:Static Managers:SQLiteManager.RECORD_DATABASE}"
+            />
+        <ListBox 
+            x:Name="_recordListBox"
             Grid.Column="2" Grid.Row="2"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             MouseDoubleClick="_mouseDoubleClick"
             />
+        <!-- -->
         <TextBlock 
             Grid.Column="3" Grid.Row="1"
             Text="{x:Static Managers:SQLiteManager.SUB_DATABASE}"
@@ -67,6 +82,7 @@
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             MouseDoubleClick="_mouseDoubleClick"
             />
+        <!-- -->
         <TextBlock 
             Grid.Column="4" Grid.Row="1"
             Text="{x:Static Managers:SQLiteManager.SPACE_DATABASE}"
@@ -77,6 +93,7 @@
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             MouseDoubleClick="_mouseDoubleClick"
             />
+        <!-- -->
         <TextBlock 
             Grid.Column="5" Grid.Row="1"
             Text="{x:Static Managers:SQLiteManager.CYBOZU_DATABASE}"
@@ -87,11 +104,13 @@
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             MouseDoubleClick="_mouseDoubleClick"
             />
+        <!-- -->
         <GridSplitter 
             Grid.Column="6" Grid.Row="1"  
             Width="4"
             VerticalAlignment="Stretch"
             />
+        <!-- -->
         <TextBlock 
             Grid.Column="7" Grid.Row="1"  
             Text="Columns" 

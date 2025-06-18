@@ -6,41 +6,47 @@
  * Licensed under the MIT License 
  * 
  */
-using KintoneDeSql.Data;
 using KintoneDeSql.Managers;
 using KintoneDeSql.Responses.Apps.Settings;
-using System.Net.Http;
-using System.Text.Json;
 
 namespace KintoneDeSql.Requests.Apps.Settings;
 
 /// <summary>
 /// https://cybozu.dev/ja/kintone/docs/rest-api/apps/settings/get-customization/
 /// </summary>
-internal class AppCustomizeRequest : BaseSingleton<AppCustomizeRequest>
+//internal class AppCustomizeRequest : BaseSingleton<AppCustomizeRequest>
+internal class AppCustomizeRequest : BaseRequest<AppCustomizeRequest, AppCustomizeResponse>
 {
-    private const string _COMMAND = "app/customize.json";
-    public async Task<AppCustomizeResponse?> Get(string appId_)
-    {
-        var query = string.Empty;
-        var paramater = JsonSerializer.Serialize(new { app = appId_ });
-        var response = await KintoneManager.Instance.KintoneGet<AppCustomizeResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
-        //
-        if (response != null)
-        {
-            response.AppId = appId_;
-        }
-        return response;
-    }
+    //private const string _COMMAND = "app/customize.json";
+    //public async Task<AppCustomizeResponse?> Get(string appId_)
+    //{
+    //    var query = string.Empty;
+    //    var paramater = JsonSerializer.Serialize(new { app = appId_ });
+    //    var response = await KintoneManager.Instance.KintoneGet<AppCustomizeResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
+    //    //
+    //    if (response != null)
+    //    {
+    //        response.AppId = appId_;
+    //    }
+    //    return response;
+    //}
 
-    public async Task<AppCustomizeResponse?> Insert(string appId_)
-    {
-        var response = await Get(appId_);
-        if (response != null)
-        {
-            SQLiteManager.Instance.InsertTable(AppCustomizeResponse.TableName(false), AppCustomizeResponse.ListInsertHeader(true), response.ListInsertValue(true));
-        }
+    //public async Task<AppCustomizeResponse?> Insert(string appId_)
+    //{
+    //    var response = await Get(appId_);
+    //    if (response != null)
+    //    {
+    //        SQLiteManager.Instance.InsertTable(AppCustomizeResponse.TableName(false), AppCustomizeResponse.ListInsertHeader(true), response.ListInsertValue(true));
+    //    }
 
-        return response;
+    //    return response;
+    //}
+    protected override string _Command { get; } = "app/customize.json";
+    public override void Insert(AppCustomizeResponse? response_)
+    {
+        if (response_ != null)
+        {
+            SQLiteManager.Instance.InsertTable(AppCustomizeResponse.TableName(false), AppCustomizeResponse.ListInsertHeader(true), response_.ListInsertValue(true));
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace KintoneDeSql.Responses.Records;
 /// <summary>
 /// https://cybozu.dev/ja/kintone/docs/rest-api/records/get-comments/
 /// </summary>
-[Table($"{SQLiteManager.SUB_DATABASE}.comments_Mention")]
+[Table($"{SQLiteManager.RECORD_DATABASE}.comments_Mention")]
 internal class CommentResponseMention : CommentResponseBase, ISqlTable
 {
     // older	真偽値	取得したコメントIDより前のコメントがあるかどうか

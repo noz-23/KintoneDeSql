@@ -17,7 +17,7 @@ namespace KintoneDeSql.Responses.Apps.Forms;
 /// https://cybozu.dev/ja/kintone/docs/rest-api/apps/form/get-form-fields/
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.appFormFields")]
-internal class AppFormFieldResponse: AppFormFieldResponseDisplayField, ISqlTable
+internal class AppFormFieldResponse: AppFormFieldResponseDisplayField, ISqlTable,IAppTableId
 {
     #region ISqlTable
     public static new string TableName(bool withCamma_) => typeof(AppFormFieldResponse).TableName(withCamma_);
@@ -31,7 +31,6 @@ internal class AppFormFieldResponse: AppFormFieldResponseDisplayField, ISqlTable
         return rtn;
     }
     public override IEnumerable<IEnumerable<string>> ListInsertValue(bool withCamma_) => _listInsertValue(ListProperty, withCamma_);
-
     private IEnumerable<IEnumerable<string>> _listInsertValue(Dictionary<string, AppFormFieldValue> listFormField_, bool withCamma_, string subFieldKey_ = "")
     {
         var rtn = new List<IEnumerable<string>>();

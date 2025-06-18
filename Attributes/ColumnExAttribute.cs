@@ -15,13 +15,13 @@ namespace KintoneDeSql.Attributes;
 /// </summary>
 internal class ColumnExAttribute : ColumnAttribute
 {
-
     /// <summary>
     /// コンストラクタ
     /// </summary>
     public ColumnExAttribute() : base()
     {
     }
+
     /// <summary>
     /// コンストラクタ
     /// </summary>

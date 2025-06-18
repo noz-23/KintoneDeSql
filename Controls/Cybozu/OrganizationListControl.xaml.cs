@@ -65,7 +65,7 @@ public partial class OrganizationListControl : UserControl
             //
             do
             {
-                var response = await OrganizationsRequest.Instance.Insert(offset, _LIMIT);
+                var response = await OrganizationsRequest.Instance.Insert(offset, _LIMIT, true);
                 if (response == null)
                 {
                     break;
@@ -106,7 +106,7 @@ public partial class OrganizationListControl : UserControl
 
             do
             {
-                var response = await UserTitlesRequest.Instance.Insert(organization.Code, offset, _LIMIT);
+                var response = await UserTitlesRequest.Instance.Insert(organization.Code, offset, _LIMIT, true);
                 if (response == null)
                 {
                     break;

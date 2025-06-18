@@ -20,7 +20,7 @@ namespace KintoneDeSql.Responses.Apps.Settings;
 /// https://cybozu.dev/ja/kintone/docs/rest-api/apps/settings/get-app-plugins/
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.appPlugins")]
-internal class AppPluginResponse : BaseToData,ISqlTable
+internal class AppPluginResponse : BaseToData,ISqlTable, IAppTableId
 {
     //plugins	配列（オブジェクト）	アプリに追加されているプラグインの情報
     [JsonPropertyName("plugins")]

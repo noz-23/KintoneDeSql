@@ -7,6 +7,7 @@
  * 
  */
 using KintoneDeSql.Attributes;
+using KintoneDeSql.Interface;
 using KintoneDeSql.Managers;
 using KintoneDeSql.Responses.Apps;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,7 +19,7 @@ namespace KintoneDeSql.Views;
 /// </summary>
 
 [Table($"{SQLiteManager.APP_DATABASE}.appTableView")]
-internal class AppTableView: BaseView
+internal class AppTableView: BaseView, IAppTable
 {
     /// <summary>
     /// コンストラクタ

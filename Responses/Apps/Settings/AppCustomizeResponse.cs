@@ -20,7 +20,7 @@ namespace KintoneDeSql.Responses.Apps.Settings;
 /// https://cybozu.dev/ja/kintone/docs/rest-api/apps/settings/get-customization/
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.appCustomize")]
-internal class AppCustomizeResponse:BaseToData,ISqlTable
+internal class AppCustomizeResponse:BaseToData,ISqlTable, IAppTableId
 {
     //scope	文字列	カスタマイズの適用範囲
     [JsonPropertyName("scope")]

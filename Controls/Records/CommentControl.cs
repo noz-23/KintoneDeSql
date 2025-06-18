@@ -37,14 +37,15 @@ internal class CommentControl : BaseAppControl
     /// <summary>
     /// Getボタン押下
     /// </summary>
-    public override async Task<int> ControlInsert(string appId_)
+    public override async Task<int> ControlInsert(string appId_, string apiKey_)
     {
         if (RecordDataView == null)
         {
             return 0;
         }
 
-        _ProgressCount?.Invoke(0, RecordDataView.Count, ControlMainTableName);
+        var count = 0;
+        _ProgressCount?.Invoke(count, RecordDataView.Count, ControlMainTableName);
         foreach (DataRowView row in RecordDataView)
         {
             var recordId = row[Resource.COLUMN_MAIN_TABLE_ID].ToString();
@@ -53,12 +54,12 @@ internal class CommentControl : BaseAppControl
                 continue;
             }
 
-            var count = 0;
             var offset = 0;
             const int _LIMIT = KintoneManager.COMMENT_LIMIT;
             do
             {
-                var response = await CommentRequest.Instance.Insert(appId_, recordId,offset, _LIMIT);
+                //var response = await CommentRequest.Instance.Insert(appId_, recordId,offset, _LIMIT);
+                var response = await CommentRequest.Instance.Insert(appId_, apiKey_, recordId, offset, _LIMIT);
                 if (response == null)
                 {
                     break;
@@ -71,6 +72,7 @@ internal class CommentControl : BaseAppControl
                 count = response.ListComment.Count;
                 offset += count;
             } while (count == _LIMIT);
+            _ProgressCount?.Invoke(++count);
         }
         return RecordDataView.Count;
     }

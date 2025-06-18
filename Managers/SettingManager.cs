@@ -47,7 +47,6 @@ internal class SettingManager : BaseSingleton<SettingManager>,INotifyPropertyCha
 
         ListSubTableView.Clear();
         ListSubTableView.AddRange(SQLiteManager.Instance.SelectTable<SubTableView>(false));
-
     }
 
     /// <summary>

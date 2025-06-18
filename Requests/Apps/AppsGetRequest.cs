@@ -6,32 +6,40 @@
  * Licensed under the MIT License 
  * 
  */
-using KintoneDeSql.Data;
 using KintoneDeSql.Managers;
 using KintoneDeSql.Responses.Apps;
-using System.Net.Http;
 
 namespace KintoneDeSql.Requests.Apps;
 
 /// <summary>
 /// https://cybozu.dev/ja/kintone/docs/rest-api/apps/get-apps/
 /// </summary>
-internal class AppsGetRequest : BaseSingleton<AppsGetRequest>
+//internal class AppsGetRequest : BaseSingleton<AppsGetRequest>
+internal class AppsGetRequest : BaseRequest<AppsGetRequest, AppGetResponse>
 {
-    private const string _COMMAND = "apps.json";
-    public async Task<AppGetResponse?> Get()
-    {
-        return await KintoneManager.Instance.KintoneGet<AppGetResponse?>(HttpMethod.Get, _COMMAND);
-    }
-    public async Task<AppGetResponse?> Insert()
-    {
-        var response = await Get();
+    //private const string _COMMAND = "apps.json";
+    //public async Task<AppGetResponse?> Get()
+    //{
+    //    return await KintoneManager.Instance.KintoneGet<AppGetResponse?>(HttpMethod.Get, _COMMAND);
+    //}
+    //public async Task<AppGetResponse?> Insert()
+    //{
+    //    var response = await Get();
 
-        if (response != null)
+    //    if (response != null)
+    //    {
+    //        SQLiteManager.Instance.InsertTable(AppGetResponse.TableName(false), AppGetResponse.ListInsertHeader(true), response.ListInsertValue(true));
+    //    }
+
+    //    return response;
+    //}
+
+    protected override string _Command { get; } = "apps.json";
+    public override void Insert(AppGetResponse? response_)
+    {
+        if (response_ != null)
         {
-            SQLiteManager.Instance.InsertTable(AppGetResponse.TableName(false), AppGetResponse.ListInsertHeader(true), response.ListInsertValue(true));
+            SQLiteManager.Instance.InsertTable(AppGetResponse.TableName(false), AppGetResponse.ListInsertHeader(true), response_.ListInsertValue(true));
         }
-
-        return response;
     }
 }

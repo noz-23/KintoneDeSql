@@ -11,6 +11,8 @@ using KintoneDeSql.Files;
 using KintoneDeSql.Interface;
 using KintoneDeSql.Managers;
 using KintoneDeSql.Properties;
+using KintoneDeSql.Requests;
+using KintoneDeSql.Requests.Apps.Forms;
 using KintoneDeSql.Views;
 using KintoneDeSql.Windows;
 using System.ComponentModel;
@@ -86,9 +88,18 @@ public partial class BaseAppControl : UserControl, INotifyPropertyChanged
     /// <summary>
     /// プログレスバー処理
     /// </summary>
-    protected KintoneDeSql.Windows.WaitWindow.ProgressCountCallBack? _ProgressCount { get; set; } = null;
+    protected WaitWindow.ProgressCountCallBack? _ProgressCount { get; set; } = null;
 
+    /// <summary>
+    /// App ID
+    /// </summary>
     private string _appId = string.Empty;
+
+    /// <summary>
+    /// Api Key
+    /// </summary>
+    private string _apiKey = string.Empty;
+
     private string _controlAppWhere { get => $"WHERE {Resource.COLUMN_APP_ID}='{_appId}'"; }
     private string _controlTimeWhere{ get => $"WHERE name='{ControlMainTableName}' AND {Resource.COLUMN_SUB_TABLE_ID}='{_appId}'"; }
 
@@ -99,9 +110,10 @@ public partial class BaseAppControl : UserControl, INotifyPropertyChanged
     /// <param name="e_"></param>
     private void _loaded(object sender_, RoutedEventArgs e_)
     {
-        if (Window.GetWindow(this) is IAppId win)
+        if (Window.GetWindow(this) is IAppTable win)
         {
             _appId = win.AppId;
+            _apiKey=win.ApiKey;
             //
             _mainControl.ControlWhere = _controlAppWhere;
             _subControl.ControlWhere = _controlAppWhere;
@@ -123,7 +135,7 @@ public partial class BaseAppControl : UserControl, INotifyPropertyChanged
             var win = new WaitWindow();
             _ProgressCount = win.ProgressCount;
 
-            win.Run = async () => await ControlInsert(_appId);
+            win.Run = async () => await ControlInsert(_appId, _apiKey);
 
             win.ShowDialog();
             _ProgressCount = null;
@@ -150,7 +162,7 @@ public partial class BaseAppControl : UserControl, INotifyPropertyChanged
     /// </summary>
     /// <param name="appId_"></param>
     /// <returns></returns>
-    public virtual async Task<int> ControlInsert(string appId_)
+    public virtual async Task<int> ControlInsert(string appId_, string apiKey_)
     {
         await Task.Delay(100);
         return 0;
@@ -171,7 +183,10 @@ public partial class BaseAppControl : UserControl, INotifyPropertyChanged
         }
     }
 
-
+    /// <summary>
+    /// 挿入時間取得
+    /// </summary>
+    /// <returns></returns>
     private DateTime? _getTime()
     {
         var list = SQLiteManager.Instance.SelectTable<TimeView>(false, _controlTimeWhere);
@@ -183,6 +198,11 @@ public partial class BaseAppControl : UserControl, INotifyPropertyChanged
 
         return null;
     }
+
+    /// <summary>
+    /// 挿入時間保存
+    /// </summary>
+    /// <param name="time_"></param>
     private  void _setTime(DateTime? time_)
     {
         if (time_ == null)

@@ -24,7 +24,7 @@ namespace KintoneDeSql.Responses.Apps;
 /// </summary>
 
 [Table($"{SQLiteManager.SUB_DATABASE}.appViews")]
-internal class AppViewResponse: AppViewResponseField, ISqlTable
+internal class AppViewResponse: AppViewResponseField, ISqlTable, IAppTableId
 {
     //
     #region ISqlTable

@@ -45,15 +45,21 @@ public partial class AppActionControl : UserControl
     private string _appId  = string.Empty;
 
     /// <summary>
+    /// Api Key
+    /// </summary>
+    private string _apiKey = string.Empty;
+
+    /// <summary>
     /// 読み込み処理
     /// </summary>
     /// <param name="sender_"></param>
     /// <param name="e_"></param>
     private void _loaded(object sender_, RoutedEventArgs e_)
     {
-        if (Window.GetWindow(this) is IAppId win)
+        if (Window.GetWindow(this) is IAppTable win)
         {
             _appId = win.AppId;
+            _apiKey= win.ApiKey;
             //
             _actionControl.ControlWhere = $"WHERE {Resource.COLUMN_APP_ID}='{_appId}'";
             _entityControl.ControlWhere = $"WHERE {Resource.COLUMN_APP_ID}='{_appId}'";
@@ -79,7 +85,7 @@ public partial class AppActionControl : UserControl
             var count = 0;
             //
             progressCount?.Invoke(count, _max, AppActionResponse.TableName(false));
-            var response = await AppActionRequest.Instance.Insert(_appId);
+            var response = await AppActionRequest.Instance.Insert(_appId, _apiKey);
             progressCount?.Invoke(count);
             //
             return count;

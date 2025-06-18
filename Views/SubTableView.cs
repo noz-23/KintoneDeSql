@@ -7,6 +7,7 @@
  * 
  */
 using KintoneDeSql.Attributes;
+using KintoneDeSql.Interface;
 using KintoneDeSql.Managers;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,7 +18,7 @@ namespace KintoneDeSql.Views;
 /// </summary>
 
 [Table($"{SQLiteManager.APP_DATABASE}.subTableView")]
-internal class SubTableView : BaseView
+internal class SubTableView : BaseView,IAppTableId
 {
     [ColumnEx("appId", Order = 10, TypeName = "TEXT", IsPrimary = true)]
     public string AppId

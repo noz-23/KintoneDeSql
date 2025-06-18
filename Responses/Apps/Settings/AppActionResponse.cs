@@ -17,7 +17,7 @@ namespace KintoneDeSql.Responses.Apps.Settings;
 /// https://cybozu.dev/ja/kintone/docs/rest-api/apps/settings/get-action-settings/
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.appAction")]
-internal class AppActionResponse: AppActionResponseMapping,ISqlTable
+internal class AppActionResponse: AppActionResponseMapping,ISqlTable, IAppTableId
 {
     #region ISqlTable
     public static new string TableName(bool withCamma_) => typeof(AppActionResponse).TableName(withCamma_);
@@ -44,5 +44,4 @@ internal class AppActionResponse: AppActionResponseMapping,ISqlTable
         return rtn;
     }
     #endregion
-
 }

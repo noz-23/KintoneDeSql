@@ -85,116 +85,10 @@ public partial class AppsControl : UserControl
         //
         var win = new WaitWindow();
         _progresssBarCount = win.ProgressCount;
-
+        //
         win.Run =async()=> await _insertApps(response);
         win.ShowDialog();
         _progresssBarCount = null;
-    }
-
-    /// <summary>
-    /// アプリ一覧からフォーム(フィールド)情報を取得しテーブル作成
-    /// </summary>
-    /// <param name="response_"></param>
-    /// <returns></returns>
-    private async Task<int> _insertApps(AppGetResponse response_)
-    {
-        int count = 0;
-        _progresssBarCount?.Invoke(count, response_.ListApp.Count, "App");
-
-        foreach (var app in response_.ListApp)
-        {
-            // 表示しているアプリ情報取得
-            var view = SettingManager.Instance.AppView(app.AppId);
-            if (view == null)
-            {
-                var tableName = (SettingManager.Instance.ExistsTableName(app.Name) == false) ? app.Name : $"{app.Name}_{app.AppId}";
-                LogFile.Instance.WriteLine($"AppId:{app.AppId} Name:{app.Name} TableName{tableName}");
-
-                // なければ追加
-                view = new AppTableView(app) { TableName = tableName };
-                SettingManager.Instance.ListAppTableView.Add(view);
-            }
-            //
-            var responseForm = await AppFormFieldsRequest.Instance.Get(app.AppId);
-            if (responseForm == null)
-            {
-                continue;
-            }
-            //
-            _progresssBarCount?.Invoke(++count);
-            //
-            if (string.IsNullOrEmpty(view.Revision) == true
-             || responseForm.Revision != view.Revision)
-            {
-                if (string.IsNullOrEmpty(view.Revision) == false)
-                {
-                    if (MessageBox.Show($"{app.Name} is Revision up?\nDo you want to 'delete' and 'update' ?", "Attention", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
-                    {
-                        continue;
-                    }
-                }
-
-                // Revisionが無ければ無条件追加
-                AppFormFieldsRequest.Instance.Insert(responseForm);
-
-                // AppTable 作成
-                responseForm.CreateAppTable(true);
-                //
-                await AppSettingRequest.Instance.Insert(app.AppId);
-
-                view.Revision = responseForm?.Revision ?? string.Empty;
-                //
-                var responseAdminNote = await AdminNotesRequest.Instance.Insert(app.AppId);
-            }
-        }
-
-        _appDeploy(response_);
-        _appStatistic(response_);
-
-        return count;
-    }
-
-    /// <summary>
-    /// アプリ設定を運用環境へ反映取得
-    /// </summary>
-    /// <param name="response_"></param>
-    private async void _appDeploy(AppGetResponse response_)
-    {
-        int count = 0;
-        _progresssBarCount?.Invoke(count, response_.ListApp.Count, "App Deploy");
-        foreach (var list in response_.ListApp.Select(app_ => app_.AppId).Chunk(KintoneManager.API_LIMIT))
-        {
-            var response=await AppDeployRequest.Instance.Insert(list.ToList());
-            count += list.Count();
-            _progresssBarCount?.Invoke(count);
-
-        }
-    }
-
-    /// <summary>
-    /// アプリ使用状況を取得
-    /// </summary>
-    /// <param name="response_"></param>
-    private async void _appStatistic(AppGetResponse response_)
-    {
-        var offset = 0;
-        var count = 0;
-        const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
-        do
-        {
-            var response = await AppsStatisticRequest.Instance.Insert(offset, _LIMIT);
-            if (response == null)
-            {
-                break;
-            }
-            if (response.ListApp.Count == 0)
-            {
-                break;
-            }
-            //
-            count = response.ListApp.Count;
-            offset += count;
-        } while (count == _LIMIT);
     }
 
     /// <summary>
@@ -223,20 +117,20 @@ public partial class AppsControl : UserControl
                 var count = 0;
                 var lastId = "0";
                 var offset = 0;
-                var limit = KintoneManager.RECORD_LIMIT;
+                const int _LIMIT = KintoneManager.RECORD_LIMIT;
                 do
                 {
-                    var response = await RecordRequest.Instance.Insert(app.AppId, lastId, limit, app.ApiKey);
+                    var response = await RecordRequest.Instance.Insert(app.AppId, app.ApiKey, lastId, _LIMIT,true);
                     if (response == null)
                     {
                         return offset;
                     }
                     count = response.ListRecord.Count;
                     //
-                    if (offset == 0 && count == limit)
+                    if (offset == 0 && count == _LIMIT)
                     {
                         var totalCount = Convert.ToInt32(response.TotalCount);
-                        var apiTimes = totalCount / limit;
+                        var apiTimes = totalCount / _LIMIT;
 
                         if (MessageBox.Show($"Get All {totalCount} records?\nUse Api Count {apiTimes} times", "Attention", MessageBoxButton.YesNo) == MessageBoxResult.No)
                         {
@@ -255,7 +149,7 @@ public partial class AppsControl : UserControl
                             LogFile.Instance.WriteLine($"LAST ID[{lastId}]");
                         }
                     }
-                } while (count == limit);
+                } while (count == _LIMIT);
 
                 return offset;
 
@@ -318,7 +212,7 @@ public partial class AppsControl : UserControl
             }
 
             // レコード情報からテーブル作成
-            var response = await RecordRequest.Instance.Get(app_.AppId, "0", 1, app_.ApiKey);
+            var response = await RecordRequest.Instance.Get(app_.AppId, app_.ApiKey, "0", 1,false);
             if (response == null)
             {
                 return false;
@@ -343,5 +237,111 @@ public partial class AppsControl : UserControl
         }
 
         return true;
+    }
+
+
+    /// <summary>
+    /// アプリ一覧からフォーム(フィールド)情報を取得しテーブル作成
+    /// </summary>
+    /// <param name="response_"></param>
+    /// <returns></returns>
+    private async Task<int> _insertApps(AppGetResponse response_)
+    {
+        int count = 0;
+        _progresssBarCount?.Invoke(count, response_.ListApp.Count, "App");
+        //
+        foreach (var app in response_.ListApp)
+        {
+            // 表示しているアプリ情報取得
+            var view = SettingManager.Instance.AppView(app.AppId);
+            if (view == null)
+            {
+                var tableName = (SettingManager.Instance.ExistsTableName(app.Name) == false) ? app.Name : $"{app.Name}_{app.AppId}";
+                LogFile.Instance.WriteLine($"AppId:{app.AppId} Name:{app.Name} TableName{tableName}");
+                // なければ追加
+                view = new AppTableView(app) { TableName = tableName };
+                SettingManager.Instance.ListAppTableView.Add(view);
+            }
+            //
+            var responseForm = await AppFormFieldsRequest.Instance.Get(app.AppId, string.Empty);
+            if (responseForm == null)
+            {
+                continue;
+            }
+            //
+            _progresssBarCount?.Invoke(++count);
+            //
+            if (string.IsNullOrEmpty(view.Revision) == true
+             || responseForm.Revision != view.Revision)
+            {
+                if (string.IsNullOrEmpty(view.Revision) == false)
+                {
+                    if (MessageBox.Show($"{app.Name} is Revision up?\nDo you want to 'delete' and 'update' ?", "Attention", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                    {
+                        continue;
+                    }
+                }
+
+                // Revisionが無ければ無条件追加
+                AppFormFieldsRequest.Instance.Insert(responseForm);
+
+                // AppTable 作成
+                responseForm.CreateAppTable(true);
+                //
+                await AppSettingRequest.Instance.Insert(app.AppId, string.Empty);
+
+                view.Revision = responseForm?.Revision ?? string.Empty;
+                //
+                var responseAdminNote = await AdminNotesRequest.Instance.Insert(app.AppId, string.Empty);
+            }
+        }
+
+        _appDeploy(response_);
+        _appStatistic(response_);
+
+        return count;
+    }
+
+    /// <summary>
+    /// アプリ設定を運用環境へ反映取得
+    /// </summary>
+    /// <param name="response_"></param>
+    private async void _appDeploy(AppGetResponse response_)
+    {
+        int count = 0;
+        _progresssBarCount?.Invoke(count, response_.ListApp.Count, "App Deploy");
+        foreach (var list in response_.ListApp.Select(app_ => app_.AppId).Chunk(KintoneManager.API_LIMIT))
+        {
+            var response = await AppDeployRequest.Instance.Insert(list.ToList());
+            count += list.Count();
+            _progresssBarCount?.Invoke(count);
+
+        }
+    }
+
+    /// <summary>
+    /// アプリ使用状況を取得
+    /// </summary>
+    /// <param name="response_"></param>
+    private async void _appStatistic(AppGetResponse response_)
+    {
+        var offset = 0;
+        var count = 0;
+        const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
+        do
+        {
+            var response = await AppsStatisticRequest.Instance.Insert(offset, _LIMIT, false);
+            if (response == null)
+            {
+                break;
+            }
+            if (response.ListApp.Count == 0)
+            {
+                break;
+            }
+            //
+            count = response.ListApp.Count;
+            offset += count;
+        } while (count == _LIMIT);
     }
 }

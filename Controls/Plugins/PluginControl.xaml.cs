@@ -7,7 +7,10 @@
  * 
  */
 using KintoneDeSql.Managers;
+using KintoneDeSql.Requests.Cybozu;
 using KintoneDeSql.Requests.Plugins;
+using KintoneDeSql.Responses.Cybozu.Groups;
+using KintoneDeSql.Responses.Plugin;
 using KintoneDeSql.Responses.Plugins;
 using KintoneDeSql.Windows;
 using System.Windows;
@@ -28,7 +31,13 @@ public partial class PluginsControl : UserControl//, INotifyPropertyChanged
         InitializeComponent();
         //
         _pluginControl.ControlTableName = PluginResponsee.TableName(false);
+        _pluginAppControl.ControlTableName = PluginAppResponse.TableName(false);
     }
+
+    /// <summary>
+    /// プログレスバー処理
+    /// </summary>
+    public WaitWindow.ProgressCountCallBack? _progresssBarCount = null;
 
     /// <summary>
     /// 読み込み表示
@@ -48,18 +57,16 @@ public partial class PluginsControl : UserControl//, INotifyPropertyChanged
     private void _getClick(object sender_, RoutedEventArgs e_)
     {
         var win = new WaitWindow();
-        var progresssBarCount = win.ProgressCount;
+        _progresssBarCount = win.ProgressCount;
 
         win.Run = async () =>
         {
-            progresssBarCount?.Invoke(0, 1, "Plugin");
-
             var offset = 0;
             var count = 0;
             const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
             do
             {
-                var response = await PluginsRequest.Instance.Insert(offset, _LIMIT);
+                var response = await PluginRequest.Instance.Insert(offset, _LIMIT, false);
                 if (response == null)
                 {
                     break;
@@ -70,13 +77,47 @@ public partial class PluginsControl : UserControl//, INotifyPropertyChanged
                 }                        //
                 count = response.ListPlugin.Count;
                 offset += count;
+                //
+                _pluginAppInsert(response.ListPlugin);
+
             } while (count == _LIMIT);
 
-            progresssBarCount?.Invoke(1);
-            return 1;
+            return offset;
         };
         win.ShowDialog();
+        _progresssBarCount = null;
         _loadDatabase();
+    }
+
+    private async void _pluginAppInsert(IList<PluginValue> list_)
+    {
+        const int _LIMIT = KintoneManager.RECORD_LIMIT;
+
+        var pluginCount = 0;
+        _progresssBarCount?.Invoke(pluginCount, list_.Count, "Plugin App");
+        foreach (var plugIn in list_)
+        {
+            var offset = 0;
+            var count = 0;
+
+            do
+            {
+                var response = await PluginAppRequest.Instance.Insert(plugIn.Id, offset, _LIMIT,false);
+                if (response == null)
+                {
+                    break;
+                }
+                if (response.ListApp.Count == 0)
+                {
+                    break;
+                }
+                //
+                count = response.ListApp.Count;
+                offset += count;
+                //
+                _progresssBarCount?.Invoke(++pluginCount);
+            } while (count == _LIMIT);
+        }
     }
 
     /// <summary>
@@ -85,5 +126,6 @@ public partial class PluginsControl : UserControl//, INotifyPropertyChanged
     private void _loadDatabase()
     {
         _pluginControl.Load();
+        _pluginAppControl.Load();
     }
 }

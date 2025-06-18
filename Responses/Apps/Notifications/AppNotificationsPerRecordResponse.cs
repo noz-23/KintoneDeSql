@@ -22,7 +22,7 @@ namespace KintoneDeSql.Responses.Apps.Notifications;
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.notificationsPerRecord")]
 
-internal class AppNotificationsPerRecordResponse : BaseToData, ISqlTable
+internal class AppNotificationsPerRecordResponse : BaseToData, ISqlTable,IAppTableId
 {
     //notifications	配列	条件通知の設定の一覧
     [JsonPropertyName("notifications")]

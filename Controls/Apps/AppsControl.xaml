@@ -99,12 +99,12 @@
                                     <DataGridTextColumn
                                         Header="Count"
                                         IsReadOnly="True"
-                                        Binding="{Binding Count, Mode=OneWay}" 
+                                        Binding="{Binding Count, Mode=TwoWay}" 
                                         />
                                     <DataGridTextColumn
                                         Header="Insert Time"
                                         IsReadOnly="True"
-                                        Binding="{Binding RecordDateTime,StringFormat={}{0:yyyy/MM/dd HH:mm:ss},Mode=OneWay}" 
+                                        Binding="{Binding RecordDateTime,StringFormat={}{0:yyyy/MM/dd HH:mm:ss},Mode=TwoWay}" 
                                         />
                                     <DataGridTextColumn
                                         Header="[App Key]"
@@ -158,7 +158,6 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-
                                 </DataGrid.Columns>
                             </DataGrid>
                         </TabItem>

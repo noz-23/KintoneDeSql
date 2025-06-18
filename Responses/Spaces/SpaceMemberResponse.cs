@@ -20,7 +20,7 @@ namespace KintoneDeSql.Responses.Spaces;
 /// https://cybozu.dev/ja/kintone/docs/rest-api/spaces/get-space-members/
 /// </summary>
 [Table($"{SQLiteManager.SPACE_DATABASE}.spaceMember")]
-internal class SpaceMemberResponse : BaseToData, ISqlTable
+internal class SpaceMemberResponse : BaseToData, ISqlTable,IId
 {
     //members	配列	スペースのメンバーの情報
     [JsonPropertyName("members")]

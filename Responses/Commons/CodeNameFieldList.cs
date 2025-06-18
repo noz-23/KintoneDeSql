@@ -84,7 +84,11 @@ internal class CodeNameFieldList: BaseFieldValue
     public static IList<string> ListCreateHeader(bool withCamma_)
     {
         var rtn = ListSubDefaultCreateHeader(withCamma_);
-        rtn.AddRange(typeof(CodeNameValue).ListCreateHeader(withCamma_));
+        //
+        var listUnique = ListSubDefaultInsertHeader(withCamma_);
+        listUnique.AddRange(typeof(CodeNameValue).ListUniqueHeader(withCamma_));
+        //
+        rtn.AddRange(typeof(CodeNameValue).ListCreateHeader(withCamma_, listUnique));
         return rtn;
     }
 

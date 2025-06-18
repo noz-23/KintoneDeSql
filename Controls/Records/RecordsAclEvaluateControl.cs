@@ -33,7 +33,7 @@ internal class RecordAclEvaluateControl : BaseAppControl
     /// <summary>
     /// Getボタン押下
     /// </summary>
-    public override async Task<int> ControlInsert(string appId_)
+    public override async Task<int> ControlInsert(string appId_, string apiKey_)
     {
         if (RecordDataView == null)
         {
@@ -57,7 +57,7 @@ internal class RecordAclEvaluateControl : BaseAppControl
 
         foreach (var list in listId.Chunk(KintoneManager.API_LIMIT))
         {
-            var response = await RecordAclEvaluateRequest.Instance.Insert(appId_, list);
+            var response = await RecordAclEvaluateRequest.Instance.Insert(appId_, list,apiKey_);
             count += list.Count();
 
             _ProgressCount?.Invoke(count);

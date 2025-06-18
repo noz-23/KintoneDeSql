@@ -57,6 +57,11 @@ public partial class DatabaseSettingWindow : Window
     /// <param name="e_"></param>
     private void _okClick(object sender_, RoutedEventArgs e_)
     {
+        if (MessageBox.Show("Are you sure you want to delete the entire database?", "Attention", MessageBoxButton.YesNo) == MessageBoxResult.No)
+        {
+            return;
+        }
+
         LogFile.Instance.WriteLine(@"Save");
         //
         Settings.Default.IsCreatorExtract = _creatorCheckBox.IsChecked ??true;
@@ -73,7 +78,7 @@ public partial class DatabaseSettingWindow : Window
         Settings.Default.FilePrimary = _getCheckedRadio(_fileStackPanel.Children);
         //
         Settings.Default.Save();
-
+        //
         Close();
     }
 

@@ -65,7 +65,7 @@ public partial class GroupListControl : UserControl
             //
             do
             {
-                var response = await GroupsRequest.Instance.Insert(offset, _LIMIT);
+                var response = await GroupsRequest.Instance.Insert(offset, _LIMIT, true);
                 if (response == null)
                 {
                     break;
@@ -105,7 +105,7 @@ public partial class GroupListControl : UserControl
 
             do
             {
-                var response = await GroupUsersRequest.Instance.Insert(group.Code,offset, _LIMIT);
+                var response = await GroupUsersRequest.Instance.Insert(group.Code,offset, _LIMIT,true);
                 if (response == null)
                 {
                     break;

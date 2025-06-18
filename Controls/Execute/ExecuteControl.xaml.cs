@@ -26,9 +26,9 @@ public partial class ExecuteControl : UserControl
     public ExecuteControl()
     {
         InitializeComponent();
-
-        _columnControl.Paste = (paste_) => { _textBox.Text = paste_; };
-        _joinTableControl.Paste = (paste_) => { _textBox.Text = paste_; };
+        //
+        _columnControl.Paste = (paste_) => { _textBox.Text += "\n" + paste_; };
+        _joinTableControl.Paste = (paste_) => { _textBox.Text += "\n" + paste_; };
     }
 
     /// <summary>

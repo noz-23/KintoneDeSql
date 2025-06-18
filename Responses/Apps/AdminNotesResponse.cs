@@ -20,7 +20,7 @@ namespace KintoneDeSql.Responses.Apps;
 /// https://cybozu.dev/ja/kintone/docs/rest-api/apps/get-app-admin-notes/
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.adminNotes")]
-internal class AdminNotesResponse:BaseToData,ISqlTable
+internal class AdminNotesResponse:BaseToData,ISqlTable,IAppTableId
 {
     // content	文字列	アプリの管理者用メモ本文
     [JsonPropertyName("content")]

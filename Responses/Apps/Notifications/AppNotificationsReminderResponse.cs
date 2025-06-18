@@ -21,7 +21,7 @@ namespace KintoneDeSql.Responses.Apps.Notifications;
 /// https://cybozu.dev/ja/kintone/docs/rest-api/apps/settings/get-reminder-notification-settings/
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.appNotificationsReminder")]
-internal class AppNotificationsReminderResponseList:BaseToData,ISqlTable
+internal class AppNotificationsReminderResponse:BaseToData,ISqlTable,IAppTableId
 {
     //notifications	配列	リマインダーの条件通知の設定
     [JsonPropertyName("notifications")]
@@ -42,13 +42,13 @@ internal class AppNotificationsReminderResponseList:BaseToData,ISqlTable
     #endregion
 
     #region ISqlTable
-    public static string TableName(bool withCamma_) => typeof(AppNotificationsReminderResponseList).TableName(withCamma_);
+    public static string TableName(bool withCamma_) => typeof(AppNotificationsReminderResponse).TableName(withCamma_);
     public static IEnumerable<string> ListCreateHeader(bool withCamma_) => MemberInfoExtension.ListCreateHeader(_listColumn(), withCamma_);
     public static IEnumerable<string> ListInsertHeader(bool withCamma_) => MemberInfoExtension.ListInsertHeader(_listColumn(), withCamma_);
     private static IEnumerable<ColumnData> _listColumn()
     {
         const int _SORT = 100;
-        var rtn = typeof(AppNotificationsReminderResponseList).ListColumn();
+        var rtn = typeof(AppNotificationsReminderResponse).ListColumn();
         rtn.AddRange(typeof(AppNotificationsReminderValue).ListColumn(string.Empty, _SORT));
         rtn.AddRange(typeof(NotificationValue).ListColumn(string.Empty, _SORT+ _SORT));
         return rtn;

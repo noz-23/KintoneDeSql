@@ -21,7 +21,7 @@ namespace KintoneDeSql.Responses.Cybozu.Users;
 /// https://cybozu.dev/ja/common/docs/user-api/users/get-users-groups/
 /// </summary>
 [Table($"{SQLiteManager.CYBOZU_DATABASE}.userGroups")]
-internal class UserGroupResponse: BaseToData, ISqlTable
+internal class UserGroupResponse: BaseToData, ISqlTable, IAppCode
 {
     /// <summary>
     /// userGroups 保存

@@ -14,7 +14,9 @@ using System.Threading.Tasks;
 
 namespace KintoneDeSql.Interface;
 
-internal interface IAppId
+internal interface IInseertRequest
 {
-    string AppId { get;}
+}
+internal interface IInseertAppRequest
+{
 }

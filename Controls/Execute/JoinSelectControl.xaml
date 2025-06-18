@@ -30,6 +30,7 @@
             <ComboBoxItem Content="{x:Static Managers:SQLiteManager.MAIN_DATABASE}" />
             <ComboBoxItem Content="{x:Static Managers:SQLiteManager.SUB_DATABASE}" />
             <ComboBoxItem Content="{x:Static Managers:SQLiteManager.FIELD_DATABASE}" />
+            <ComboBoxItem Content="{x:Static Managers:SQLiteManager.RECORD_DATABASE}" />
             <ComboBoxItem Content="{x:Static Managers:SQLiteManager.SPACE_DATABASE}" />
             <ComboBoxItem Content="{x:Static Managers:SQLiteManager.CYBOZU_DATABASE}" />
         </ComboBox>

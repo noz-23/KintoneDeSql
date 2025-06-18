@@ -7,10 +7,9 @@
  * 
  */
 using KintoneDeSql.Data;
-using KintoneDeSql.Interface;
 using KintoneDeSql.Managers;
-using KintoneDeSql.Responses.Apps;
 using KintoneDeSql.Responses.Plugin;
+using KintoneDeSql.Responses.Plugins;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -19,24 +18,39 @@ namespace KintoneDeSql.Requests.Plugins;
 /// <summary>
 /// https://cybozu.dev/ja/kintone/docs/rest-api/plugins/get-plugin-apps/
 /// </summary>
-internal class PluginAppRequest : BaseSingleton<PluginAppRequest>
+//internal class PluginAppRequest : BaseSingleton<PluginAppRequest>
+internal class PluginAppRequest : BaseRequest<PluginAppRequest, PluginAppResponse>
 {
-    private const string _COMMAND = "plugin/apps.json";
-    public async Task<PluginAppResponse?> Get(string appId_)
-    {
-        var query = string.Empty;
-        var paramater = JsonSerializer.Serialize(new { app = appId_ });
-        return await KintoneManager.Instance.KintoneGet<PluginAppResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
-    }
+    //private const string _COMMAND = "plugin/apps.json";
+    //public async Task<PluginAppResponse?> Get(string id_, int offset_, int limit_ = KintoneManager.RECORD_LIMIT)
+    //{
+    //    var query = string.Empty;
+    //    var paramater = JsonSerializer.Serialize(new { id = id_ , offset = offset_, limit = limit_ });
+    //    var response = await KintoneManager.Instance.KintoneGet<PluginAppResponse?>(HttpMethod.Get, _COMMAND, query, paramater);
+    //    if (response != null)
+    //    {
+    //        response.PluginId = id_;
+    //    }
 
-    public async Task<PluginAppResponse?> Insert(string appId_)
+    //    return response;
+    //}
+
+    //public async Task<PluginAppResponse?> Insert(string id_, int offset_, int limit_ = KintoneManager.RECORD_LIMIT)
+    //{
+    //    var response = await Get(id_, offset_, limit_);
+    //    if (response != null)
+    //    {
+    //        SQLiteManager.Instance.InsertTable(PluginAppResponse.TableName(false), PluginAppResponse.ListInsertHeader(true), response.ListInsertValue(true));
+    //    }
+
+    //    return response;
+    //}
+    protected override string _Command { get; } = "plugin/apps.json";
+    public override void Insert(PluginAppResponse? response_)
     {
-        var response = await Get(appId_);
-        if (response != null)
+        if (response_ != null)
         {
-            SQLiteManager.Instance.InsertTable(PluginAppResponse.TableName(false), PluginAppResponse.ListInsertHeader(true), response.ListInsertValue(true));
+            SQLiteManager.Instance.InsertTable(PluginAppResponse.TableName(false), PluginAppResponse.ListInsertHeader(true), response_.ListInsertValue(true));
         }
-
-        return response;
     }
 }

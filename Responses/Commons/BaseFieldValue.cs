@@ -53,9 +53,15 @@ internal class BaseFieldValue: BaseToData
     private string _json = string.Empty;
 
     //
-    public readonly FieldToDatabaseTypeEnum FieldType = FieldToDatabaseTypeEnum.TEXT;
+    #region Common
 
-    //public string SubTableName { get; set; } =string.Empty;
+    public readonly FieldToDatabaseTypeEnum FieldType = FieldToDatabaseTypeEnum.TEXT;
+    public static readonly JsonSerializerOptions Ooptions = new JsonSerializerOptions
+    {
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+        WriteIndented = true
+    };
+
     // [ColumnEx]はありなしで判別つかない場合があるので、使わない
     [Column("appId",Order=1, TypeName = "TEXT")]
     public string AppId { get; set; } = string.Empty;
@@ -63,20 +69,19 @@ internal class BaseFieldValue: BaseToData
     [Column("recordId", Order = 2, TypeName = "TEXT")]
     public string RecordId { get; set; } = string.Empty;
 
-    [Column("mainFieldName", Order = 3, TypeName = "TEXT")]
+    [Column("revision", Order = 3, TypeName = "TEXT")]
+    public string Revision { get; set; } = string.Empty;
+
+    [Column("mainFieldName", Order = 4, TypeName = "TEXT")]
     public string MainFieldName { get; set; } = string.Empty;
 
-    [Column("subFieldName", Order = 4, TypeName = "TEXT")]
+    [Column("subFieldName", Order = 5, TypeName = "TEXT")]
     public string SubFieldName { get; set; } = string.Empty;
 
-    [Column("subTableId", Order = 5, TypeName = "TEXT")]
+    [Column("subTableId", Order = 6, TypeName = "TEXT")]
     public string SubTableId { get; set; } = string.Empty;
     //
-    public static readonly JsonSerializerOptions Ooptions = new JsonSerializerOptions
-    {
-        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-        WriteIndented = true
-    };
+    #endregion
 
     public delegate BaseFieldValue GetValueCallBack( string json_);
     private static Dictionary<string, GetValueCallBack> _listValue = new();
@@ -94,6 +99,7 @@ internal class BaseFieldValue: BaseToData
         _listValue.Add(type_, callBack_);
         return true;
     }
+
     #region Field
 
     public delegate IEnumerable<string> FieldToStringCallBack(RecordFieldValue field_, string fieldName_, bool withCamma_);
@@ -200,7 +206,7 @@ internal class BaseFieldValue: BaseToData
     public static IList<string> ListSubDefaultCreateHeader( bool withCamma_)
     {
         var rtn = new List<string>();
-
+        //
         var list = typeof(BaseFieldValue).ListColumnProperty();
         if (list == null)
         {

@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:KintoneDeSql.Controls.Apps"
-    xmlns:control="clr-namespace:KintoneDeSql.Controls"
+    xmlns:Controls="clr-namespace:KintoneDeSql.Controls"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800"
     Loaded="_loaded"
@@ -17,7 +17,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Button 
             Grid.Column="0" Grid.Row="0"
@@ -28,9 +29,13 @@
             Grid.Column="1" Grid.Row="0"
             Text="{Binding ControlDateTime,ElementName=_userWindow,StringFormat={}{0:yyyy/MM/dd HH:mm:ss},Mode=OneWay}"
             />
-        <control:BaseControl
+        <Controls:BaseControl
             Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
             x:Name="_pluginControl"
+            />
+        <Controls:BaseControl
+            Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
+            x:Name="_pluginAppControl"
             />
     </Grid>
 </UserControl>

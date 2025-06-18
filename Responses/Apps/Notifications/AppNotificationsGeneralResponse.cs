@@ -20,7 +20,7 @@ namespace KintoneDeSql.Responses.Apps.Notifications;
 /// https://cybozu.dev/ja/kintone/docs/rest-api/apps/settings/get-general-notification-settings/
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.notificationsGeneral")]
-internal class AppNotificationsGeneralResponse : BaseToData, ISqlTable
+internal class AppNotificationsGeneralResponse : BaseToData, ISqlTable,IAppTableId
 {
     //notifications	配列（オブジェクト）	条件通知の設定を表すオブジェクトの配列
     [JsonPropertyName("notifications")]

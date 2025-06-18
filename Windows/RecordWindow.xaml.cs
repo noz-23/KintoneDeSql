@@ -19,7 +19,7 @@ namespace KintoneDeSql.Windows;
 /// <summary>
 /// DataWindow.xaml の相互作用ロジック
 /// </summary>
-public partial class RecordDataTableWindow : Window, IAppId//, INotifyPropertyChanged
+public partial class RecordDataTableWindow : Window, IAppTable//, INotifyPropertyChanged
 {
     /// <summary>
     ///  コンストラクタ
@@ -42,6 +42,16 @@ public partial class RecordDataTableWindow : Window, IAppId//, INotifyPropertyCh
     public string AppId
     {
         get => _appView.AppId;
+        set { }
+    }
+
+    /// <summary>
+    /// ApiKey
+    /// </summary>
+    public string ApiKey
+    {
+        get => _appView.ApiKey;
+        set { }
     }
 
     /// <summary>

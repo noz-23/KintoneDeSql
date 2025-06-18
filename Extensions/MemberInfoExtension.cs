@@ -46,11 +46,11 @@ internal static class MemberInfoExtension
     /// <param name="src_"></param>
     /// <param name="withCamma_"></param>
     /// <returns></returns>
-    public static IList<string> ListCreateHeader(this Type src_, bool withCamma_) =>ListCreateHeader(src_.ListColumn(), withCamma_);
-    public static IList<string> ListCreateHeader(IEnumerable<ColumnData> listColumn_, bool withCamma_)
+    public static IList<string> ListCreateHeader(this Type src_, bool withCamma_) =>ListCreateHeader(src_.ListColumn(), withCamma_, src_.ListUniqueHeader(withCamma_));
+    public static IList<string> ListCreateHeader(this Type src_, bool withCamma_, IList<string> listUnique_) => ListCreateHeader(src_.ListColumn(), withCamma_, listUnique_);
+    public static IList<string> ListCreateHeader(IEnumerable<ColumnData> listColumn_, bool withCamma_, IList<string>? listUnique_=null)
     {
         var rtn = new List<string>();
-        var listUnique = new List<string>();
         var listOrder = listColumn_.OrderBy(s_ => s_.Order);
 
         foreach (var column in listOrder)
@@ -64,23 +64,40 @@ internal static class MemberInfoExtension
 
             var columnName = (withCamma_ == true) ? $"'{column.Name}'" : $"{column.Name}";
             rtn.Add($"{columnName} {column.Column.TypeName} {primary}");
-
-            if (column.Column.IsUnique == true)
-            {
-                var uniqueName = (withCamma_ == true) ? $"'{column.Name}'" : $"{column.Name}";
-
-                listUnique.Add(uniqueName);
-            }
         }
 
-        if (listUnique.Any() == true)
+        listUnique_ ??= ListUniqueHeader(listColumn_,withCamma_);
+        if (listUnique_.Any() == true)
         {
-            rtn.Add($"UNIQUE({string.Join(",", listUnique)})");
+            rtn.Add($"UNIQUE({string.Join(",", listUnique_)})");
         }
 
         return rtn;
     }
 
+    public static IList<string> ListUniqueHeader(this Type src_, bool withCamma_) => ListUniqueHeader(src_.ListColumn(), withCamma_);
+    public static IList<string> ListUniqueHeader(IEnumerable<ColumnData> listColumn_, bool withCamma_)
+    {
+        var rtn = new List<string>();
+        var listOrder = listColumn_.OrderBy(s_ => s_.Order);
+
+        foreach (var column in listOrder)
+        {
+            if (string.IsNullOrEmpty(column.Name) == true)
+            {
+                continue;
+            }
+
+            if (column.Column.IsUnique == true)
+            {
+                var uniqueName = (withCamma_ == true) ? $"'{column.Name}'" : $"{column.Name}";
+
+                rtn.Add(uniqueName);
+            }
+        }
+
+        return rtn;
+    }
 
     /// <summary>
     /// ColumnExAttribute でのカラム名一覧
@@ -98,7 +115,6 @@ internal static class MemberInfoExtension
             {
                 continue;
             }
-            //var columnName = (withCamma_ == true) ? $"'{column.Column.Name}'" : column.Column.Name;
             var columnName = (withCamma_ == true) ? $"'{column.Name}'" : column.Name;
 
             rtn.Add(columnName);

@@ -7,6 +7,8 @@
  * 
  */
 using KintoneDeSql.Files;
+using KintoneDeSql.Managers;
+using KintoneDeSql.Requests.Plugins;
 using KintoneDeSql.Requests.Spaces;
 using KintoneDeSql.Responses.Spaces;
 using KintoneDeSql.Windows;
@@ -63,11 +65,11 @@ public partial class SpaceControl : UserControl
             //
             for (var i = 1; i < spaceMax; i++)
             {
-                var response = await SpacesRequest.Instance.Insert($"{i}");
-                LogFile.Instance.WriteLine($"[{response}]");
+                var response = await SpacesRequest.Instance.Insert($"{i}",false);
+                //LogFile.Instance.WriteLine($"[{response}]");
                 //
-                var responseMember = await SpacesMemberRequest.Instance.Insert($"{i}");
-                LogFile.Instance.WriteLine($"[{responseMember}]");
+                var responseMember = await SpacesMemberRequest.Instance.Insert($"{i}", false);
+                //LogFile.Instance.WriteLine($"[{responseMember}]");
 
                 progresssBarCount?.Invoke(++count);
 
@@ -77,14 +79,34 @@ public partial class SpaceControl : UserControl
         //
         win.Run += async () =>
         {
+            //var count = 0;
+            //progresssBarCount?.Invoke(0, 1, "Space Statistics");
+
+            //var response = await SpacesStatisticsRequest.Instance.Insert();
+            //LogFile.Instance.WriteLine($"[{response.ToString()}]");
+            //progresssBarCount?.Invoke(++count);
+
+            //return count;
+            var offset = 0;
             var count = 0;
-            progresssBarCount?.Invoke(0, 1, "Space Statistics");
+            const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
+            do
+            {
+                var response = await SpacesStatisticsRequest.Instance.Insert(offset, _LIMIT, false);
+                if (response == null)
+                {
+                    break;
+                }
+                if (response.ListSpace == null)
+                {
+                    break;
+                }                        //
+                count = response.ListSpace.Count;
+                offset += count;
+            } while (count == _LIMIT);
 
-            var response = await SpacesStatisticsRequest.Instance.Insert();
-            LogFile.Instance.WriteLine($"[{response.ToString()}]");
-            progresssBarCount?.Invoke(++count);
+            return offset;
 
-            return count;
         };
         //
         win.ShowDialog();

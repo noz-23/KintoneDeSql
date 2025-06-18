@@ -300,7 +300,7 @@ internal class KintoneManager : BaseSingleton<KintoneManager>
     }
 
     ///
-    //public async Task<T?> Get<T>(string command_,string appId_) where T: class?,ISqlTable, IAppId, new()
+    //public async Task<T?> Get<T>(string command_,string appId_) where T: class?,ISqlTable, IAppTableId, new()
     //{
     //    var query = string.Empty;
     //    var paramater = JsonSerializer.Serialize(new { app = appId_ });
@@ -313,7 +313,7 @@ internal class KintoneManager : BaseSingleton<KintoneManager>
     //    return rtn;
     //}
 
-    //public async Task<T?> Insert<T>(string command_, string appId_) where T : class?, ISqlTable, IAppId, new()
+    //public async Task<T?> Insert<T>(string command_, string appId_) where T : class?, ISqlTable, IAppTableId, new()
     //{
     //    var rtn = await Get<T>(command_,appId_);
     //    if (rtn != null)

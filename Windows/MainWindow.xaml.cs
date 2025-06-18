@@ -22,6 +22,7 @@ namespace KintoneDeSql.Windows;
 /// datagridのヘッダに-_-を含むと正しく表示されない
 /// https://resanaplaza.com/2021/04/17/%E3%80%90wpf%E3%80%91datagrid%E3%81%AE%E3%83%98%E3%83%83%E3%83%80%E3%81%AB-_-%E3%82%92%E5%90%AB%E3%82%80%E3%81%A8%E6%AD%A3%E3%81%97%E3%81%8F%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%81%AA%E3%81%84/
 /// https://stackoverflow.com/questions/18227574/wpf-datagrid-with-recognizesaccesskey-turned-off
+/// ->別クラス(ColumnData)作って解決
 /// </summary>
 public partial class MainWindow : Window
 {
@@ -70,6 +71,7 @@ public partial class MainWindow : Window
     private void _closing(object sender_, System.ComponentModel.CancelEventArgs e_)
     {
         SettingManager.Instance.Save();
+        //
         SQLiteManager.Instance.Close();
 
     }

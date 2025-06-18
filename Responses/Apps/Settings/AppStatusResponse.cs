@@ -19,7 +19,7 @@ namespace KintoneDeSql.Responses.Apps.Settings;
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.appStatus")]
 
-internal class AppStatusResponse: AppStatusResponseAction, ISqlTable
+internal class AppStatusResponse: AppStatusResponseAction, ISqlTable, IAppTableId
 {
     #region ISqlTable
     public static new string TableName(bool withCamma_) => typeof(AppStatusResponse).TableName(withCamma_);

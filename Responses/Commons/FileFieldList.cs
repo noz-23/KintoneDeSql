@@ -39,7 +39,11 @@ internal class FileFieldList : BaseFieldValue, ICreateTable
     public static IList<string> ListCreateHeader(bool withCamma_)
     {
         var rtn = ListSubDefaultCreateHeader(withCamma_);
-        rtn.AddRange(typeof(FileFieldValue).ListCreateHeader(withCamma_));
+        //
+        var listUnique = ListSubDefaultInsertHeader(withCamma_);
+        listUnique.AddRange(typeof(FileFieldValue).ListUniqueHeader(withCamma_));
+        //
+        rtn.AddRange(typeof(FileFieldValue).ListCreateHeader(withCamma_, listUnique));
         return rtn;
     }
 

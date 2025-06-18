@@ -18,7 +18,7 @@ namespace KintoneDeSql.Responses.Apps.Views;
 /// https://cybozu.dev/ja/kintone/docs/rest-api/apps/report/get-graph-settings/
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.reports")]
-internal class ReportResponse: ReportResponseAggregation, ISqlTable
+internal class ReportResponse: ReportResponseAggregation, ISqlTable, IAppTableId
 {
     #region ISqlTable
     public new static string TableName(bool withCamma_) => typeof(ReportResponse).TableName(withCamma_);

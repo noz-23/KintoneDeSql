@@ -59,7 +59,6 @@ public partial class JoinSelectControl : UserControl
     private void _loaded(object sender_, RoutedEventArgs e_)
     {
         _databaseComboBox.SelectedIndex = 0;
-
     }
 
     /// <summary>
@@ -85,6 +84,7 @@ public partial class JoinSelectControl : UserControl
             case SQLiteManager.MAIN_DATABASE: SQLiteManager.Instance.ListTableName(SQLiteManager.MAIN_MASTER).ForEach(item_ => _tableComboBox.Items.Add(item_));break;
             case SQLiteManager.SUB_DATABASE: SQLiteManager.Instance.ListTableName(SQLiteManager.SUB_MASTER).ForEach(item_ => _tableComboBox.Items.Add(item_)); break;
             case SQLiteManager.FIELD_DATABASE: SQLiteManager.Instance.ListTableName(SQLiteManager.FIELD_MASTER).ForEach(item_ => _tableComboBox.Items.Add(item_)); break;
+            case SQLiteManager.RECORD_DATABASE: SQLiteManager.Instance.ListTableName(SQLiteManager.RECORD_MASTER).ForEach(item_ => _tableComboBox.Items.Add(item_)); break;
             case SQLiteManager.SPACE_DATABASE: SQLiteManager.Instance.ListTableName(SQLiteManager.SPACE_MASTER).ForEach(item_ => _tableComboBox.Items.Add(item_)); break;
             case SQLiteManager.CYBOZU_DATABASE: SQLiteManager.Instance.ListTableName(SQLiteManager.CYBOZU_MASTER).ForEach(item_ => _tableComboBox.Items.Add(item_)); break;
             default:break;

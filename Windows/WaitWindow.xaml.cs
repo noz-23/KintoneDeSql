@@ -38,8 +38,14 @@ public partial class WaitWindow : Window
     /// <param name="str_"></param>
     public delegate void ProgressCountCallBack(int count_, int max_=1, string str_ = "");
 
+    /// <summary>
+    /// 処理数
+    /// </summary>
     public int Count { get; set; } = 0;
 
+    /// <summary>
+    /// 処理内容
+    /// </summary>
     public RunCallBack? Run { get; set; } = null;
 
     /// <summary>

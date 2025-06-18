@@ -20,7 +20,7 @@ namespace KintoneDeSql.Responses.Apps.Permissions;
 /// https://cybozu.dev/ja/kintone/docs/rest-api/apps/settings/get-field-permissions/
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.fieldAcl")]
-internal class FieldAclResponse : BaseToData, ISqlTable
+internal class FieldAclResponse : BaseToData, ISqlTable, IAppTableId
 {
     //rights	配列	アクセス権の設定の一覧
     [JsonPropertyName("rights")]

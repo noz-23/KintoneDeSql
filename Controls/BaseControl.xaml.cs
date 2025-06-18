@@ -25,33 +25,21 @@ public partial class BaseControl : UserControl, INotifyPropertyChanged
         InitializeComponent();
     }
 
- 
+    #region INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
     private void _notifyPropertyChanged([CallerMemberName] string propertyName_ = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName_));
     }
+    #endregion
 
     public string ControlTableName{get;set;} = string.Empty;
-
     public string ControlWhere { get; set; } = string.Empty;
-
 
     private void _loaded(object sender_, RoutedEventArgs e_)
     {
         Load();
     }
-    /// <summary>
-    /// カラム名のアンダースコア表示対応
-    /// </summary>
-    /// <param name="sender_"></param>
-    /// <param name="e_"></param>
-    //private void _autoGeneratingColumn(object sender_, DataGridAutoGeneratingColumnEventArgs e_)
-    //{
-    //    string header = e_.Column.Header?.ToString() ?? string.Empty;
-    //    e_.Column.Header = header.Replace("_", "__");
-    //}
-
     public void Load()
     {
         if (string.IsNullOrEmpty(ControlTableName) == true)
@@ -69,13 +57,6 @@ public partial class BaseControl : UserControl, INotifyPropertyChanged
 
     public int Count
     {
-        get
-        {
-            if (_dataGrid.ItemsSource is DataView view)
-            {
-                return view.Count;
-            }
-            return 0;
-        }
+        get => (_dataGrid.ItemsSource is DataView view) ? view.Count : 0;
     }
 }

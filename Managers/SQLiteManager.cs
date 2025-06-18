@@ -27,12 +27,7 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     {
         _path = path_;
         //
-        File.Delete(_FILE_NAME);
-        File.Delete(_APP_FILE_NAME);
-        File.Delete(_SUB_FILE_NAME);
-        File.Delete(_FIELD_FILE_NAME);
-        File.Delete(_CYBOZU_FILE_NAME);
-        File.Delete(_SPACE_FILE_NAME);
+        DeleteFile();
         //
         LogFile.Instance.WriteLine("START");
         SqlMapper.AddTypeHandler(DateTimeHandler.Default);
@@ -47,6 +42,7 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     public const string APP_DATABASE = "app";
     public const string SUB_DATABASE = "sub";
     public const string FIELD_DATABASE = "field";
+    public const string RECORD_DATABASE = "record";
     public const string SPACE_DATABASE = "space";
     public const string CYBOZU_DATABASE = "cybozu";
 
@@ -54,6 +50,7 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     public const string APP_MASTER = $"{APP_DATABASE}.{MAIN_MASTER}";
     public const string SUB_MASTER = $"{SUB_DATABASE}.{MAIN_MASTER}";
     public const string FIELD_MASTER = $"{FIELD_DATABASE}.{MAIN_MASTER}";
+    public const string RECORD_MASTER = $"{RECORD_DATABASE}.{MAIN_MASTER}";
     public const string SPACE_MASTER = $"{SPACE_DATABASE}.{MAIN_MASTER}";
     public const string CYBOZU_MASTER = $"{CYBOZU_DATABASE}.{MAIN_MASTER}";
 
@@ -64,6 +61,7 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     private const string _APP_FILE_NAME = $".\\KintoneDeSql_{APP_DATABASE}.db";
     private const string _SUB_FILE_NAME = $".\\KintoneDeSql_{SUB_DATABASE}.db";
     private const string _FIELD_FILE_NAME = $".\\KintoneDeSql_{FIELD_DATABASE}.db";
+    private const string _RECORD_FILE_NAME = $".\\KintoneDeSql_{RECORD_DATABASE}.db";
     private const string _SPACE_FILE_NAME = $".\\KintoneDeSql_{SPACE_DATABASE}.db";
     private const string _CYBOZU_FILE_NAME = $".\\KintoneDeSql_{CYBOZU_DATABASE}.db";
 
@@ -78,22 +76,6 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     /// </summary>
 
     private SQLiteConnection? _connection=null;
-
-    /// <summary>
-    /// クローズ処理
-    /// </summary>
-    public void Close()
-    {
-        _connection?.Execute($"DETACH {APP_DATABASE}");
-        _connection?.Execute($"DETACH {SUB_DATABASE}");
-        _connection?.Execute($"DETACH {FIELD_DATABASE}");
-        _connection?.Execute($"DETACH {CYBOZU_DATABASE}");
-        _connection?.Execute($"DETACH {SPACE_DATABASE}");
-
-        _connection?.Close();
-        _connection?.Dispose();
-        _connection = null;
-    }
 
     /// <summary>
     /// オープン処理
@@ -114,12 +96,49 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
             _connection.Open();
             //
             // アタッチ処理
-            _connection.Execute($"ATTACH '{_APP_FILE_NAME}' as {APP_DATABASE}");
-            _connection.Execute($"ATTACH '{_SUB_FILE_NAME}' as {SUB_DATABASE}");
-            _connection.Execute($"ATTACH '{_FIELD_FILE_NAME}' as {FIELD_DATABASE}");
-            _connection.Execute($"ATTACH '{_CYBOZU_FILE_NAME}' as {CYBOZU_DATABASE}");
-            _connection.Execute($"ATTACH '{_SPACE_FILE_NAME}' as {SPACE_DATABASE}");
+            _connection.Execute($"ATTACH '{_APP_FILE_NAME}' AS {APP_DATABASE}");
+            _connection.Execute($"ATTACH '{_SUB_FILE_NAME}' AS {SUB_DATABASE}");
+            _connection.Execute($"ATTACH '{_FIELD_FILE_NAME}' AS {FIELD_DATABASE}");
+            _connection.Execute($"ATTACH '{_RECORD_FILE_NAME}' AS {RECORD_DATABASE}");
+            _connection.Execute($"ATTACH '{_CYBOZU_FILE_NAME}' AS {CYBOZU_DATABASE}");
+            _connection.Execute($"ATTACH '{_SPACE_FILE_NAME}' AS {SPACE_DATABASE}");
         }
+    }
+
+    /// <summary>
+    /// クローズ処理
+    /// </summary>
+    public void Close()
+    {
+        LogFile.Instance.WriteLine($"Close");
+        //
+        _connection?.Execute($"DETACH {APP_DATABASE}");
+        _connection?.Execute($"DETACH {SUB_DATABASE}");
+        _connection?.Execute($"DETACH {FIELD_DATABASE}");
+        _connection?.Execute($"DETACH {RECORD_DATABASE}");
+        _connection?.Execute($"DETACH {CYBOZU_DATABASE}");
+        _connection?.Execute($"DETACH {SPACE_DATABASE}");
+
+        _connection?.Close();
+        _connection?.Dispose();
+        _connection = null;
+    }
+
+    /// <summary>
+    /// ファイルを削除
+    /// </summary>
+    public void DeleteFile()
+    {
+        LogFile.Instance.WriteLine($"Delete");
+        //
+        Close();
+        //
+        File.Delete(_FILE_NAME);
+        File.Delete(_APP_FILE_NAME);
+        File.Delete(_SUB_FILE_NAME);
+        File.Delete(_FIELD_FILE_NAME);
+        File.Delete(_CYBOZU_FILE_NAME);
+        File.Delete(_SPACE_FILE_NAME);
     }
 
 
@@ -230,7 +249,6 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     {
         var rtn = new DataTable();
         LogFile.Instance.WriteLine($"[{query_}]");
-
         try
         {
             var data = _connection?.ExecuteReader(query_);
@@ -290,7 +308,7 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
             // トランザクションしないと遅い
             var query = $"REPLACE INTO  {tableName_} ({string.Join(",", listColumn_)}) ";
             var queryValues = string.Empty;
-            LogFile.Instance.WriteLine($"START [{listValue_.Count()}][{query}]");
+            LogFile.Instance.WriteLine($"[{query}]({listValue_.Count()})");
             try
             {
                 foreach (var item in listValue_)
@@ -331,9 +349,7 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     public IList<string> ListTableName(string master_= MAIN_MASTER)
     {
         string dbName = master_.Substring(0, master_.IndexOf('.')+1);
-
         var query =$"SELECT '{dbName}'||name FROM {master_} WHERE type='table';";
-
         LogFile.Instance.WriteLine($"[{query}]");
         try
         {
@@ -356,9 +372,7 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     public IList<string> ListColumn(string tableName_)
     {
         string dbName = tableName_.Substring(0, tableName_.IndexOf('.') + 1);
-        // SELECT name FROM pragma_table_info の場合、同一のテーブル名を判断できない
         var query = $"PRAGMA {dbName}table_info ({tableName_.Substring(tableName_.IndexOf('.') + 1)});";
-
         LogFile.Instance.WriteLine($"[{query}]");
         try
         {

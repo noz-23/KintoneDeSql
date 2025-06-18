@@ -17,8 +17,8 @@ namespace KintoneDeSql.Responses.Records;
 /// <summary>
 /// https://cybozu.dev/ja/kintone/docs/rest-api/records/get-comments/
 /// </summary>
-[Table($"{SQLiteManager.SUB_DATABASE}.comments")]
-internal class CommentResponse : CommentResponseMention,ISqlTable
+[Table($"{SQLiteManager.RECORD_DATABASE}.comments")]
+internal class CommentResponse : CommentResponseMention,ISqlTable,IAppTableId,IAppRecordId
 {
     #region ISqlTable
     public static new string TableName(bool withCamma_) => typeof(CommentResponse).TableName(withCamma_);
