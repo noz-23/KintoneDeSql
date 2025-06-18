@@ -110,12 +110,14 @@ public partial class ColumnSelectControl : UserControl
         _mainListBox.Items.Clear();
         _subListBox.Items.Clear();
         _fieldListBox.Items.Clear();
+        _recordListBox.Items.Clear();
         _spaceListBox.Items.Clear();
         _cybozuListBox.Items.Clear();
         //
         SQLiteManager.Instance.ListTableName(SQLiteManager.MAIN_MASTER).ForEach(item_ => _mainListBox.Items.Add(item_));
         SQLiteManager.Instance.ListTableName(SQLiteManager.SUB_MASTER).ForEach(item_ => _subListBox.Items.Add(item_));
         SQLiteManager.Instance.ListTableName(SQLiteManager.FIELD_MASTER).ForEach(item_ => _fieldListBox.Items.Add(item_));
+        SQLiteManager.Instance.ListTableName(SQLiteManager.RECORD_MASTER).ForEach(item_ => _recordListBox.Items.Add(item_));
         SQLiteManager.Instance.ListTableName(SQLiteManager.SPACE_MASTER).ForEach(item_ => _spaceListBox.Items.Add(item_));
         SQLiteManager.Instance.ListTableName(SQLiteManager.CYBOZU_MASTER).ForEach(item_ => _cybozuListBox.Items.Add(item_));
         //
