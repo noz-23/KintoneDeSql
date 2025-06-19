@@ -150,4 +150,10 @@
   <data name="JSON_SCHEMA_SCHEMAS" xml:space="preserve">
     <value>schemas</value>
   </data>
+  <data name="COLUMN_RESPONSE_CODE" xml:space="preserve">
+    <value>code</value>
+  </data>
+  <data name="COLUMN_RESPONSE_ID" xml:space="preserve">
+    <value>id</value>
+  </data>
 </root>

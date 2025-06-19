@@ -22,7 +22,7 @@ namespace KintoneDeSql.Responses.Plugin;
 /// </summary>
 [Table($"{SQLiteManager.SUB_DATABASE}.pluginApp")]
 
-internal class PluginAppResponse:BaseToData,ISqlTable,IId
+internal class PluginAppResponse:BaseToData,ISqlTable, IResponseId
 {
     //apps	配列（オブジェクト）	プラグインが追加されているアプリ情報の配列
     [JsonPropertyName("apps")]

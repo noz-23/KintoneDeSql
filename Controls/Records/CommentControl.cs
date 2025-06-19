@@ -9,13 +9,9 @@
 using KintoneDeSql.Controls.Apps;
 using KintoneDeSql.Managers;
 using KintoneDeSql.Properties;
-using KintoneDeSql.Requests.Apps;
-using KintoneDeSql.Requests.Cybozu;
 using KintoneDeSql.Requests.Records;
-using KintoneDeSql.Responses.Apps;
 using KintoneDeSql.Responses.Records;
 using System.Data;
-using System.Windows;
 
 namespace KintoneDeSql.Controls.Records;
 
@@ -33,6 +29,13 @@ internal class CommentControl : BaseAppControl
         // 下の表示
         ControlSubTableName = CommentResponseMention.TableName(false);
     }
+
+    /// <summary>
+    /// 上位のレコード表示
+    /// </summary>
+    public DataView? RecordDataView { get; set; } = null;
+
+
 
     /// <summary>
     /// Getボタン押下
@@ -54,28 +57,26 @@ internal class CommentControl : BaseAppControl
                 continue;
             }
 
-            var offset = 0;
-            const int _LIMIT = KintoneManager.COMMENT_LIMIT;
-            do
-            {
-                //var response = await CommentRequest.Instance.Insert(appId_, recordId,offset, _LIMIT);
-                var response = await CommentRequest.Instance.Insert(appId_, apiKey_, recordId, offset, _LIMIT);
-                if (response == null)
-                {
-                    break;
-                }
-                if (response.ListComment.Count == 0)
-                {
-                    break;
-                }
-                //
-                count = response.ListComment.Count;
-                offset += count;
-            } while (count == _LIMIT);
+            //var offset = 0;
+            //const int _LIMIT = KintoneManager.COMMENT_LIMIT;
+            //do
+            //{
+            //    var response = await CommentRequest.Instance.Insert(appId_, apiKey_, recordId, offset, _LIMIT);
+            //    if (response == null)
+            //    {
+            //        break;
+            //    }
+            //    if (response.ListComment.Count == 0)
+            //    {
+            //        break;
+            //    }
+            //    //
+            //    count = response.ListComment.Count;
+            //    offset += count;
+            //} while (count == _LIMIT);
+            await CommentRequest.Instance.InsertAll(appId_, apiKey_, recordId, KintoneManager.COMMENT_LIMIT);
             _ProgressCount?.Invoke(++count);
         }
         return RecordDataView.Count;
     }
-
-    public DataView? RecordDataView { get; set; } = null;
 }

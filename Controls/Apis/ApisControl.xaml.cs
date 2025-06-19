@@ -67,7 +67,8 @@ public partial class ApisControl : UserControl
         win.Run = async () =>
         {
             var response = await ApisGetRequest.Instance.Insert();
-            return await _getSchema(response);
+            //return await _getSchema(response);
+            await _getSchema(response);
         };
         //
         win.ShowDialog();

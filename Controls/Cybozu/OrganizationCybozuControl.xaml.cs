@@ -9,37 +9,35 @@
 using KintoneDeSql.Managers;
 using KintoneDeSql.Properties;
 using KintoneDeSql.Requests.Cybozu;
-using KintoneDeSql.Requests.Plugins;
-using KintoneDeSql.Responses.Cybozu.Groups;
-using KintoneDeSql.Responses.Plugin;
-using KintoneDeSql.Responses.Plugins;
+using KintoneDeSql.Responses.Cybozu.Organizations;
 using KintoneDeSql.Windows;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace KintoneDeSql.Controls.Plugins;
+namespace KintoneDeSql.Controls.Cybozu;
 
 /// <summary>
-/// AppAclControl.xaml の相互作用ロジック
+/// CybozuOrganizationsControl.xaml の相互作用ロジック
+/// https://cybozu.dev/ja/common/docs/user-api/organizations/
 /// </summary>
-public partial class PluginsControl : UserControl//, INotifyPropertyChanged
+public partial class OrganizationCybozuControl : UserControl
 {
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    public PluginsControl()
+    public OrganizationCybozuControl()
     {
         InitializeComponent();
         //
-        _pluginControl.ControlTableName = PluginResponsee.TableName(false);
-        _pluginAppControl.ControlTableName = PluginAppResponse.TableName(false);
+        _controlOrganization.ControlTableName = OrganizationResponse.TableName(false);
+        _controlUserTitle.ControlTableName = UserTitleResponse.TableName(false); 
     }
 
     /// <summary>
     /// プログレスバー処理
     /// </summary>
-    public WaitWindow.ProgressCountCallBack? _progresssBarCount = null;
+    //public WaitWindow.ProgressCountCallBack? _progresssBarCount = null;
 
     /// <summary>
     /// 読み込み表示
@@ -58,87 +56,94 @@ public partial class PluginsControl : UserControl//, INotifyPropertyChanged
     /// <param name="e_"></param>
     private void _getClick(object sender_, RoutedEventArgs e_)
     {
+        //const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
+
         var win = new WaitWindow();
         var progresssBarCount = win.ProgressCount;
-
         win.Run = async () =>
         {
             //var offset = 0;
             //var count = 0;
-            //const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
+            ////
             //do
             //{
-            //    var response = await PluginRequest.Instance.Insert(offset, _LIMIT, false);
+            //    var response = await OrganizationsRequest.Instance.Insert(offset, _LIMIT, true);
             //    if (response == null)
             //    {
             //        break;
             //    }
-            //    if (response.ListPlugin == null)
+            //    if (response.ListOrganization.Count == 0)
             //    {
             //        break;
-            //    }                        //
-            //    count = response.ListPlugin.Count;
-            //    offset += count;
+            //    }
             //    //
-            //    _pluginAppInsert(response.ListPlugin);
+            //    count = response.ListOrganization.Count;
+            //    offset += count;
 
+            //    _userTitleInsert(response.ListOrganization);
             //} while (count == _LIMIT);
+            //
+            //return offset;
 
-            //return PluginRequest;
-            await PluginRequest.Instance.InsertAll(KintoneManager.CYBOZU_LIMIT, false);
-            _pluginControl.Load();
-            var dataView = _pluginControl.GridDataView;
+            await OrganizationsRequest.Instance.InsertAll( KintoneManager.CYBOZU_LIMIT, true);
+            _controlOrganization.Load();
+            var dataView = _controlOrganization.GridDataView;
             if (dataView != null)
             {
                 int count = 0;
-                progresssBarCount?.Invoke(count, dataView.Count, "Plugins");
+                progresssBarCount?.Invoke(count, dataView.Count, "Organizations");
 
                 foreach (DataRowView row in dataView)
                 {
-                    var id = row[Resource.COLUMN_RESPONSE_ID].ToString();
+                    var code = row[Resource.COLUMN_RESPONSE_CODE].ToString();
 
-                    if (string.IsNullOrEmpty(id) == false)
+                    if (string.IsNullOrEmpty(code) == false)
                     {
-                        await PluginAppRequest.Instance.InsertAll(id, KintoneManager.CYBOZU_LIMIT, false);
+                        await UserTitlesRequest.Instance.InsertAll(code, KintoneManager.CYBOZU_LIMIT, true);
                     }
                     progresssBarCount?.Invoke(++count);
                 }
                 //
+                //_controlUserTitle.Load();
             }
         };
+        //
         win.ShowDialog();
         //_progresssBarCount = null;
         _loadDatabase();
     }
 
-    //private async void _pluginAppInsert(IList<PluginValue> list_)
+    /// <summary>
+    /// 組織に所属するユーザ取得
+    /// </summary>
+    /// <param name="list_"></param>
+    //private async void _userTitleInsert(IList<OrganizationValue> list_)
     //{
-    //    const int _LIMIT = KintoneManager.RECORD_LIMIT;
+    //    const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
 
-    //    var pluginCount = 0;
-    //    _progresssBarCount?.Invoke(pluginCount, list_.Count, "Plugin App");
-    //    foreach (var plugIn in list_)
+    //    int orgCount = 0;
+    //    _progresssBarCount?.Invoke(orgCount, list_.Count, "Organizations");
+    //    foreach (var organization in list_)
     //    {
     //        var offset = 0;
     //        var count = 0;
 
     //        do
     //        {
-    //            var response = await PluginAppRequest.Instance.Insert(plugIn.Id, offset, _LIMIT,false);
+    //            var response = await UserTitlesRequest.Instance.Insert(organization.Code, offset, _LIMIT, true);
     //            if (response == null)
     //            {
     //                break;
     //            }
-    //            if (response.ListApp.Count == 0)
+    //            if (response.ListUserTitle.Count == 0)
     //            {
     //                break;
     //            }
     //            //
-    //            count = response.ListApp.Count;
+    //            count = response.ListUserTitle.Count;
     //            offset += count;
-    //            //
-    //            _progresssBarCount?.Invoke(++pluginCount);
     //        } while (count == _LIMIT);
+    //        _progresssBarCount?.Invoke(++orgCount);
     //    }
     //}
 
@@ -147,7 +152,7 @@ public partial class PluginsControl : UserControl//, INotifyPropertyChanged
     /// </summary>
     private void _loadDatabase()
     {
-        _pluginControl.Load();
-        _pluginAppControl.Load();
+        _controlOrganization.Load();
+        _controlUserTitle.Load();
     }
 }

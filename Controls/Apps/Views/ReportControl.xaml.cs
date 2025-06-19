@@ -88,7 +88,7 @@ public partial class ReportControl : UserControl
             var response = await ReportRequest.Instance.Insert(_appId,_apiKey);
             progressCount?.Invoke(1);
 
-            return count;
+            //return count;
         };
 
         win.ShowDialog();

@@ -90,7 +90,7 @@ public partial class AppStatusControl : UserControl
             var response = await AppStatusRequest.Instance.Insert(_appId,_apiKey);
             progressCount?.Invoke(count);
             //
-            return count;
+            //return count;
         };
 
         win.ShowDialog();

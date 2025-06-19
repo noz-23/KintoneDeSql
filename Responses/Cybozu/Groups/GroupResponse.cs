@@ -19,7 +19,7 @@ namespace KintoneDeSql.Responses.Cybozu.Groups;
 /// https://cybozu.dev/ja/common/docs/user-api/groups/
 /// </summary>
 [Table($"{SQLiteManager.CYBOZU_DATABASE}.groups")]
-internal class GroupResponse:ISqlTable
+internal class GroupResponse:ISqlTable , IResponseCount
 {
     // groups 配列  グループ情報
     [JsonPropertyName("groups")]
@@ -35,5 +35,9 @@ internal class GroupResponse:ISqlTable
         ListGroup.ForEach(group_ => rtn.Add(group_.ListValue(withCamma_)));
         return rtn;
     }
+    #endregion
+
+    #region
+    public int Count { get => ListGroup.Count; }
     #endregion
 }

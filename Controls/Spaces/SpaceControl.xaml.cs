@@ -6,9 +6,7 @@
  * Licensed under the MIT License 
  * 
  */
-using KintoneDeSql.Files;
 using KintoneDeSql.Managers;
-using KintoneDeSql.Requests.Plugins;
 using KintoneDeSql.Requests.Spaces;
 using KintoneDeSql.Responses.Spaces;
 using KintoneDeSql.Windows;
@@ -74,43 +72,45 @@ public partial class SpaceControl : UserControl
                 progresssBarCount?.Invoke(++count);
 
             }
-            return count;
+
+            await SpacesStatisticsRequest.Instance.InsertAll(KintoneManager.CYBOZU_LIMIT, false);
+            //return count;
         };
         //
-        win.Run += async () =>
-        {
-            //var count = 0;
-            //progresssBarCount?.Invoke(0, 1, "Space Statistics");
+        //win.Run += async () =>
+        //{
+        //    //var count = 0;
+        //    //progresssBarCount?.Invoke(0, 1, "Space Statistics");
 
-            //var response = await SpacesStatisticsRequest.Instance.Insert();
-            //LogFile.Instance.WriteLine($"[{response.ToString()}]");
-            //progresssBarCount?.Invoke(++count);
+        //    //var response = await SpacesStatisticsRequest.Instance.Insert();
+        //    //LogFile.Instance.WriteLine($"[{response.ToString()}]");
+        //    //progresssBarCount?.Invoke(++count);
 
-            //return count;
-            var offset = 0;
-            var count = 0;
-            const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
-            do
-            {
-                var response = await SpacesStatisticsRequest.Instance.Insert(offset, _LIMIT, false);
-                if (response == null)
-                {
-                    break;
-                }
-                if (response.ListSpace == null)
-                {
-                    break;
-                }                        //
-                count = response.ListSpace.Count;
-                offset += count;
-            } while (count == _LIMIT);
+        //    //return count;
+        //    var offset = 0;
+        //    var count = 0;
+        //    const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
+        //    do
+        //    {
+        //        var response = await SpacesStatisticsRequest.Instance.Insert(offset, _LIMIT, false);
+        //        if (response == null)
+        //        {
+        //            break;
+        //        }
+        //        if (response.ListSpace == null)
+        //        {
+        //            break;
+        //        }                        //
+        //        count = response.ListSpace.Count;
+        //        offset += count;
+        //    } while (count == _LIMIT);
 
-            return offset;
+        //    //return offset;
 
-        };
+        //};
         //
         win.ShowDialog();
-        progresssBarCount = null;
+        //progresssBarCount = null;
         //
         _loadDatabase();
     }

@@ -10,6 +10,7 @@ using KintoneDeSql.Data;
 using KintoneDeSql.Interface;
 using KintoneDeSql.Managers;
 using KintoneDeSql.Properties;
+using KintoneDeSql.Requests.Cybozu;
 using KintoneDeSql.Responses.Cybozu.Groups;
 using KintoneDeSql.Responses.Cybozu.Users;
 using System.Net.Http;
@@ -41,7 +42,7 @@ internal class BaseRequest<REQUEST, RESPONSE> : BaseSingleton<REQUEST> where REQ
         var query = string.Empty;
         var paramater = JsonSerializer.Serialize(new { id = id_ });
         var response = await KintoneManager.Instance.KintoneGet<RESPONSE?>(HttpMethod.Get, _Command, query, paramater);
-        if (response is IId haveId)
+        if (response is IResponseId haveId)
         {
             haveId.Id = id_;
         }
@@ -52,7 +53,7 @@ internal class BaseRequest<REQUEST, RESPONSE> : BaseSingleton<REQUEST> where REQ
         var query = string.Empty;
         var paramater = JsonSerializer.Serialize(new { code = code_ });
         var response = await KintoneManager.Instance.CybozuGet<RESPONSE?>(HttpMethod.Get, _Command, query, paramater);
-        if (response is IAppCode haveCode)
+        if (response is IResponseCode haveCode)
         {
             haveCode.Code = code_;
         }
@@ -112,7 +113,7 @@ internal class BaseRequest<REQUEST, RESPONSE> : BaseSingleton<REQUEST> where REQ
         var paramater = JsonSerializer.Serialize(new { id = id_, offset = offset_, limit = limit_ });
         var response = await KintoneManager.Instance.KintoneGet<RESPONSE?>(HttpMethod.Get, _Command, query, paramater);
         //
-        if (response is IId havePluginId)
+        if (response is IResponseId havePluginId)
         {
             havePluginId.Id = id_;
         }
@@ -124,7 +125,7 @@ internal class BaseRequest<REQUEST, RESPONSE> : BaseSingleton<REQUEST> where REQ
         var query = string.Empty;
         var paramater = JsonSerializer.Serialize(new { code = code_, offset = offset_, size = size_ });
         var response = await KintoneManager.Instance.CybozuGet<RESPONSE?>(HttpMethod.Get, _Command, query, paramater);
-        if (response is IAppCode haveCode)
+        if (response is IResponseCode haveCode)
         {
             haveCode.Code = code_;
         }
@@ -203,14 +204,14 @@ internal class BaseRequest<REQUEST, RESPONSE> : BaseSingleton<REQUEST> where REQ
         return response;
     }
 
-    public async Task<RESPONSE?> Insert(int offset_, int limit_, bool useCybozu_)
+    private async Task<RESPONSE?> _insert(int offset_, int limit_, bool useCybozu_)
     {
         var response = await Get(offset_, limit_, useCybozu_);
         Insert(response);   // override
         return response;
     }
 
-    public async Task<RESPONSE?> Insert(string id_, int offset_, int limit_, bool useCybozu_)
+    private async Task<RESPONSE?> _insert(string id_, int offset_, int limit_, bool useCybozu_)
     {
         var response = await Get(id_, offset_, limit_, useCybozu_);
         Insert(response);   // override
@@ -224,11 +225,95 @@ internal class BaseRequest<REQUEST, RESPONSE> : BaseSingleton<REQUEST> where REQ
         return response;
     }
 
-    public async Task<RESPONSE?> Insert(string appId_, string appToken_, string record_, int offset_, int limit_)
+    private async Task<RESPONSE?> _insert(string appId_, string appToken_, string record_, int offset_, int limit_)
     {
         var response = await Get(appId_, appToken_, record_, offset_, limit_);
         Insert(response);   // override
         return response;
     }
     #endregion
+
+    public async Task<int> InsertAll(int limit_, bool useCybozu_)
+    {
+        var count = 0;
+        var offset = 0;
+        //
+        do
+        {
+            var response = await _insert(offset, limit_, useCybozu_);
+
+            if (response is IResponseCount haveCount)
+            {
+                count = haveCount.Count;
+                if (count == 0)
+                {
+                    break;
+                }
+                offset += count;
+            }
+            else
+            {
+                break;
+            }
+
+        } while (count == limit_);
+        //
+        return offset;
+    }
+
+    public async Task<int> InsertAll(string id_, int limit_, bool useCybozu_)
+    {
+        var count = 0;
+        var offset = 0;
+        //
+        do
+        {
+            var response = await _insert(id_,offset, limit_, useCybozu_);
+
+            if (response is IResponseCount haveCount)
+            {
+                count = haveCount.Count;
+                if (count == 0)
+                {
+                    break;
+                }
+                offset += count;
+            }
+            else
+            {
+                break;
+            }
+
+        } while (count == limit_);
+        //
+        return offset;
+    }
+
+    public async Task<int> InsertAll(string appId_, string appToken_, string record_, int limit_)
+    {
+        var count = 0;
+        var offset = 0;
+        //
+        do
+        {
+            var response = await _insert(appId_, appToken_, record_, offset, limit_);
+
+            if (response is IResponseCount haveCount)
+            {
+                count = haveCount.Count;
+                if (count == 0)
+                {
+                    break;
+                }
+                offset += count;
+            }
+            else
+            {
+                break;
+            }
+
+        } while (count == limit_);
+        //
+        return offset;
+    }
 }

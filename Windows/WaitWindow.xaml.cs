@@ -28,7 +28,7 @@ public partial class WaitWindow : Window
     /// 実処理
     /// </summary>
     /// <returns></returns>
-    public delegate Task<int> RunCallBack();
+    public delegate Task RunCallBack();
 
     /// <summary>
     /// プログレスバー処理
@@ -41,7 +41,7 @@ public partial class WaitWindow : Window
     /// <summary>
     /// 処理数
     /// </summary>
-    public int Count { get; set; } = 0;
+    //public int Count { get; set; } = 0;
 
     /// <summary>
     /// 処理内容
@@ -58,7 +58,7 @@ public partial class WaitWindow : Window
         // 実行して
         if (Run != null)
         {
-            Count = await Run.Invoke();
+            await Run.Invoke();
         }
         // 閉じる
         Close();

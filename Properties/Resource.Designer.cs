@@ -106,6 +106,24 @@ namespace KintoneDeSql.Properties {
         }
         
         /// <summary>
+        ///   code に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string COLUMN_RESPONSE_CODE {
+            get {
+                return ResourceManager.GetString("COLUMN_RESPONSE_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   id に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string COLUMN_RESPONSE_ID {
+            get {
+                return ResourceManager.GetString("COLUMN_RESPONSE_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   subTableId に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string COLUMN_SUB_RECORD_ID {

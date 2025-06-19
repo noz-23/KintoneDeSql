@@ -18,20 +18,20 @@ namespace KintoneDeSql.Controls;
 /// <summary>
 /// BaseControl.xaml の相互作用ロジック
 /// </summary>
-public partial class BaseControl : UserControl, INotifyPropertyChanged
+public partial class BaseControl : UserControl//, INotifyPropertyChanged
 {
     public BaseControl()
     {
         InitializeComponent();
     }
 
-    #region INotifyPropertyChanged
-    public event PropertyChangedEventHandler? PropertyChanged;
-    private void _notifyPropertyChanged([CallerMemberName] string propertyName_ = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName_));
-    }
-    #endregion
+    //#region INotifyPropertyChanged
+    //public event PropertyChangedEventHandler? PropertyChanged;
+    //private void _notifyPropertyChanged([CallerMemberName] string propertyName_ = "")
+    //{
+    //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName_));
+    //}
+    //#endregion
 
     public string ControlTableName{get;set;} = string.Empty;
     public string ControlWhere { get; set; } = string.Empty;
@@ -57,6 +57,21 @@ public partial class BaseControl : UserControl, INotifyPropertyChanged
 
     public int Count
     {
-        get => (_dataGrid.ItemsSource is DataView view) ? view.Count : 0;
+        //get => (_dataGrid.ItemsSource is DataView view) ? view.Count : 0;
+        get => GridDataView?.Count ?? 0;
     }
+
+
+    public DataView? GridDataView
+    {
+        get
+        {
+            if (_dataGrid.ItemsSource is DataView view)
+            {
+                return view;
+            }
+            return null;
+        }
+    }
+
 }

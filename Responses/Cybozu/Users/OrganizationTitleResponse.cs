@@ -21,7 +21,7 @@ namespace KintoneDeSql.Responses.Cybozu.Users;
 /// https://cybozu.dev/ja/common/docs/user-api/users/get-users-organizations/
 /// </summary>
 [Table($"{SQLiteManager.CYBOZU_DATABASE}.organizationTitles")]
-internal class OrganizationTitleResponse:BaseToData, ISqlTable, IAppCode
+internal class OrganizationTitleResponse:BaseToData, ISqlTable, IResponseCode
 {
     /// <summary>
     /// organizationTitles 保存

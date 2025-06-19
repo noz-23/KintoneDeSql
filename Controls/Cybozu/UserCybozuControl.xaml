@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="KintoneDeSql.Controls.Cybozu.OrganizationListControl"
+    x:Class="KintoneDeSql.Controls.Cybozu.UserCybozuControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -29,18 +29,40 @@
             TabStripPlacement="Left"
             >
             <TabItem
-                Header="Organizations"
-                >
-                <control:BaseControl 
-                    x:Name="_controlOrganization"
-                    />
-            </TabItem>
-            <TabItem
                 Header="Users"
                 >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <control:BaseControl 
+                        x:Name="_controlUser"
+                        Grid.Row="0"
+                        />
+                    <control:BaseControl 
+                        x:Name="_controlCustomItem"
+                        Grid.Row="1"
+                        />
+                </Grid>
+            </TabItem>
+            <TabItem
+                Header="Services"
+                >
                 <control:BaseControl 
-                    x:Name="_controlUserTitle"
-                    />
+                    x:Name="_controlServices"/>
+            </TabItem>
+            <TabItem
+                Header="OrganizationTitle" 
+                >
+                <control:BaseControl 
+                    x:Name="_controlOrganizationTitle"/>
+            </TabItem>
+            <TabItem
+                Header="Group"
+                >
+                <control:BaseControl 
+                    x:Name="_controlGroup"/>
             </TabItem>
         </TabControl>
     </Grid>

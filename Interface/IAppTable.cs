@@ -8,12 +8,6 @@
  */
 namespace KintoneDeSql.Interface;
 
-
-internal interface IId
-{
-    string Id { get; set; }
-}
-
 internal interface IAppTableId
 {
     string AppId { get; set; }
@@ -22,12 +16,6 @@ internal interface IAppRecordId
 {
     string RecordId { get; set; }
 }
-
-internal interface IAppCode
-{
-    string Code { get; set; }
-}
-
 
 internal interface IAppTableKey
 {

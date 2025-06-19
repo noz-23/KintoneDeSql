@@ -21,7 +21,7 @@ namespace KintoneDeSql.Responses.Cybozu.Organizations;
 /// https://cybozu.dev/ja/common/docs/user-api/overview/data-structure/#user-title
 /// </summary>
 [Table($"{SQLiteManager.CYBOZU_DATABASE}.userTitles")]
-internal class UserTitleResponse : BaseToData,ISqlTable, IAppCode
+internal class UserTitleResponse : BaseToData,ISqlTable, IResponseCode
 {
     /// <summary>
     /// organization 保存

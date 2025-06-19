@@ -19,21 +19,21 @@
                 Header="Users"                
                 >
                 <Grid >
-                    <local:UserListControl />
+                    <local:UserCybozuControl />
                 </Grid>
             </TabItem>
             <TabItem
                 Header="Organizations"
                 >
                 <Grid >
-                    <local:OrganizationListControl />
+                    <local:OrganizationCybozuControl />
                 </Grid>
             </TabItem>
             <TabItem
                 Header="Groups"
                 >
                 <Grid >
-                    <local:GroupListControl />
+                    <local:GroupCybozuControl />
                 </Grid>
             </TabItem>
         </TabControl>

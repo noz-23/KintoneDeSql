@@ -88,7 +88,7 @@ public partial class AppActionControl : UserControl
             var response = await AppActionRequest.Instance.Insert(_appId, _apiKey);
             progressCount?.Invoke(count);
             //
-            return count;
+            //return count;
         };
 
         win.ShowDialog();
