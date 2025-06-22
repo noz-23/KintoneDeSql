@@ -54,8 +54,8 @@ public partial class SpaceControl : UserControl
         var win = new WaitWindow();
         var progresssBarCount = win.ProgressCount;
 
+        // 全スペースを取得するAPIがないため
         var spaceMax = Int32.Parse(_textBox.Text);
-
         win.Run = async () =>
         {
             var count = 0;
@@ -63,55 +63,17 @@ public partial class SpaceControl : UserControl
             //
             for (var i = 1; i < spaceMax; i++)
             {
-                var response = await SpacesRequest.Instance.Insert($"{i}",false);
-                //LogFile.Instance.WriteLine($"[{response}]");
-                //
+                var response = await SpacesRequest.Instance.Insert($"{i}",false);                //
                 var responseMember = await SpacesMemberRequest.Instance.Insert($"{i}", false);
-                //LogFile.Instance.WriteLine($"[{responseMember}]");
 
                 progresssBarCount?.Invoke(++count);
 
             }
 
             await SpacesStatisticsRequest.Instance.InsertAll(KintoneManager.CYBOZU_LIMIT, false);
-            //return count;
         };
         //
-        //win.Run += async () =>
-        //{
-        //    //var count = 0;
-        //    //progresssBarCount?.Invoke(0, 1, "Space Statistics");
-
-        //    //var response = await SpacesStatisticsRequest.Instance.Insert();
-        //    //LogFile.Instance.WriteLine($"[{response.ToString()}]");
-        //    //progresssBarCount?.Invoke(++count);
-
-        //    //return count;
-        //    var offset = 0;
-        //    var count = 0;
-        //    const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
-        //    do
-        //    {
-        //        var response = await SpacesStatisticsRequest.Instance.Insert(offset, _LIMIT, false);
-        //        if (response == null)
-        //        {
-        //            break;
-        //        }
-        //        if (response.ListSpace == null)
-        //        {
-        //            break;
-        //        }                        //
-        //        count = response.ListSpace.Count;
-        //        offset += count;
-        //    } while (count == _LIMIT);
-
-        //    //return offset;
-
-        //};
-        //
         win.ShowDialog();
-        //progresssBarCount = null;
-        //
         _loadDatabase();
     }
 

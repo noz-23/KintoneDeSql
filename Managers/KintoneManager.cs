@@ -8,8 +8,6 @@
  */
 using KintoneDeSql.Data;
 using KintoneDeSql.Files;
-using KintoneDeSql.Interface;
-using KintoneDeSql.Responses.Apps;
 using KintoneDeSql.Responses.Records;
 using System.Net.Http;
 using System.Text;
@@ -298,29 +296,4 @@ internal class KintoneManager : BaseSingleton<KintoneManager>
             return null;
         }
     }
-
-    ///
-    //public async Task<T?> Get<T>(string command_,string appId_) where T: class?,ISqlTable, IAppTableId, new()
-    //{
-    //    var query = string.Empty;
-    //    var paramater = JsonSerializer.Serialize(new { app = appId_ });
-    //    var rtn = await KintoneGet<T?>(HttpMethod.Get, command_, query, paramater);
-
-    //    if (rtn != null)
-    //    {
-    //        rtn.AppId = appId_;
-    //    }
-    //    return rtn;
-    //}
-
-    //public async Task<T?> Insert<T>(string command_, string appId_) where T : class?, ISqlTable, IAppTableId, new()
-    //{
-    //    var rtn = await Get<T>(command_,appId_);
-    //    if (rtn != null)
-    //    {
-    //        SQLiteManager.Instance.InsertTable(T.TableName(false), T.ListInsertHeader(true), rtn.ListInsertValue(true));
-    //    }
-
-    //    return rtn;
-    //}
 }

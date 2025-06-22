@@ -7,12 +7,9 @@
  * 
  */
 using KintoneDeSql.Managers;
-using KintoneDeSql.Properties;
-using KintoneDeSql.Requests.Cybozu;
 using KintoneDeSql.Requests.Plugins;
 using KintoneDeSql.Responses.Plugins;
 using KintoneDeSql.Windows;
-using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -55,28 +52,6 @@ public partial class PluginRequiredControl : UserControl//, INotifyPropertyChang
 
         win.Run = async () =>
         {
-            //progresssBarCount?.Invoke(0, 1, "Plugin Required");
-            //var offset = 0;
-            //var count = 0;
-            //const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
-            //do
-            //{
-            //    var response = await PluginRequiredRequest.Instance.Insert(offset, _LIMIT, false);
-            //    if (response == null)
-            //    {
-            //        break;
-            //    }
-            //    if (response.ListPlugin == null)
-            //    {
-            //        break;
-            //    }
-            //    //
-            //    count = response.ListPlugin.Count;
-            //    offset += count;
-            //} while (count == _LIMIT);
-
-            //progresssBarCount?.Invoke(1);
-            //return 1;
             int count = 0;
             progresssBarCount?.Invoke(count, 1, "Plugin Required");
             await PluginRequiredRequest.Instance.InsertAll(KintoneManager.CYBOZU_LIMIT, false);

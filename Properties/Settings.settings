@@ -17,9 +17,6 @@
     <Setting Name="KintoneLoginPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="KintoneApiToken" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="ProxyAddress" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

@@ -87,6 +87,7 @@ public partial class AppsControl : UserControl
         _progresssBarCount = win.ProgressCount;
         //
         win.Run =async()=> await _insertApps(response);
+        //
         win.ShowDialog();
         _progresssBarCount = null;
     }
@@ -123,7 +124,6 @@ public partial class AppsControl : UserControl
                     var response = await RecordRequest.Instance.Insert(app.AppId, app.ApiKey, lastId, _LIMIT,true);
                     if (response == null)
                     {
-                        //return offset;
                         return;
                     }
                     count = response.ListRecord.Count;
@@ -135,7 +135,6 @@ public partial class AppsControl : UserControl
 
                         if (MessageBox.Show($"Get All {totalCount} records?\nUse Api Count {apiTimes} times", "Attention", MessageBoxButton.YesNo) == MessageBoxResult.No)
                         {
-                            //return count;
                             return;
                         }
 
@@ -161,7 +160,6 @@ public partial class AppsControl : UserControl
 
             if (app.Count != 0)
             {
-                //app.Count = win.Count;
                 app.RecordDateTime = DateTime.Now;
             }
         }
@@ -321,30 +319,4 @@ public partial class AppsControl : UserControl
 
         }
     }
-
-    /// <summary>
-    /// アプリ使用状況を取得
-    /// </summary>
-    /// <param name="response_"></param>
-    //private async void _appStatistic(AppGetResponse response_)
-    //{
-    //    var offset = 0;
-    //    var count = 0;
-    //    const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
-    //    do
-    //    {
-    //        var response = await AppsStatisticRequest.Instance.Insert(offset, _LIMIT, false);
-    //        if (response == null)
-    //        {
-    //            break;
-    //        }
-    //        if (response.ListApp.Count == 0)
-    //        {
-    //            break;
-    //        }
-    //        //
-    //        count = response.ListApp.Count;
-    //        offset += count;
-    //    } while (count == _LIMIT);
-    //}
 }

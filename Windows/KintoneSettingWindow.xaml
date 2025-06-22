@@ -74,11 +74,7 @@
             />
         <TextBlock
             Grid.Column="0" Grid.Row="5"
-            Text="kintone api token"
-            />
-        <TextBox 
-            x:Name="_kintoneApiToken"            
-            Grid.Column="1" Grid.Row="5"
+            Text=""
             />
         <TextBlock
             x:Name="_apiToken"

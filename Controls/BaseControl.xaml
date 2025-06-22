@@ -13,7 +13,7 @@
     >
     <Grid>
         <local:SqlDataGrid 
-            x:Name="_dataGrid"            
+            x:Name="_dataGrid"
             />
     </Grid>
 </UserControl>

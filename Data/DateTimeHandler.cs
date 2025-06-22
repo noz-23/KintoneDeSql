@@ -46,7 +46,6 @@ internal sealed class DateTimeHandler : SqlMapper.TypeHandler<DateTime?>
     /// </summary>
     /// <param name="parameter"></param>
     /// <param name="value"></param>
-
     public override void SetValue(IDbDataParameter parameter, DateTime? value_)
     {
         parameter.Value = value_?.ToString()??string.Empty;

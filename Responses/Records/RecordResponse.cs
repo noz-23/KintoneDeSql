@@ -22,7 +22,7 @@ namespace KintoneDeSql.Responses.Records;
 /// https://cybozu.dev/ja/kintone/docs/rest-api/records/get-records/
 /// </summary>
 [Table("records")]
-internal class RecordResponse :BaseToData,IInsertTable
+internal class RecordResponse :BaseToData,IInsertTable,IAppTableId
 {
     // records 配列（オブジェクト）	レコードの一覧
     [JsonPropertyName("records")]

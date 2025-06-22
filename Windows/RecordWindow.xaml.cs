@@ -12,7 +12,6 @@ using KintoneDeSql.Managers;
 using KintoneDeSql.Views;
 using System.Data;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace KintoneDeSql.Windows;
 
@@ -32,8 +31,8 @@ public partial class RecordDataTableWindow : Window, IAppTable//, INotifyPropert
     }
     internal RecordDataTableWindow(AppTableView appView_):this()
     {
-        _appView = appView_;
         LogFile.Instance.WriteLine($"Select Records[{appView_.TableName}]");
+        _appView = appView_;
     }
 
     /// <summary>
@@ -57,8 +56,11 @@ public partial class RecordDataTableWindow : Window, IAppTable//, INotifyPropert
     /// <summary>
     /// プログレスバー処理
     /// </summary>
-    public WaitWindow.ProgressCountCallBack? _progresssBarCount = null;
+    //public WaitWindow.ProgressCountCallBack? _progresssBarCount = null;
 
+    /// <summary>
+    /// 表示しているApp 
+    /// </summary>
     private AppTableView _appView = new();
 
     private void _loaded(object sender_, RoutedEventArgs e_)

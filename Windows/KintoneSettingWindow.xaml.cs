@@ -22,7 +22,7 @@ public partial class KintoneSettingWindow : Window
     /// </summary>
     public KintoneSettingWindow()
     {
-        LogFile.Instance.WriteLine(@"START");
+        LogFile.Instance.WriteLine(@"Start");
         InitializeComponent();
     }
 
@@ -40,7 +40,6 @@ public partial class KintoneSettingWindow : Window
         _accessPassword.Text = Settings.Default.KintoneAccessPassword;
         _kintoneId.Text = Settings.Default.KintoneLoginId;
         _kintonePassword.Text = Settings.Default.KintoneLoginPassword;
-        _kintoneApiToken.Text = Settings.Default.KintoneApiToken;
         _proxyAddress.Text = Settings.Default.ProxyAddress;
         _proxyUser.Text = Settings.Default.ProxyUser;
         _proxyPassword.Text = Settings.Default.ProxyPassword;
@@ -60,7 +59,6 @@ public partial class KintoneSettingWindow : Window
         Settings.Default.KintoneAccessPassword = _accessPassword.Text;
         Settings.Default.KintoneLoginId = _kintoneId.Text;
         Settings.Default.KintoneLoginPassword = _kintonePassword.Text;
-        Settings.Default.KintoneApiToken = _kintoneApiToken.Text;
         Settings.Default.ProxyAddress = _proxyAddress.Text;
         Settings.Default.ProxyUser = _proxyUser.Text;
         Settings.Default.ProxyPassword = _proxyPassword.Text;

@@ -35,8 +35,6 @@ internal class CommentControl : BaseAppControl
     /// </summary>
     public DataView? RecordDataView { get; set; } = null;
 
-
-
     /// <summary>
     /// Getボタン押下
     /// </summary>
@@ -57,23 +55,6 @@ internal class CommentControl : BaseAppControl
                 continue;
             }
 
-            //var offset = 0;
-            //const int _LIMIT = KintoneManager.COMMENT_LIMIT;
-            //do
-            //{
-            //    var response = await CommentRequest.Instance.Insert(appId_, apiKey_, recordId, offset, _LIMIT);
-            //    if (response == null)
-            //    {
-            //        break;
-            //    }
-            //    if (response.ListComment.Count == 0)
-            //    {
-            //        break;
-            //    }
-            //    //
-            //    count = response.ListComment.Count;
-            //    offset += count;
-            //} while (count == _LIMIT);
             await CommentRequest.Instance.InsertAll(appId_, apiKey_, recordId, KintoneManager.COMMENT_LIMIT);
             _ProgressCount?.Invoke(++count);
         }

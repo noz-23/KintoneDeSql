@@ -35,7 +35,6 @@ internal sealed class LogFile
     /// <summary>
     /// ログファイル名
     /// </summary>
-    //private string _logFileName = Directory.GetCurrentDirectory() + @"\log.txt";
     private string _logFileName = _FILE_NAME;
 
     /// <summary>

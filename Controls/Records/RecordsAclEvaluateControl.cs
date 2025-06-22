@@ -57,6 +57,7 @@ internal class RecordAclEvaluateControl : BaseAppControl
 
         foreach (var list in listId.Chunk(KintoneManager.API_LIMIT))
         {
+            /// 上限があるので分割
             var response = await RecordAclEvaluateRequest.Instance.Insert(appId_, list,apiKey_);
             count += list.Count();
 

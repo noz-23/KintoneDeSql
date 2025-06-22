@@ -14,7 +14,6 @@ using KintoneDeSql.Views;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
-using System.Xml.Linq;
 
 namespace KintoneDeSql.Managers;
 
@@ -27,9 +26,9 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
     {
         _path = path_;
         //
-        DeleteFile();
+        //DeleteFile();
         //
-        LogFile.Instance.WriteLine("START");
+        LogFile.Instance.WriteLine("Start");
         SqlMapper.AddTypeHandler(DateTimeHandler.Default);
         Open(_path);
         //
@@ -219,6 +218,12 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
         return new List<T>();
     }
 
+    /// <summary>
+    /// テーブル選択
+    /// </summary>
+    /// <param name="tableName_"></param>
+    /// <param name="where_"></param>
+    /// <returns></returns>
     public DataTable SelectTable(string tableName_,string where_="")
     {
         var rtn =new DataTable();
@@ -345,7 +350,11 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
         }
     }
 
-
+    /// <summary>
+    /// データベースにあるテーブル名取得
+    /// </summary>
+    /// <param name="master_"></param>
+    /// <returns></returns>
     public IList<string> ListTableName(string master_= MAIN_MASTER)
     {
         string dbName = master_.Substring(0, master_.IndexOf('.')+1);
@@ -369,9 +378,15 @@ internal sealed class SQLiteManager : BaseSingleton<SQLiteManager>, IDisposable
         return new List<string>();
     }
 
+    /// <summary>
+    /// テーブルにあるカラム名取得
+    /// </summary>
+    /// <param name="tableName_"></param>
+    /// <returns></returns>
     public IList<string> ListColumn(string tableName_)
     {
         string dbName = tableName_.Substring(0, tableName_.IndexOf('.') + 1);
+        // PRAGMA じゃない場合、別テーブルの重複名がうまく取得できない
         var query = $"PRAGMA {dbName}table_info ({tableName_.Substring(tableName_.IndexOf('.') + 1)});";
         LogFile.Instance.WriteLine($"[{query}]");
         try

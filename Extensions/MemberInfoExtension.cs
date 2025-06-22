@@ -169,6 +169,10 @@ internal static class MemberInfoExtension
         return rtn;
     }
 
+    /// <summary>
+    /// 展開判定
+    /// </summary>
+    /// <returns></returns>
     private delegate bool IsExtract();
     private static Dictionary<Type, IsExtract> _listTsExtract= new()
     {

@@ -56,34 +56,10 @@ public partial class GroupCybozuControl : UserControl
     /// <param name="e_"></param>
     private void _getClick(object sender_, RoutedEventArgs e_)
     {
-        //const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
-
         var win = new WaitWindow();
         var progresssBarCount = win.ProgressCount;
         win.Run = async () =>
         {
-            //var count = 0;
-            //var offset = 0;
-            ////
-            //do
-            //{
-            //    var response = await GroupsRequest.Instance.Insert(offset, _LIMIT, true);
-            //    if (response == null)
-            //    {
-            //        break;
-            //    }
-            //    if (response.ListGroup.Count == 0)
-            //    {
-            //        break;
-            //    }
-            //    //
-            //    count = response.ListGroup.Count;
-            //    offset += count;
-
-            //    _groupUserInsert(response.ListGroup);
-            //} while (count == _LIMIT);
-            ////
-            ////return offset;
             await GroupsRequest.Instance.InsertAll(KintoneManager.CYBOZU_LIMIT, true);
             _controlGroup.Load();
             var dataView = _controlGroup.GridDataView;
@@ -102,48 +78,12 @@ public partial class GroupCybozuControl : UserControl
                     }
                     progresssBarCount?.Invoke(++count);
                 }
-                //
-                //_controlUser.Load();
             }
         };
         //
         win.ShowDialog();
         _loadDatabase();
     }
-
-    /// <summary>
-    /// グループユーザ情報の挿入
-    /// </summary>
-    /// <param name="list_"></param>
-    //private async void _groupUserInsert(IList<GroupValue> list_)
-    //{
-    //    const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
-
-    //    var groupCount = 0;
-    //    _progresssBarCount?.Invoke(groupCount, list_.Count, "Groups");
-    //    foreach (var group in list_)
-    //    {
-    //        var offset = 0;
-    //        var count = 0;
-
-    //        do
-    //        {
-    //            var response = await GroupUsersRequest.Instance.Insert(group.Code,offset, _LIMIT,true);
-    //            if (response == null)
-    //            {
-    //                break;
-    //            }
-    //            if (response.ListUser.Count == 0)
-    //            {
-    //                break;
-    //            }
-    //            //
-    //            count = response.ListUser.Count;
-    //            offset += count;
-    //        } while (count == _LIMIT);
-    //        _progresssBarCount?.Invoke(++groupCount);
-    //    }
-    //}
 
     /// <summary>
     /// 再読み込み

@@ -11,8 +11,6 @@ using KintoneDeSql.Files;
 using KintoneDeSql.Interface;
 using KintoneDeSql.Managers;
 using KintoneDeSql.Properties;
-using KintoneDeSql.Requests;
-using KintoneDeSql.Requests.Apps.Forms;
 using KintoneDeSql.Views;
 using KintoneDeSql.Windows;
 using System.ComponentModel;
@@ -100,7 +98,14 @@ public partial class BaseAppControl : UserControl, INotifyPropertyChanged
     /// </summary>
     private string _apiKey = string.Empty;
 
+    /// <summary>
+    ///  表示条件
+    /// </summary>
     private string _controlAppWhere { get => $"WHERE {Resource.COLUMN_APP_ID}='{_appId}'"; }
+
+    /// <summary>
+    /// 取得時間条件
+    /// </summary>
     private string _controlTimeWhere{ get => $"WHERE name='{ControlMainTableName}' AND {Resource.COLUMN_SUB_TABLE_ID}='{_appId}'"; }
 
     /// <summary>
@@ -134,9 +139,9 @@ public partial class BaseAppControl : UserControl, INotifyPropertyChanged
         {
             var win = new WaitWindow();
             _ProgressCount = win.ProgressCount;
-
+            //
             win.Run = async () => await ControlInsert(_appId, _apiKey);
-
+            //
             win.ShowDialog();
             _ProgressCount = null;
 
@@ -210,12 +215,7 @@ public partial class BaseAppControl : UserControl, INotifyPropertyChanged
             return;
         }
 
-        var view = new TimeView()
-        {
-            Name = ControlMainTableName,
-            Id = _appId,
-            Time = time_
-        };
+        var view = new TimeView(_appId, ControlMainTableName, time_);
         SQLiteManager.Instance.InsertTable(typeof(TimeView).TableName(false), typeof(TimeView).ListInsertHeader(true), new List<IList<string>>() { view.ListValue(true) });
     }
 }

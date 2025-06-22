@@ -22,6 +22,12 @@ public class SqlDataGrid: DataGrid
         CanUserAddRows = false;
         IsReadOnly = true;
         SelectionMode= DataGridSelectionMode.Single;
+        // 行の仮想化有効
+        EnableColumnVirtualization = true;
+        EnableRowVirtualization = true;
+        SetValue(VirtualizingPanel.IsVirtualizingProperty, true);
+        SetValue(VirtualizingPanel.VirtualizationModeProperty, VirtualizationMode.Recycling);
+        //
         AutoGeneratingColumn += _autoGeneratingColumn;
     }
 

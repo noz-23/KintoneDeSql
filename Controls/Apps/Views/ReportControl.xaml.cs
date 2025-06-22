@@ -11,6 +11,7 @@ using KintoneDeSql.Interface;
 using KintoneDeSql.Managers;
 using KintoneDeSql.Properties;
 using KintoneDeSql.Requests.Apps.Views;
+using KintoneDeSql.Responses.Apps.Settings;
 using KintoneDeSql.Responses.Apps.Views;
 using KintoneDeSql.Views;
 using KintoneDeSql.Windows;
@@ -81,25 +82,18 @@ public partial class ReportControl : UserControl
 
         win.Run = async () =>
         {
-            const int _max = 1;
+            const int _MAX = 1;
             var count = 0;
             //
-            progressCount?.Invoke(count, _max, _reportControl.ControlTableName);
+            progressCount?.Invoke(count, _MAX, _reportControl.ControlTableName);
             var response = await ReportRequest.Instance.Insert(_appId,_apiKey);
-            progressCount?.Invoke(1);
-
-            //return count;
+            progressCount?.Invoke(++count);
         };
 
         win.ShowDialog();
         progressCount = null;
         //
-        var view = new TimeView()
-        {
-            Name = ReportResponse.TableName(false),
-            Id = _appId,
-            Time = DateTime.Now
-        };
+        var view = new TimeView(_appId, AppActionResponse.TableName(false), DateTime.Now);
         SQLiteManager.Instance.InsertTable(typeof(TimeView).TableName(false), typeof(TimeView).ListInsertHeader(true), new List<IList<string>>() { view.ListValue(true) });
         //
         _loadDatabase();

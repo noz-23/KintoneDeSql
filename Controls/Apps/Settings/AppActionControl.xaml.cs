@@ -81,10 +81,10 @@ public partial class AppActionControl : UserControl
 
         win.Run = async () =>
         {
-            const int _max = 1;
+            const int _MAX = 1;
             var count = 0;
             //
-            progressCount?.Invoke(count, _max, AppActionResponse.TableName(false));
+            progressCount?.Invoke(count, _MAX, AppActionResponse.TableName(false));
             var response = await AppActionRequest.Instance.Insert(_appId, _apiKey);
             progressCount?.Invoke(count);
             //
@@ -94,12 +94,7 @@ public partial class AppActionControl : UserControl
         win.ShowDialog();
         progressCount = null;
         //
-        var view = new TimeView()
-        {
-            Name = AppActionResponse.TableName(false),
-            Id = _appId,
-            Time = DateTime.Now
-        };
+        var view = new TimeView(_appId, AppActionResponse.TableName(false), DateTime.Now);
         SQLiteManager.Instance.InsertTable(typeof(TimeView).TableName(false), typeof(TimeView).ListInsertHeader(true), new List<IList<string>>() { view.ListValue(true) });
         //
         _loadDatabase();

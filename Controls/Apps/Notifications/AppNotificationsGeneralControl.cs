@@ -31,10 +31,10 @@ internal class AppNotificationsGeneralControl : BaseAppControl
     /// <returns>挿入数</returns>
     public override async Task<int> ControlInsert(string appId_, string apiKey_)
     {
-        const int _max = 1;
+        const int _MAX = 1;
         var count = 0;
         //
-        _ProgressCount?.Invoke(count, _max, ControlMainTableName);
+        _ProgressCount?.Invoke(count, _MAX, ControlMainTableName);
         var response = await AppNotificationsGeneralRequest.Instance.Insert(appId_, apiKey_);
         _ProgressCount?.Invoke(++count);
         //

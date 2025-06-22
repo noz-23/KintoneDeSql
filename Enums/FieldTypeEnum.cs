@@ -28,6 +28,7 @@ internal enum FieldToDatabaseTypeEnum
 
 /// <summary>
 /// https://cybozu.dev/ja/kintone/docs/overview/field-types/
+/// 文字列に置き換え予定
 /// </summary>
 internal enum FieldTypeEnum
 {

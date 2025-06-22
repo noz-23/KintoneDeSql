@@ -86,18 +86,6 @@ namespace KintoneDeSql.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string KintoneApiToken {
-            get {
-                return ((string)(this["KintoneApiToken"]));
-            }
-            set {
-                this["KintoneApiToken"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ProxyAddress {
             get {
                 return ((string)(this["ProxyAddress"]));

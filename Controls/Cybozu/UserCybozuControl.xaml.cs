@@ -60,35 +60,10 @@ public partial class UserCybozuControl : UserControl
     /// <param name="e_"></param>
     private void _getClick(object sender_, RoutedEventArgs e_)
     {
-        //const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
-        //const int _MAX = 1;
-
         var win = new WaitWindow();
         var progresssBarCount = win.ProgressCount;
         win.Run = async () =>
         {
-            //var offset = 0;
-            //var count = 0;
-            ////
-            //do
-            //{
-            //    var response = await UsersRequest.Instance.Insert(offset, _LIMIT, true);
-            //    if (response == null)
-            //    {
-            //        break;
-            //    }
-            //    if (response.ListUser.Count == 0)
-            //    {
-            //        break;
-            //    }
-            //    //
-            //    count = response.ListUser.Count;
-            //    offset += count;
-
-            //    _userGroupInsert(response.ListUser);
-            //} while (offset == _LIMIT);
-            //
-            //return offset;
             await UsersRequest.Instance.InsertAll( KintoneManager.CYBOZU_LIMIT, true);
             _controlUser.Load();
             var dataView = _controlUser.GridDataView;
@@ -113,71 +88,9 @@ public partial class UserCybozuControl : UserControl
             await UserServicesRequest.Instance.InsertAll(KintoneManager.CYBOZU_LIMIT, true);
         };
         //
-        //win.Run += async () =>
-        //{
-        //    var offset = 0;
-        //    var count = 0;
-
-        //    var pluginCount = 0;
-        //    _progresssBarCount?.Invoke(pluginCount, _MAX, "User Services");
-        //    do
-        //    {
-        //        var response = await UserServicesRequest.Instance.Insert(offset, _LIMIT, true);
-
-        //        if (response == null)
-        //        {
-        //            break;
-        //        }
-        //        if (response.ListUser.Count == 0)
-        //        {
-        //            break;
-        //        }
-        //        count = response.ListUser.Count;
-        //        offset += count;
-        //    } while (count == offset);
-        //    _progresssBarCount?.Invoke(++pluginCount);
-        //    //return 1;
-        //};
-        //
         win.ShowDialog();
-        //_progresssBarCount = null;
         _loadDatabase();
     }
-
-    /// <summary>
-    /// ユーザーが所属するグループ情報の取得
-    /// </summary>
-    /// <param name="list_"></param>
-    //private async void _userGroupInsert(IList<UserValue> list_)
-    //{
-    //    const int _LIMIT = KintoneManager.CYBOZU_LIMIT;
-
-    //    var userCount = 0;
-    //    _progresssBarCount?.Invoke(userCount, list_.Count, "Users");
-    //    foreach (var user in list_)
-    //    {
-    //        var offset = 0;
-    //        var count = 0;
-    //        //
-    //        var responseOrg = await OrganizationTitlesRequest.Instance.Insert(user.Code,true);
-    //        do
-    //        {
-    //            var responseUsr = await UserGroupsRequest.Instance.Insert(user.Code,offset, _LIMIT, true);
-    //            if (responseUsr == null)
-    //            {
-    //                break;
-    //            }
-    //            if (responseUsr.ListGroup.Count == 0)
-    //            {
-    //                break;
-    //            }
-    //            //
-    //            count = responseUsr.ListGroup.Count;
-    //            offset += count;
-    //        } while (count == offset);
-    //        _progresssBarCount?.Invoke(++userCount);
-    //    }
-    //}
 
     /// <summary>
     /// 再読み込み

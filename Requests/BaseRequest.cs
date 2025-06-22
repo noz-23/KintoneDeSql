@@ -10,16 +10,21 @@ using KintoneDeSql.Data;
 using KintoneDeSql.Interface;
 using KintoneDeSql.Managers;
 using KintoneDeSql.Properties;
-using KintoneDeSql.Requests.Cybozu;
-using KintoneDeSql.Responses.Cybozu.Groups;
-using KintoneDeSql.Responses.Cybozu.Users;
 using System.Net.Http;
 using System.Text.Json;
 
 namespace KintoneDeSql.Requests;
 
+/// <summary>
+/// Requestのベースクラス
+/// </summary>
+/// <typeparam name="REQUEST"></typeparam>
+/// <typeparam name="RESPONSE"></typeparam>
 internal class BaseRequest<REQUEST, RESPONSE> : BaseSingleton<REQUEST> where REQUEST : class, new() where RESPONSE : class, new()
 {
+    /// <summary>
+    /// API　コマンド
+    /// </summary>
     protected virtual string _Command { get; } = string.Empty;
     public virtual void Insert(RESPONSE? response_)
     {
@@ -233,6 +238,12 @@ internal class BaseRequest<REQUEST, RESPONSE> : BaseSingleton<REQUEST> where REQ
     }
     #endregion
 
+    /// <summary>
+    /// Insert で繰り返し取得をする場合
+    /// </summary>
+    /// <param name="limit_"></param>
+    /// <param name="useCybozu_"></param>
+    /// <returns></returns>
     public async Task<int> InsertAll(int limit_, bool useCybozu_)
     {
         var count = 0;
